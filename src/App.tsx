@@ -1,60 +1,26 @@
-import { useCallback, useMemo, useState } from "react";
-
-const getAverage = (numbers: number[]) => {
-  console.log("평균 값을 계산 중입니다.");
-
-  if (numbers.length === 0) return 0;
-
-  const sum = numbers.reduce((acc, curr) => acc + curr);
-  return sum / numbers.length;
-};
+import { useRef } from "react";
 
 function App() {
-  // useCallback은 useMemo와 비슷한 함수. 주로 렌더링 성능 최적화 하는 상황에서 사용
-  // 이 훅은 만들어 놓았던 함수를 재사용 할 수 있다.
+  // useRef 훅은 함수 컴포넌ㅌ에서 ref라는 속성을 쉽게 사용할 수 있도록 도와주는 도구
+  // react의 useRef는 컴포넌트 내에서 변하지 않는 값을 유지하거나 DOM 요소에 직접 접근할 때 사용하는 훅입니다.
+  // 다른 react hook과 목적이 다름
 
-  // useCallback의 첫 번째 파라미터에는 생성하고 싶은 함수를 전달하고,
-  // 두 번째 파라미터에는 배열을 넣으면 된다.
+  // useRef는 값을 저장하거나 DOM에 접근하기 위해 사용하는 객체(참조값)를 생성하는 Hook입니다.
+  // 저장된 값은 컴포넌트가 리렌더링 되어도 유지되며, 값이 바뀌어도 리렌더링을 일으키지 않습니다.
 
-  // onChange 처럼 비어있는 배열을 넣게 되면 컴포넌트가 렌더링 될 때, 만들었던 함수를 계혹해서 재사용하게 되며
-  // onInsert 처럼 배열 안에 number와 list를 넣게 되면, 인풋 내용이 바뀌거나 새로운 항목이 추가 되었을 떼, 새로 만들어진 함수를 사용하게 됨.
-
-  const [list, setList] = useState<number[]>([]);
-  const [number, setNumber] = useState<string>("");
-  // input 태그에 입력된 값이기 떄문에 데이터 타입은 string
-
-  const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setNumber(event.target.value);
-  }, []); // 컴포넌트가 처음 렌더링 될 때만 함수를 생성한다.
-
-  const onInsert = useCallback(() => {
-    // concat: Array 인스턴스의 concat 함수는 두 개 이상의 배열을 병합하는 데 사용. 이 메서드는 기존 배열 변경하지않고, 새 배열을 반환
-    const newList = list.concat(parseInt(number));
-    setList(newList);
-    setNumber(""); // number 상태 값 초기화
-  }, [number, list]);
-
-  // useCallback은 첫 렌더링 때 한 번만 함수 onInsert를 생성한다. ([])
-  // onInsert 안에서 사용하는 list, number는 초기값의 복사본으로 함수안에 닫혀 (closed over) 있다.
-  // 이후 number나 list가 변경되어도, onInsert는 옛날 값을 계속 사용한다.
-  // 이게 클로저(closure) 문제이다.
-
-  const average = useMemo(() => getAverage(list), [list]);
+  // ref라는 속성은 JSX, TSX 요소나 컴포넌트에 참조를 연결하는 역할
+  const inputElement = useRef<HTMLInputElement | null>(null);
+  const fileInputElement = useRef<HTMLInputElement | null>(null);
+  const handleClick = () => {
+    inputElement.current?.focus();
+    fileInputElement.current?.click();
+  };
 
   return (
     <div>
-      <input type="text" value={number} onChange={onChange} />
-      <button onClick={onInsert}>등록</button>
-
-      <ul>
-        {list.map((item: number, index: number) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
-
-      <div>
-        <b>평균 값: {average}</b>
-      </div>
+      <input type="text" ref={inputElement} />
+      <input type="file" ref={fileInputElement} />
+      <button onClick={handleClick}>등록</button>
     </div>
   );
 }
