@@ -1,5 +1,5 @@
 import { Separator } from "../ui";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 function Header() {
   return (
@@ -25,9 +25,7 @@ function Header() {
           </div>
         </div>
         {/* 로그인 UI */}
-        <div className="text-muted-foreground cursor-pointer font-semibold hover:text-blue-500">
-          로그인
-        </div>
+        <NavLink to="/sign-in">로그인</NavLink>
       </div>
     </header>
   );
