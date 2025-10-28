@@ -7,17 +7,20 @@ import RootLayout from "./pages/layout.tsx";
 import App from "./pages";
 import SignUp from "./pages/sign-up";
 import SignIn from "./pages/sign-in";
+import WriteTopic from "./pages/topic/write";
+
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <BrowserRouter>
         <Routes>
           <Route element={<RootLayout />}>
             <Route index element={<App />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="sign-in" element={<SignIn />} />
+            <Route path="topic/write" element={<WriteTopic />} />
           </Route>
         </Routes>
       </BrowserRouter>
