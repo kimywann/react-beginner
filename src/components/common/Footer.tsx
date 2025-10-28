@@ -2,9 +2,9 @@ import { Separator } from "../ui";
 
 function Footer() {
   return (
-    <footer className="itmes-center flex w-full justify-center">
+    <footer className="itmes-center flex w-full justify-center bg-gray-50">
       <div className="flex w-full max-w-[1328px] flex-col gap-6 p-6 pb-18">
-        <div className="flex w-full items-start justify-between">
+        <div className="mt-8 flex w-full items-start justify-between">
           <div className="flex flex-col items-start gap-4">
             <div className="flex flex-col items-start">
               <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
