@@ -1,4 +1,5 @@
 import { Separator } from "../ui";
+import { Link } from "react-router";
 
 function Header() {
   return (
@@ -6,11 +7,13 @@ function Header() {
       <div className="flex w-full max-w-[1328px] items-center justify-between px-6 py-2">
         {/* 로고 & 내비게이션 메뉴 UI */}
         <div className="itmes-center flex gap-5">
-          <img
-            src="/logo.svg"
-            alt="logo"
-            className="h-10 w-10 cursor-pointer"
-          />
+          <Link to="/">
+            <img
+              src="/logo.svg"
+              alt="logo"
+              className="h-8 w-8 cursor-pointer"
+            />
+          </Link>
           <div className="flex items-center gap-5">
             <div className="cursor-pointer font-semibold hover:text-blue-500">
               토픽 인사이트
