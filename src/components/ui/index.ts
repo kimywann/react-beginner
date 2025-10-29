@@ -25,3 +25,4 @@ export {
   FormMessage,
   FormField,
 } from "./form";
+export { Toaster } from "./sonner";

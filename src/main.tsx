@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { ThemeProvider } from "./components/theme-provider.tsx";
+import { Toaster } from "./components/ui";
 
 import RootLayout from "./pages/layout.tsx";
 import App from "./pages";
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")!).render(
           </Route>
         </Routes>
       </BrowserRouter>
+      <Toaster richColors position="top-center" />
     </ThemeProvider>
   </StrictMode>,
 );
