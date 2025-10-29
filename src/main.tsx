@@ -8,7 +8,7 @@ import RootLayout from "./pages/layout.tsx";
 import App from "./pages";
 import SignUp from "./pages/sign-up";
 import SignIn from "./pages/sign-in";
-import WriteTopic from "./pages/topic/write";
+import WriteTopic from "./pages/topic/[id]/write.tsx";
 
 import "./index.css";
 
@@ -21,7 +21,7 @@ createRoot(document.getElementById("root")!).render(
             <Route index element={<App />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="sign-in" element={<SignIn />} />
-            <Route path="topic/write" element={<WriteTopic />} />
+            <Route path="topic/:id/write" element={<WriteTopic />} />
           </Route>
         </Routes>
       </BrowserRouter>
