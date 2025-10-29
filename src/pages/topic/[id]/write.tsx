@@ -1,3 +1,5 @@
+import supabase from "@/lib/supabase";
+
 import { TOPIC_CATEGORY } from "@/components/constants/category";
 import {
   Button,
@@ -20,8 +22,89 @@ import {
   Save,
 } from "lucide-react";
 import { Editor } from "@/components/common";
+import { useState } from "react";
+import { useParams } from "react-router";
+import { useAuthStore } from "@/stores";
+
+import { toast } from "sonner";
+
+import type { Block } from "@blocknote/core";
 
 export default function WriteTopic() {
+  const { id } = useParams();
+  const user = useAuthStore((state) => state.user);
+
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<Block[]>([]);
+  const [category, setCategory] = useState<string>("");
+  const [thumbnail, setThumbnail] = useState<File | string | null>(null);
+
+  const handleSave = async () => {
+    if (!title && !content && !category && !thumbnail) {
+      toast.warning("제목, 본문, 카테고리, 썸네일은 필수값입니다.");
+      return;
+    }
+
+    console.log("title", title);
+    console.log("content", content);
+    console.log("category", category);
+
+    const { data, error } = await supabase
+      .from("topic")
+      .update([
+        {
+          title,
+          content,
+          category,
+          thumbnail,
+          author: user?.id,
+        },
+      ])
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    if (data) {
+      toast.success("작성 중인 토픽을 저장하였습니다.");
+      return;
+    }
+  };
+
+  const handlePublish = async () => {
+    if (!title || !content || !category || !thumbnail) {
+      toast.warning("제목, 본문, 카테고리, 썸네일을 기입하세요.");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("topic")
+      .update([
+        {
+          title,
+          content,
+          category,
+          thumbnail,
+          author: user?.id,
+        },
+      ])
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+
+    if (data) {
+      toast.success("토픽 작성에 성공하였습니다.");
+      return;
+    }
+  };
+
   return (
     <main className="flex h-full min-h-[1024px] w-full gap-6 p-6">
       <div className="fixed right-1/2 bottom-10 z-20 flex translate-x-1/2 items-center gap-2">
@@ -29,17 +112,21 @@ export default function WriteTopic() {
           <ArrowLeft />
         </Button>
         <Button
+          type="button"
           variant={"outline"}
           size={"icon"}
           className="w-22 !border-slate-400 !bg-slate-400 !text-white"
+          onClick={handleSave}
         >
           <Save />
           임시저장
         </Button>
         <Button
+          type="button"
           variant={"outline"}
           size={"icon"}
           className="w-22 !border-blue-400 !bg-blue-400 !text-white"
+          onClick={handlePublish}
         >
           <BookOpenCheck />
           출간하기
@@ -59,6 +146,8 @@ export default function WriteTopic() {
           <Input
             placeholder="제목을 입력하세요."
             className="h-16 border-none pl-6 !text-lg shadow-none placeholder:text-lg placeholder:font-semibold"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -67,7 +156,7 @@ export default function WriteTopic() {
             <Label className="text-muted-foreground">본문</Label>
           </div>
           {/* BlockNote Text Editor UI */}
-          <Editor />
+          <Editor setContent={setContent} />
         </div>
       </section>
       {/* 카테고리 및 썸네일 등록 */}
@@ -83,7 +172,7 @@ export default function WriteTopic() {
             <Asterisk size={14} className="text-blue-500" />
             <Label className="text-muted-foreground">카테고리</Label>
           </div>
-          <Select>
+          <Select onValueChange={(value) => setCategory(value)}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="토픽(주제) 선택" />
             </SelectTrigger>
