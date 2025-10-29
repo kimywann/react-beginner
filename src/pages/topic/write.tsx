@@ -19,6 +19,7 @@ import {
   ImageOff,
   Save,
 } from "lucide-react";
+import { Editor } from "@/components/common";
 
 export default function WriteTopic() {
   return (
@@ -30,18 +31,18 @@ export default function WriteTopic() {
         <Button
           variant={"outline"}
           size={"icon"}
-          className="w-22 !border-slate-300 !bg-slate-300"
+          className="w-22 !border-slate-400 !bg-slate-400 !text-white"
         >
           <Save />
-          저장
+          임시저장
         </Button>
         <Button
           variant={"outline"}
           size={"icon"}
-          className="w-22 !border-blue-300 !bg-blue-400"
+          className="w-22 !border-blue-400 !bg-blue-400 !text-white"
         >
           <BookOpenCheck />
-          발행
+          출간하기
         </Button>
       </div>
       {/* 토픽 작성하기 */}
@@ -56,8 +57,8 @@ export default function WriteTopic() {
             <Label className="text-muted-foreground">제목</Label>
           </div>
           <Input
-            placeholder="토픽 제목을 입력하세요."
-            className="h-16 border-0 bg-gray-100 pl-6 !text-lg placeholder:text-lg placeholder:font-semibold"
+            placeholder="제목을 입력하세요."
+            className="h-16 border-none pl-6 !text-lg shadow-none placeholder:text-lg placeholder:font-semibold"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -65,14 +66,17 @@ export default function WriteTopic() {
             <Asterisk size={14} className="text-blue-500" />
             <Label className="text-muted-foreground">본문</Label>
           </div>
-          <Skeleton className="h-100 w-full" />
+          {/* BlockNote Text Editor UI */}
+          <Editor />
         </div>
       </section>
       {/* 카테고리 및 썸네일 등록 */}
       <section className="flex h-full w-1/4 flex-col gap-6">
         <div className="flex flex-col border-b pb-6">
           <span className="font-semibold text-blue-500">Step 2</span>
-          <span className="text-base font-semibold">카테고리 및 썸네일 등록</span>
+          <span className="text-base font-semibold">
+            카테고리 및 썸네일 등록
+          </span>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">
