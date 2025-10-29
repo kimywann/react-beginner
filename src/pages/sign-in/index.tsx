@@ -1,3 +1,5 @@
+import supabase from "@/lib/supabase";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -13,7 +15,8 @@ import {
   Input,
 } from "@/components/ui";
 
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.email({
@@ -25,6 +28,8 @@ const formSchema = z.object({
 });
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,8 +38,29 @@ export default function SignIn() {
     },
   });
 
-  const onSubmit = () => {
-    console.log("로그인 버튼 클릭!");
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      if (data) {
+        // data는 2개의 객체 데이터를 전달한다.
+        // 1. session
+        // 2. user
+        toast.success("로그인에 성공하였습니다!");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error(`${error}`);
+    }
   };
 
   return (
