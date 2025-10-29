@@ -18,6 +18,8 @@ import {
 import { NavLink, useNavigate } from "react-router";
 import { toast } from "sonner";
 
+import { useAuthStore } from "@/stores";
+
 const formSchema = z.object({
   email: z.email({
     error: "올바른 형식의 이메일 주소를 입력해주세요.",
@@ -38,9 +40,14 @@ export default function SignIn() {
     },
   });
 
+  const setUser = useAuthStore((state) => state.setUser);
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const {
+        data: { session, user },
+        error,
+      } = await supabase.auth.signInWithPassword({
         email: values.email,
         password: values.password,
       });
@@ -50,10 +57,15 @@ export default function SignIn() {
         return;
       }
 
-      if (data) {
+      if (session && user) {
         // data는 2개의 객체 데이터를 전달한다.
         // 1. session
         // 2. user
+        setUser({
+          id: user.id,
+          email: user.email as string,
+          role: user.role as string,
+        });
         toast.success("로그인에 성공하였습니다!");
         navigate("/");
       }
