@@ -5,14 +5,40 @@ import { Button } from "../components/ui";
 import { PencilLine } from "lucide-react";
 
 import { useAuthStore } from "@/stores";
+import supabase from "@/lib/supabase";
+import { toast } from "sonner";
 
 function App() {
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
-  const handleRoute = () => {
+  const handleRoute = async () => {
     if (user?.id || user?.email || user?.role) {
-      navigate("/topic/write");
+      const { data, error } = await supabase
+        .from("topic")
+        .insert([
+          {
+            status: "temp",
+            title: null,
+            content: null,
+            category: null,
+            thumbnail: null,
+            author: user.id,
+          },
+        ])
+        .select();
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      console.log(data);
+
+      if (data) {
+        toast.success("토픽 작성에 성공하였습니다.");
+        navigate(`/topic/${data[0].id}/write`);
+      }
     } else {
       navigate("/sign-in");
     }
