@@ -12,7 +12,6 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-  Skeleton,
 } from "@/components/ui";
 import {
   ArrowLeft,
@@ -21,11 +20,11 @@ import {
   ImageOff,
   Save,
 } from "lucide-react";
-import { Editor } from "@/components/common";
+import { Editor, FileUpload } from "@/components/common";
 import { useState } from "react";
 import { useParams } from "react-router";
 import { useAuthStore } from "@/stores";
-
+import { nanoid } from "nanoid";
 import { toast } from "sonner";
 
 import type { Block } from "@blocknote/core";
@@ -45,18 +44,38 @@ export default function WriteTopic() {
       return;
     }
 
-    console.log("title", title);
-    console.log("content", content);
-    console.log("category", category);
+    // 파일 업로드 시, Supabase의 Stroage 즉, bucket 폴더에 이미지를 먼저 업로드 한 후
+    // 이미지가 저장된 bucket 폴더의 경로 URL 주소를 우리가 관리하고 있는 Topic 테이블 thumbnail 컬럼에 문자열 형태
+    // 즉, string 타입 (DB에서는 Text 타입)으로 저장한다.
+
+    let thumbnailUrl: string | null = null;
+
+    if (thumbnail && thumbnail instanceof File) {
+      const fileExt = thumbnail.name.split(".").pop();
+      const fileName = `${nanoid()}.${fileExt}`;
+      const filePath = `topics/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("files")
+        .upload(filePath, thumbnail);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage.from("files").getPublicUrl(filePath);
+
+      if (!data)
+        throw new Error("썸네일 Public URL 주소를 가져오는데 실패하였습니다.");
+      thumbnailUrl = data.publicUrl;
+    }
 
     const { data, error } = await supabase
       .from("topic")
       .update([
         {
           title,
-          content,
+          content: JSON.stringify(content),
           category,
-          thumbnail,
+          thumbnail: thumbnailUrl,
           author: user?.id,
         },
       ])
@@ -195,8 +214,12 @@ export default function WriteTopic() {
             <Asterisk size={14} className="text-blue-500" />
             <Label className="text-muted-foreground">썸네일</Label>
           </div>
-          <Skeleton className="aspect-video w-full" />
-          <Button variant={"outline"} className="border-0">
+          <FileUpload file={thumbnail} onChange={setThumbnail} />
+          <Button
+            variant={"outline"}
+            className="border-0"
+            onClick={() => setThumbnail(null)}
+          >
             <ImageOff />
             썸네일 제거
           </Button>
