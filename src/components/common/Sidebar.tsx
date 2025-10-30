@@ -22,7 +22,7 @@ function Sidebar({ category, setCategory }: Props) {
             <Button
               key={menu.id}
               variant={"ghost"}
-              className={`text-muted-foreground justify-start transition-all duration-500 hover:pl-6 hover:text-white ${category === menu.category && "text-foreground bg-accent/50 !pl-6"} `}
+              className={`text-muted-foreground justify-start transition-all duration-500 hover:pl-6 ${category === menu.category && "text-foreground bg-accent/50 !pl-6"} `}
               onClick={() => setCategory(menu.category)}
             >
               {menu.icon}
