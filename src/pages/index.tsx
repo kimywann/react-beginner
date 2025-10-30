@@ -12,7 +12,7 @@ import { TOPIC_STATUS, type Topic } from "@/types/topic.type";
 import { useEffect, useState } from "react";
 import { SkeletonHotTopic } from "@/components/skeleton";
 import { NewTopicCard } from "@/components/topics";
-import { validators } from "tailwind-merge";
+// import { validators } from "tailwind-merge";
 
 function App() {
   const user = useAuthStore((state) => state.user);
