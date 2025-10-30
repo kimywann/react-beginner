@@ -214,11 +214,12 @@ export default function WriteTopic() {
           출간하기
         </Button>
       </div>
-      {/* 토픽 작성하기 */}
+
+      {/* 글 작성하기 */}
       <section className="flex h-full w-3/4 flex-col gap-6">
         <div className="flex flex-col border-b pb-6">
           <span className="font-semibold text-blue-500">Step 1</span>
-          <span className="text-base font-semibold">토픽 작성하기</span>
+          <span className="text-base font-semibold">글 작성하기</span>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">
@@ -238,10 +239,10 @@ export default function WriteTopic() {
             <Label className="text-muted-foreground">본문</Label>
           </div>
 
-          {/* BlockNote Text Editor UI */}
           <Editor props={content} setContent={setContent} />
         </div>
       </section>
+
       {/* 카테고리 및 썸네일 등록 */}
       <section className="flex h-full w-1/4 flex-col gap-6">
         <div className="flex flex-col border-b pb-6">
@@ -278,13 +279,12 @@ export default function WriteTopic() {
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">
-            <Asterisk size={14} className="text-blue-500" />
             <Label className="text-muted-foreground">썸네일</Label>
           </div>
           <FileUpload file={thumbnail} onChange={setThumbnail} />
           <Button
             variant={"outline"}
-            className="border-0"
+            className="border-0 bg-red-200 hover:bg-red-300"
             onClick={() => setThumbnail(null)}
           >
             <ImageOff />
