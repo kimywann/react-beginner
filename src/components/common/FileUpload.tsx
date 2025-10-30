@@ -40,13 +40,19 @@ export function FileUpload({ file, onChange }: Props) {
 
     // 썸네일이 설정되지 않은 경우에는 기본 이미지 아이콘
     return (
-      <div className="bg-card flex aspect-video w-full items-center justify-center rounded-lg">
+      <div className="flex items-center justify-center">
         <Button
           size={"icon"}
           variant={"ghost"}
           onClick={() => fileInputRef.current?.click()}
+          className="aspect-video h-full w-full border-1 shadow-xs hover:bg-gray-100"
         >
-          <Image />
+          <div className="flex flex-col items-center justify-center gap-1">
+            <Image className="!h-6 !w-6" />
+            <p className="text-sm font-normal text-gray-400">
+              클릭해서 이미지 첨부해 주세요
+            </p>
+          </div>
         </Button>
       </div>
     );
