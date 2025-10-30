@@ -9,9 +9,9 @@ import App from "./pages";
 import SignUp from "./pages/sign-up";
 import SignIn from "./pages/sign-in";
 import WriteTopic from "./pages/topic/[id]/write.tsx";
+import TopicDetail from "./pages/topic/[id]/detail.tsx";
 
 import "./index.css";
-import TopicDetail from "./pages/topic/[id]/detail.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

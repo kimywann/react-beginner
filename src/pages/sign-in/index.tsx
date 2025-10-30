@@ -48,8 +48,8 @@ export default function SignIn() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
+        redirectTo: `${import.meta.env.VITE_SUPABASE_BASE_URL}/auth/callback`,
         queryParams: { access_type: "offline", prompt: "consent" },
-        redirectTo: window.location.origin,
       },
     });
 
