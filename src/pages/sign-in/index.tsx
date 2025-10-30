@@ -43,21 +43,6 @@ export default function SignIn() {
 
   const setUser = useAuthStore((state) => state.setUser);
 
-  // 구글 로그인
-  const handleGoogleSignIn = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${import.meta.env.VITE_SUPABASE_BASE_URL}/auth/callback`,
-        queryParams: { access_type: "offline", prompt: "consent" },
-      },
-    });
-
-    if (error) {
-      toast.error(error.message);
-    }
-  };
-
   useEffect(() => {
     const checkSession = async () => {
       const {
@@ -75,6 +60,21 @@ export default function SignIn() {
     };
     checkSession();
   }, []);
+
+  // 구글 로그인
+  const handleGoogleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${import.meta.env.VITE_SUPABASE_BASE_URL}/auth/callback`,
+        queryParams: { access_type: "offline", prompt: "consent" },
+      },
+    });
+
+    if (error) {
+      toast.error(error.message);
+    }
+  };
 
   // 일반 로그인
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
