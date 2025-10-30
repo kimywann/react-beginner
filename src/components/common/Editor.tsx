@@ -7,12 +7,14 @@ import "@blocknote/mantine/style.css";
 // Include the included Inter font
 import "@blocknote/core/fonts/inter.css";
 import type { Block } from "@blocknote/core";
+import { useEffect } from "react";
 
 interface Props {
+  props: Block[];
   setContent: (content: Block[]) => void;
 }
 
-export function Editor({ setContent }: Props) {
+export function Editor({ props, setContent }: Props) {
   const locale = ko;
   // Create a new editor instance
   const editor = useCreateBlockNote({
@@ -24,6 +26,17 @@ export function Editor({ setContent }: Props) {
       },
     },
   });
+
+  useEffect(() => {
+    if (props && props.length > 0) {
+      const current = JSON.stringify(editor.document);
+      const newContent = JSON.stringify(props);
+
+      if (current !== newContent) {
+        editor.replaceBlocks(editor.document, props);
+      }
+    }
+  }, [props, editor]);
   // Render the editor
   return (
     <BlockNoteView
