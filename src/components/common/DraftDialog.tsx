@@ -73,7 +73,7 @@ export function DraftDialog({ children }: Props) {
                 return (
                   <div
                     className="bg-card/50 flex w-full cursor-pointer items-center justify-between gap-3 rounded-md px-4 py-2"
-                    onClick={() => navigate(`/topics/${draft.id}/create`)}
+                    onClick={() => navigate(`/topic/${draft.id}/write`)}
                   >
                     <div className="flex items-start gap-2">
                       <Badge className="text-foreground mt-[3px] aspect-square h-5 w-5 rounded-sm bg-[#E26F24] hover:bg-[#E26F24]">
