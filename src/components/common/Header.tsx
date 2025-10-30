@@ -1,7 +1,10 @@
 import { useAuthStore } from "@/stores";
-import { Separator } from "../ui";
+import { Button, Separator } from "../ui";
 import { NavLink, useNavigate } from "react-router";
 import { toast } from "sonner";
+import { CircleSmall, NotebookPen } from "lucide-react";
+import { DraftDialog } from "./DraftDialog";
+import supabase from "@/lib/supabase";
 
 function Header() {
   const navigate = useNavigate();
@@ -20,41 +23,95 @@ function Header() {
     }
   };
 
+  const handleRoute = async () => {
+    if (user?.id || user?.email || user?.role) {
+      const { data, error } = await supabase
+        .from("topic")
+        .insert([
+          {
+            title: null,
+            content: null,
+            category: null,
+            thumbnail: null,
+            author: user.id,
+          },
+        ])
+        .select();
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      console.log(data);
+
+      if (data) {
+        toast.success("토픽 작성에 성공하였습니다.");
+        navigate(`/topic/${data[0].id}/write`);
+      }
+    } else {
+      navigate("/sign-in");
+    }
+  };
+
   return (
-    <header className="bg-background fixed top-0 z-20 flex w-full items-center justify-center">
+    <header className="bg-background fixed top-0 z-20 flex w-full items-center justify-center shadow-sm">
       <div className="flex w-full max-w-[1328px] items-center justify-between px-6 py-2">
-        <div className="itmes-center flex gap-5">
+        <div className="itmes-center flex gap-20">
           <img
             src="/logo.svg"
             alt="logo"
-            className="h-8 w-8 cursor-pointer"
+            className="h-12 w-12 cursor-pointer"
             onClick={() => navigate("/")}
           />
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-10">
             <NavLink
               to="/"
               className="cursor-pointer font-semibold hover:text-blue-500"
             >
-              토픽 인사이트
+              커뮤니티
             </NavLink>
-            <Separator orientation="vertical" className="!h-4" />
             <div className="cursor-pointer font-semibold hover:text-blue-500">
-              추후 예정
+              팀원 모집
             </div>
           </div>
         </div>
 
-        {user ? (
-          <div className="flex items-center gap-2">
-            <span>{user.email}</span>
-            <Separator orientation="vertical" className="!h-4" />
-            <span onClick={handleLogout} className="cursor-pointer">
-              로그아웃
-            </span>
+        <div className="flex gap-5">
+          <div className="flex gap-2">
+            <Button
+              variant={"destructive"}
+              className="rounded-full !bg-blue-500 !px-5 !py-5"
+              onClick={handleRoute}
+            >
+              새 글 작성
+            </Button>
+            <DraftDialog>
+              <div className="relative">
+                <Button variant={"outline"} className="h-10 w-10 rounded-full">
+                  <NotebookPen />
+                </Button>
+                <CircleSmall
+                  size={14}
+                  className="absolute top-0 right-0 text-blue-500"
+                  fill="#1976D2"
+                />
+              </div>
+            </DraftDialog>
           </div>
-        ) : (
-          <NavLink to="/sign-in">로그인</NavLink>
-        )}
+
+          {user ? (
+            <div className="flex items-center gap-2">
+              <span>{user.email}</span>
+              <Separator orientation="vertical" className="!h-4" />
+              <span onClick={handleLogout} className="cursor-pointer">
+                로그아웃
+              </span>
+            </div>
+          ) : (
+            <NavLink to="/sign-in">로그인</NavLink>
+          )}
+        </div>
       </div>
     </header>
   );
