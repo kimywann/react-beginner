@@ -17,6 +17,8 @@ import {
   Input,
 } from "@/components/ui";
 import { toast } from "sonner";
+import { useEffect } from "react";
+import { useAuthStore } from "@/stores";
 
 const formSchema = z
   .object({
@@ -42,6 +44,7 @@ const formSchema = z
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const setUser = useAuthStore((state) => state.setUser);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,6 +54,24 @@ export default function SignUp() {
       confirmPassword: "",
     },
   });
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email as string,
+          role: session.user.role as string,
+        });
+        navigate("/");
+      }
+    };
+    checkSession();
+  }, []);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -66,27 +87,12 @@ export default function SignUp() {
         toast.error(error.message);
         return;
       }
-
       if (user && session) {
-        const { data, error } = await supabase
-          .from("user")
-          .insert({
-            id: user.id,
-          })
-          .select();
-
-        if (data) {
-          toast.success("회원가입이 완료되었습니다.");
-          navigate("/sign-in");
-        }
-
-        if (error) {
-          console.error(error);
-          toast.error(error.message);
-        }
+        toast.success("회원가입을 완료하였습니다.");
+        navigate("/");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new Error(`${error}`);
     }
   };
