@@ -11,10 +11,11 @@ import { useEffect } from "react";
 
 interface Props {
   props: Block[];
-  setContent: (content: Block[]) => void;
+  setContent?: (content: Block[]) => void;
+  readonly?: boolean;
 }
 
-export function Editor({ props, setContent }: Props) {
+export function Editor({ props, setContent, readonly }: Props) {
   const locale = ko;
   // Create a new editor instance
   const editor = useCreateBlockNote({
@@ -41,7 +42,12 @@ export function Editor({ props, setContent }: Props) {
   return (
     <BlockNoteView
       editor={editor}
-      onChange={() => setContent(editor.document)}
+      editable={!readonly}
+      onChange={() => {
+        if (!readonly) {
+          setContent?.(editor.document);
+        }
+      }}
     />
   );
 }
