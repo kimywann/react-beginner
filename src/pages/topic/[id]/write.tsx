@@ -28,6 +28,7 @@ import { nanoid } from "nanoid";
 import { toast } from "sonner";
 
 import type { Block } from "@blocknote/core";
+import { TOPIC_STATUS } from "@/types/topic.type";
 
 export default function WriteTopic() {
   const { id } = useParams();
@@ -72,6 +73,7 @@ export default function WriteTopic() {
       .from("topic")
       .update([
         {
+          status: TOPIC_STATUS.TEMP,
           title,
           content: JSON.stringify(content),
           category,
