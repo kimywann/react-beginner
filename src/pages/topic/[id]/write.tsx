@@ -21,8 +21,8 @@ import {
   Save,
 } from "lucide-react";
 import { Editor, FileUpload } from "@/components/common";
-import { useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import { useAuthStore } from "@/stores";
 import { nanoid } from "nanoid";
 import { toast } from "sonner";
@@ -33,11 +33,42 @@ import { TOPIC_STATUS } from "@/types/topic.type";
 export default function WriteTopic() {
   const { id } = useParams();
   const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<Block[]>([]);
   const [category, setCategory] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<File | string | null>(null);
+
+  useEffect(() => {
+    fetchTopic();
+  }, []);
+
+  const fetchTopic = async () => {
+    try {
+      const { data: topic, error } = await supabase
+        .from("topic")
+        .select("*")
+        .eq("id", id);
+
+      console.log(topic);
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      if (topic) {
+        setTitle(topic[0].title);
+        setContent(JSON.parse(topic[0].content));
+        setCategory(topic[0].category);
+        setThumbnail(topic[0].thumbnail);
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 
   const handleSave = async () => {
     if (!title && !content && !category && !thumbnail) {
@@ -67,6 +98,8 @@ export default function WriteTopic() {
       if (!data)
         throw new Error("썸네일 Public URL 주소를 가져오는데 실패하였습니다.");
       thumbnailUrl = data.publicUrl;
+    } else if (typeof thumbnail === "string") {
+      thumbnailUrl = thumbnail;
     }
 
     const { data, error } = await supabase
@@ -96,19 +129,46 @@ export default function WriteTopic() {
   };
 
   const handlePublish = async () => {
-    if (!title || !content || !category || !thumbnail) {
-      toast.warning("제목, 본문, 카테고리, 썸네일을 기입하세요.");
+    if (!title && !content && !category && !thumbnail) {
+      toast.warning("제목, 본문, 카테고리, 썸네일은 필수값입니다.");
       return;
+    }
+
+    // 파일 업로드 시, Supabase의 Stroage 즉, bucket 폴더에 이미지를 먼저 업로드 한 후
+    // 이미지가 저장된 bucket 폴더의 경로 URL 주소를 우리가 관리하고 있는 Topic 테이블 thumbnail 컬럼에 문자열 형태
+    // 즉, string 타입 (DB에서는 Text 타입)으로 저장한다.
+
+    let thumbnailUrl: string | null = null;
+
+    if (thumbnail && thumbnail instanceof File) {
+      const fileExt = thumbnail.name.split(".").pop();
+      const fileName = `${nanoid()}.${fileExt}`;
+      const filePath = `topics/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("files")
+        .upload(filePath, thumbnail);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage.from("files").getPublicUrl(filePath);
+
+      if (!data)
+        throw new Error("썸네일 Public URL 주소를 가져오는데 실패하였습니다.");
+      thumbnailUrl = data.publicUrl;
+    } else if (typeof thumbnail === "string") {
+      thumbnailUrl = thumbnail;
     }
 
     const { data, error } = await supabase
       .from("topic")
       .update([
         {
+          status: TOPIC_STATUS.PUBLISH,
           title,
-          content,
+          content: JSON.stringify(content),
           category,
-          thumbnail,
+          thumbnail: thumbnailUrl,
           author: user?.id,
         },
       ])
@@ -121,7 +181,8 @@ export default function WriteTopic() {
     }
 
     if (data) {
-      toast.success("토픽 작성에 성공하였습니다.");
+      toast.success("작성 중인 토픽을 발행하였습니다.");
+      navigate("/");
       return;
     }
   };
@@ -176,8 +237,9 @@ export default function WriteTopic() {
             <Asterisk size={14} className="text-blue-500" />
             <Label className="text-muted-foreground">본문</Label>
           </div>
+
           {/* BlockNote Text Editor UI */}
-          <Editor setContent={setContent} />
+          <Editor props={content} setContent={setContent} />
         </div>
       </section>
       {/* 카테고리 및 썸네일 등록 */}
@@ -193,7 +255,10 @@ export default function WriteTopic() {
             <Asterisk size={14} className="text-blue-500" />
             <Label className="text-muted-foreground">카테고리</Label>
           </div>
-          <Select onValueChange={(value) => setCategory(value)}>
+          <Select
+            value={category}
+            onValueChange={(value) => setCategory(value)}
+          >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="토픽(주제) 선택" />
             </SelectTrigger>
