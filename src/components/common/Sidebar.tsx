@@ -1,11 +1,16 @@
-import { SIDEBAR_CATEGORY } from "../constants/category";
 import { ChevronDown } from "lucide-react";
 import { Button } from "../ui";
+import { SIDEBAR_CATEGORY } from "../constants/category";
 
-function Sidebar() {
+interface Props {
+  category: string;
+  setCategory: (value: string) => void;
+}
+
+function Sidebar({ category, setCategory }: Props) {
   return (
     <aside className="flex w-60 min-w-60 flex-col gap-6">
-      <div className="itmes-center flex gap-2">
+      <div className="flex items-center gap-2">
         <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
           카테고리
         </h4>
@@ -17,7 +22,8 @@ function Sidebar() {
             <Button
               key={menu.id}
               variant={"ghost"}
-              className="text-muted-foreground transltion-all justify-start duration-400 hover:pl-6"
+              className={`text-muted-foreground justify-start transition-all duration-500 hover:pl-6 hover:text-white ${category === menu.category && "text-foreground bg-accent/50 !pl-6"} `}
+              onClick={() => setCategory(menu.category)}
             >
               {menu.icon}
               {menu.lable}
