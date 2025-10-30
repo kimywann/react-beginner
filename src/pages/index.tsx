@@ -61,7 +61,6 @@ function App() {
         .from("topic")
         .insert([
           {
-            status: null,
             title: null,
             content: null,
             category: null,
