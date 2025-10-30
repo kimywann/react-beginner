@@ -46,7 +46,7 @@ function Header() {
       console.log(data);
 
       if (data) {
-        toast.success("토픽 작성에 성공하였습니다.");
+        toast.success("임시저장 완료되었습니다.");
         navigate(`/topic/${data[0].id}/write`);
       }
     } else {
