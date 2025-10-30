@@ -115,8 +115,12 @@ function App() {
           </div>
         </DraftDialog>
       </div>
+
       {/* 카테고리 사이드바 */}
-      <Sidebar category={category} setCategory={handleCategoryChange} />
+      <div className="hidden lg:block lg:h-full lg:w-60 lg:min-w-60">
+        <Sidebar category={category} setCategory={handleCategoryChange} />
+      </div>
+
       {/* 토픽 콘텐츠 */}
       <section className="flex w-full flex-col gap-12 lg:w-[calc(100%-264px)]">
         {/* 핫 토픽 */}
