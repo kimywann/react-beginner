@@ -13,8 +13,7 @@ function Header() {
     try {
       await reset(); // Zustand + Supabase 모두 로그아웃
 
-      toast.success("로그아웃 되었습니다.");
-      navigate("/sign-in");
+      window.location.href = "/";
     } catch (error) {
       console.error(error);
       toast.error("로그아웃 중 오류가 발생했습니다.");
@@ -32,9 +31,12 @@ function Header() {
             onClick={() => navigate("/")}
           />
           <div className="flex items-center gap-5">
-            <div className="cursor-pointer font-semibold hover:text-blue-500">
+            <NavLink
+              to="/"
+              className="cursor-pointer font-semibold hover:text-blue-500"
+            >
               토픽 인사이트
-            </div>
+            </NavLink>
             <Separator orientation="vertical" className="!h-4" />
             <div className="cursor-pointer font-semibold hover:text-blue-500">
               추후 예정
@@ -42,11 +44,13 @@ function Header() {
           </div>
         </div>
 
-        {user?.email ? (
+        {user ? (
           <div className="flex items-center gap-2">
             <span>{user.email}</span>
             <Separator orientation="vertical" className="!h-4" />
-            <span onClick={handleLogout}>로그아웃</span>
+            <span onClick={handleLogout} className="cursor-pointer">
+              로그아웃
+            </span>
           </div>
         ) : (
           <NavLink to="/sign-in">로그인</NavLink>

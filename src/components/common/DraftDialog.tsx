@@ -28,6 +28,8 @@ export function DraftDialog({ children }: Props) {
   const [drafts, setDrafts] = useState<any[]>([]);
 
   const fetchDrafts = async () => {
+    if (!user) return;
+
     try {
       // .is() 쿼리문은 null만 체크할 경우 사용
       // .eq() 쿼리문은 연속으로 사용하여 임시 저장된 토픽을 조회합니다.
@@ -43,11 +45,14 @@ export function DraftDialog({ children }: Props) {
       }
 
       if (topics) setDrafts(topics);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   };
 
   useEffect(() => {
-    if (user?.email) fetchDrafts();
+    if (user) fetchDrafts();
   }, []);
 
   return (
