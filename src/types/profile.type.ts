@@ -7,5 +7,6 @@ export interface Profile {
   experience: string;
   region: string;
   introduction: string;
+  external_url: string | null;
   created_at: Date | string;
 }
