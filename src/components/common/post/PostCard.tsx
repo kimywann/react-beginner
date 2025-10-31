@@ -86,7 +86,7 @@ export function PostCard({ props }: Props) {
   return (
     <Card
       className="h-fit w-full cursor-pointer gap-4 p-4"
-      onClick={() => navigate(`/post/detail/${props.id}`)}
+      onClick={() => navigate(`/posts/${props.id}`)}
     >
       <div className="flex items-start gap-4">
         <div className="flex flex-1 flex-col items-start gap-4">
