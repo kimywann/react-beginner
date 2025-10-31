@@ -1,18 +1,6 @@
 import supabase from "@/lib/supabase";
 
-import { POST_CATEGORY } from "@/components/constants/category";
-import {
-  Button,
-  Input,
-  Label,
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui";
+import { Button, Input, Label } from "@/components/ui";
 
 import { Asterisk, BookOpenCheck, Save, Trash2 } from "lucide-react";
 import { Editor } from "@/components/write";
@@ -23,6 +11,7 @@ import { toast } from "sonner";
 
 import type { Block } from "@blocknote/core";
 import { POST_STATUS } from "@/types/post.type";
+import { PostInfo } from "@/components/common/post/PostInfo";
 
 export default function PostCreate() {
   const { id } = useParams();
@@ -31,7 +20,20 @@ export default function PostCreate() {
 
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<Block[]>([]);
-  const [category, setCategory] = useState<string>("");
+
+  const [postInfo, setPostInfo] = useState({
+    category: "",
+    progressMethod: "",
+    members: "",
+    duration: "",
+    recruitmentDeadline: new Date(),
+    contact: "",
+    contactUrl: "",
+  });
+
+  const updatePostInfo = (field: keyof typeof postInfo, value: any) => {
+    setPostInfo((prev) => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     fetchPost();
@@ -39,22 +41,31 @@ export default function PostCreate() {
 
   const fetchPost = async () => {
     try {
-        const { data: post, error } = await supabase
+      const { data: post, error } = await supabase
         .from("post")
         .select("*")
         .eq("id", id);
-
-      console.log(post);
 
       if (error) {
         toast.error(error.message);
         return;
       }
 
-      if (post) {
+      if (post?.[0]) {
         setTitle(post[0].title);
         setContent(JSON.parse(post[0].content));
-        setCategory(post[0].category);
+
+        setPostInfo({
+          category: post[0].category || "",
+          progressMethod: post[0].progressMethod || "",
+          members: post[0].members || "",
+          contact: post[0].contact || "",
+          duration: post[0].duration || "",
+          recruitmentDeadline: post[0].recruitmentDeadline
+            ? new Date(post[0].recruitmentDeadline)
+            : new Date(),
+          contactUrl: post[0].contactUrl || "",
+        });
       }
     } catch (error) {
       console.log(error);
@@ -63,22 +74,20 @@ export default function PostCreate() {
   };
 
   const handleSave = async () => {
-    if (!title && !content && !category) {
-      toast.warning("제목, 본문, 카테고리은 필수값입니다.");
+    if (!title || !content || !postInfo.category) {
+      toast.warning("제목, 본문, 카테고리는 필수값입니다.");
       return;
     }
 
     const { data, error } = await supabase
       .from("post")
-      .update([
-        {
-          status: POST_STATUS.TEMP,
-          title,
-          content: JSON.stringify(content),
-          category,
-          author: user?.id,
-        },
-      ])
+      .update({
+        status: POST_STATUS.TEMP,
+        title,
+        content: JSON.stringify(content),
+        ...postInfo,
+        author: user?.id,
+      })
       .eq("id", id)
       .select();
 
@@ -89,12 +98,11 @@ export default function PostCreate() {
 
     if (data) {
       toast.success("작성 중인 글을 저장하였습니다.");
-      return;
     }
   };
 
   const handlePublish = async () => {
-    if (!title && !content && !category) {
+    if (!title && !content && !postInfo.category) {
       toast.warning("제목, 본문, 카테고리은 필수값입니다.");
       return;
     }
@@ -106,7 +114,7 @@ export default function PostCreate() {
           status: POST_STATUS.PUBLISH,
           title,
           content: JSON.stringify(content),
-          category,
+          ...postInfo,
           author: user?.id,
         },
       ])
@@ -143,10 +151,15 @@ export default function PostCreate() {
   };
 
   return (
-    <main className="flex h-full min-h-[1024px] w-full gap-6 p-6">
-      {/* 본문 */}
-      <section className="mt-8 flex h-full w-3/4 flex-col gap-6">
-        <div className="flex flex-col gap-2">
+    <div className="flex flex-col items-center justify-center px-4 py-8">
+      <div className="flex w-full max-w-[700px] flex-col gap-6 border-1 p-4">
+        {/* PostInfo 섹션 */}
+        <section className="w-full">
+          <PostInfo info={postInfo} onUpdate={updatePostInfo} />
+        </section>
+
+        {/* 제목 섹션 */}
+        <section className="flex w-full flex-col gap-2">
           <div className="flex items-center gap-1">
             <Asterisk size={14} className="text-blue-500" />
             <Label className="text-muted-foreground text-lg">제목</Label>
@@ -157,47 +170,21 @@ export default function PostCreate() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-        </div>
-        <div className="flex flex-col gap-2">
+        </section>
+
+        {/* 본문 섹션 */}
+        <section className="flex w-full flex-col gap-2">
           <div className="flex items-center gap-1">
             <Asterisk size={14} className="text-blue-500" />
             <Label className="text-muted-foreground text-lg">본문</Label>
           </div>
-
-          <Editor props={content} setContent={setContent} />
-        </div>
-      </section>
-
-      {/* 카테고리 */}
-      <section className="mt-8 flex h-full w-1/4 flex-col gap-6">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-1">
-            <Asterisk size={14} className="text-blue-500" />
-            <Label className="text-muted-foreground text-lg">카테고리</Label>
+          <div className="min-h-[500px] w-full">
+            <Editor props={content} setContent={setContent} />
           </div>
-          <Select
-            value={category}
-            onValueChange={(value) => setCategory(value)}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="글(주제) 선택" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>카테고리</SelectLabel>
-                {POST_CATEGORY.map((item) => {
-                  return (
-                    <SelectItem key={item.id} value={item.category}>
-                      {item.lable}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
+        </section>
 
-        <div className="flex gap-2 border-t pt-6">
+        {/* 버튼 섹션 */}
+        <section className="flex w-full justify-end gap-2 pt-6">
           <Button
             type="button"
             variant={"outline"}
@@ -212,11 +199,11 @@ export default function PostCreate() {
             type="button"
             variant={"outline"}
             size={"icon"}
-            className="w-35 gap-4 !border-blue-400 !bg-blue-400 !text-white"
+            className="w-28 gap-3 !border-blue-400 !bg-blue-400 !text-white"
             onClick={handlePublish}
           >
             <BookOpenCheck />
-            출간하기
+            작성하기
           </Button>
           <Button
             variant={"outline"}
@@ -226,8 +213,8 @@ export default function PostCreate() {
           >
             <Trash2 />
           </Button>
-        </div>
-      </section>
-    </main>
+        </section>
+      </div>
+    </div>
   );
 }
