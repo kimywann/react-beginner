@@ -61,3 +61,4 @@ export {
   AlertDialogAction,
   AlertDialogCancel,
 } from "./alert-dialog";
+export { Textarea } from "./textarea";
