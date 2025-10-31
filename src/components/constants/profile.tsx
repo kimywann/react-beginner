@@ -51,7 +51,7 @@ export const POSITION_ROLE_OPTIONS = [
 export const EXPERIENCE_OPTIONS = [
   {
     id: 1,
-    lable: "경력무관",
+    lable: "경력없음",
   },
   {
     id: 2,
