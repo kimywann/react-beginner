@@ -13,13 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui";
-import {
-  ArrowLeft,
-  Asterisk,
-  BookOpenCheck,
-  ImageOff,
-  Save,
-} from "lucide-react";
+import { Asterisk, BookOpenCheck, ImageOff, Save, Trash2 } from "lucide-react";
 import { Editor, FileUpload } from "@/components/common";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -177,6 +171,7 @@ export default function WriteTopic() {
 
     if (error) {
       toast.error(error.message);
+      console.log(error);
       return;
     }
 
@@ -187,9 +182,25 @@ export default function WriteTopic() {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const { error } = await supabase.from("topic").delete().eq("id", id);
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      toast.success("토픽을 삭제하였습니다.");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
   return (
     <main className="flex h-full min-h-[1024px] w-full gap-6 p-6">
-      <div className="fixed right-1/2 bottom-10 z-20 flex translate-x-1/2 items-center gap-2">
+      {/* <div className="fixed right-1/2 bottom-10 z-20 flex translate-x-1/2 items-center gap-2">
         <Button variant={"outline"} size={"icon"}>
           <ArrowLeft />
         </Button>
@@ -213,22 +224,22 @@ export default function WriteTopic() {
           <BookOpenCheck />
           출간하기
         </Button>
-      </div>
+      </div> */}
 
       {/* 글 작성하기 */}
-      <section className="flex h-full w-3/4 flex-col gap-6">
-        <div className="flex flex-col border-b pb-6">
-          <span className="font-semibold text-blue-500">Step 1</span>
-          <span className="text-base font-semibold">글 작성하기</span>
-        </div>
+      <section className="mt-8 flex h-full w-3/4 flex-col gap-6">
+        {/* <div className="flex flex-col border-b pb-6"> */}
+        {/* <span className="font-semibold text-blue-500">Step 1</span>
+          <span className="text-base font-semibold">글 작성하기</span> */}
+        {/* </div> */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">
             <Asterisk size={14} className="text-blue-500" />
-            <Label className="text-muted-foreground">제목</Label>
+            <Label className="text-muted-foreground text-lg">제목</Label>
           </div>
           <Input
             placeholder="제목을 입력하세요."
-            className="h-16 border-none pl-6 !text-lg shadow-none placeholder:text-lg placeholder:font-semibold"
+            className="h-16 border-none pl-6 !text-4xl font-semibold shadow-none placeholder:text-4xl placeholder:font-semibold"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -236,7 +247,7 @@ export default function WriteTopic() {
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">
             <Asterisk size={14} className="text-blue-500" />
-            <Label className="text-muted-foreground">본문</Label>
+            <Label className="text-muted-foreground text-lg">본문</Label>
           </div>
 
           <Editor props={content} setContent={setContent} />
@@ -244,17 +255,17 @@ export default function WriteTopic() {
       </section>
 
       {/* 카테고리 및 썸네일 등록 */}
-      <section className="flex h-full w-1/4 flex-col gap-6">
-        <div className="flex flex-col border-b pb-6">
+      <section className="mt-8 flex h-full w-1/4 flex-col gap-6">
+        {/* <div className="flex flex-col border-b pb-6">
           <span className="font-semibold text-blue-500">Step 2</span>
           <span className="text-base font-semibold">
             카테고리 및 썸네일 등록
           </span>
-        </div>
+        </div> */}
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">
             <Asterisk size={14} className="text-blue-500" />
-            <Label className="text-muted-foreground">카테고리</Label>
+            <Label className="text-muted-foreground text-lg">카테고리</Label>
           </div>
           <Select
             value={category}
@@ -279,7 +290,7 @@ export default function WriteTopic() {
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">
-            <Label className="text-muted-foreground">썸네일</Label>
+            <Label className="text-muted-foreground text-lg">썸네일</Label>
           </div>
           <FileUpload file={thumbnail} onChange={setThumbnail} />
           <Button
@@ -289,6 +300,36 @@ export default function WriteTopic() {
           >
             <ImageOff />
             썸네일 제거
+          </Button>
+        </div>
+        <div className="flex gap-2 border-t pt-6">
+          <Button
+            type="button"
+            variant={"outline"}
+            size={"icon"}
+            className="w-35 gap-4 !border-slate-400 !bg-slate-400 !text-white"
+            onClick={handleSave}
+          >
+            <Save />
+            임시저장
+          </Button>
+          <Button
+            type="button"
+            variant={"outline"}
+            size={"icon"}
+            className="w-35 gap-4 !border-blue-400 !bg-blue-400 !text-white"
+            onClick={handlePublish}
+          >
+            <BookOpenCheck />
+            출간하기
+          </Button>
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            className="w-11 !border-none !bg-red-400 !text-white"
+            onClick={handleDelete}
+          >
+            <Trash2 />
           </Button>
         </div>
       </section>
