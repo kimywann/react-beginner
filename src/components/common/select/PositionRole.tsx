@@ -7,14 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui";
-import { EXPERIENCE_OPTIONS } from "@/components/constants/profile";
+import { POSITION_ROLE_OPTIONS } from "@/components/constants/profile";
 
 interface Props {
   value?: string;
   onValueChange?: (value: string) => void;
 }
 
-function SelectExperience({ value, onValueChange }: Props) {
+function SelectPositionRole({ value, onValueChange }: Props) {
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-[180px]">
@@ -23,7 +23,7 @@ function SelectExperience({ value, onValueChange }: Props) {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>카테고리(주제)</SelectLabel>
-          {EXPERIENCE_OPTIONS.map((item) => (
+          {POSITION_ROLE_OPTIONS.map((item) => (
             <SelectItem key={item.id} value={item.lable}>
               {item.lable}
             </SelectItem>
@@ -34,4 +34,4 @@ function SelectExperience({ value, onValueChange }: Props) {
   );
 }
 
-export { SelectExperience };
+export { SelectPositionRole };

@@ -12,14 +12,13 @@ import { REGION_OPTIONS } from "@/components/constants/profile";
 interface Props {
   value?: string;
   onValueChange?: (value: string) => void;
-  placeholder?: string;
 }
 
-function SelectRegion({ value, onValueChange, placeholder = "지역" }: Props) {
+function SelectRegion({ value, onValueChange }: Props) {
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder={placeholder} />
+        <SelectValue placeholder="선택" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
