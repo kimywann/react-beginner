@@ -1,48 +1,38 @@
 import { ProfileForm } from "@/components/common";
 import { RecruitsSidebar } from "@/components/common/RecruitsSidebar";
 import { Badge, Card, Separator } from "@/components/ui";
-
-type Profile = {
-  id: number;
-  nickname: string;
-  job: string;
-  description: string;
-  position: string;
-  experience: string;
-  region: string;
-};
-
-const profiles = [
-  {
-    id: 1,
-    nickname: "김창식",
-    job: "취업준비생",
-    description: "나야나",
-    position: "프론트엔드 개발자",
-    experience: "경력무관",
-    region: "서울",
-  },
-  {
-    id: 2,
-    nickname: "이창식",
-    job: "취업준비생",
-    description: "나야나",
-    position: "프론트엔드 개발자",
-    experience: "경력무관",
-    region: "서울",
-  },
-  {
-    id: 3,
-    nickname: "박창식",
-    job: "취업준비생",
-    description: "나야나",
-    position: "프론트엔드 개발자",
-    experience: "경력무관",
-    region: "서울",
-  },
-];
+import supabase from "@/lib/supabase";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import type { Profile } from "@/types/profile.type";
 
 export default function Recruits() {
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+
+  const fetchProfiles = async () => {
+    try {
+      const { data: profiles, error } = await supabase
+        .from("profile")
+        .select("*");
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      if (profiles) {
+        setProfiles(profiles);
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    fetchProfiles();
+  }, []);
+
   return (
     <main className="flex h-full min-h-[720px] w-full flex-col items-center gap-6 p-6">
       <div className="flex w-full flex-col">
@@ -80,7 +70,7 @@ export default function Recruits() {
                       <Separator />
                       {/* 본문 */}
                       <p className="text-muted-foreground line-clamp-3">
-                        {profile.description}
+                        {profile.introduction}
                       </p>
                     </div>
                   </div>
