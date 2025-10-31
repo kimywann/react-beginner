@@ -74,7 +74,7 @@ function Header() {
               to="/recruits"
               className="cursor-pointer font-semibold hover:text-blue-500"
             >
-              팀원 찾기
+              동료 찾기
             </NavLink>
           </div>
         </div>

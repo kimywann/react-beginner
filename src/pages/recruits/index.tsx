@@ -49,9 +49,9 @@ export default function Recruits() {
   return (
     <main className="flex h-full min-h-[720px] w-full flex-col items-center gap-6 p-6">
       <div className="flex w-full flex-col">
-        <h1 className="text-2xl font-bold">팀원 찾기</h1>
+        <h1 className="text-2xl font-bold">동료 찾기</h1>
         <p className="text-muted-foreground text-base">
-          팀원을 찾기 위한 프로필을 등록하고, 팀빌딩 제안을 받으세요.
+          프로필을 등록하고, 팀빌딩 제안을 받으세요.
         </p>
       </div>
 

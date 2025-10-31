@@ -46,7 +46,7 @@ export const CATEGORY_META = [
     category: "team-project",
     title: "팀 프로젝트 모집",
     description:
-      "함께 성장할 팀원을 찾고 계신가요? 열정적인 동료들과 함께 프로젝트를 시작해보세요.",
+      "함께 성장할 동료를 찾고 계신가요? 열정적인 동료들과 함께 프로젝트를 시작해보세요.",
   },
   {
     id: 3,
