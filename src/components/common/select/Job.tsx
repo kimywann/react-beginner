@@ -17,7 +17,7 @@ interface Props {
 function SelectJob({ value, onValueChange }: Props) {
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[230px]">
         <SelectValue placeholder="선택" />
       </SelectTrigger>
       <SelectContent>
