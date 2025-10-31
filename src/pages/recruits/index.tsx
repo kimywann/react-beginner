@@ -112,25 +112,6 @@ export default function Recruits() {
               );
             })}
           </div>
-          {/* {topics.length > 0 ? (
-            <div className="flex min-h-120 flex-col gap-6 md:grid md:grid-cols-2">
-              {topics
-                .sort(
-                  (a, b) =>
-                    new Date(b.created_at).getTime() -
-                    new Date(a.created_at).getTime(),
-                )
-                .map((topic: Topic) => {
-                  return <TopicCard key={topic.id} props={topic} />;
-                })}
-            </div>
-          ) : (
-            <div className="flex min-h-120 w-full items-center justify-center">
-              <p className="text-muted-foreground/50">
-                조회 가능한 글이 없습니다.
-              </p>
-            </div>
-          )} */}
         </div>
       </section>
     </main>
