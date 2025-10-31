@@ -72,3 +72,4 @@ export {
   SheetTitle,
   SheetDescription,
 } from "./sheet";
+export { Calendar, CalendarDayButton } from "./calendar";
