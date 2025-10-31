@@ -1,1 +1,1 @@
-export { NewTopicCard } from "./NewTopic";
+export { TopicCard } from "./TopicCard";

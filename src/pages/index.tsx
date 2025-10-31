@@ -4,15 +4,17 @@ import supabase from "@/lib/supabase";
 import { toast } from "sonner";
 import { TOPIC_STATUS, type Topic } from "@/types/topic.type";
 import { useEffect, useState } from "react";
-import { NewTopicCard } from "@/components/topics";
+import { TopicCard } from "@/components/topics";
 import { CATEGORY_META } from "@/components/constants/category";
 import { CategoryTabs } from "@/components/common";
+import { SkeletonTopic } from "@/components/skeleton";
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category") || "";
 
   const [topics, setTopics] = useState<Topic[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleCategoryChange = (value: string) => {
     if (value === category) return;
@@ -24,6 +26,7 @@ function App() {
 
   const fetchTopics = async () => {
     try {
+      setIsLoading(true);
       const query = supabase
         .from("topic")
         .select("*")
@@ -43,6 +46,8 @@ function App() {
     } catch (error) {
       console.log(error);
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,7 +63,7 @@ function App() {
       </div>
 
       {/* 콘텐츠 */}
-      <section className="flex w-full flex-col gap-12 lg:w-[calc(100%-264px)]">
+      <section className="flex w-full flex-col gap-12">
         <div className="flex w-full flex-col gap-6">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
@@ -76,8 +81,14 @@ function App() {
               }
             </p>
           </div>
-          {topics.length > 0 ? (
-            <div className="flex min-h-120 flex-col gap-6 md:grid md:grid-cols-2">
+          {isLoading ? (
+            <div className="flex min-h-120 flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <SkeletonTopic key={index} />
+              ))}
+            </div>
+          ) : topics.length > 0 ? (
+            <div className="flex min-h-120 flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
               {topics
                 .sort(
                   (a, b) =>
@@ -85,7 +96,7 @@ function App() {
                     new Date(a.created_at).getTime(),
                 )
                 .map((topic: Topic) => {
-                  return <NewTopicCard key={topic.id} props={topic} />;
+                  return <TopicCard key={topic.id} props={topic} />;
                 })}
             </div>
           ) : (

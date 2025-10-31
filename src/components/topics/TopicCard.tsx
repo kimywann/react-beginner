@@ -72,7 +72,7 @@ function extractTextFromContent(content: string | any[], maxChars = 200) {
   }
 }
 
-export function NewTopicCard({ props }: Props) {
+export function TopicCard({ props }: Props) {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState<string>("");
 
@@ -90,6 +90,11 @@ export function NewTopicCard({ props }: Props) {
       onClick={() => navigate(`/topic/${props.id}/detail`)}
     >
       <div className="flex items-start gap-4">
+        <img
+          src={props.thumbnail}
+          alt="thumbnail"
+          className="aspect-square h-[140px] w-[140px] rounded-lg object-cover"
+        />
         <div className="flex flex-1 flex-col items-start gap-4">
           {/* 썸네일과 제목 */}
           <h3 className="line-clamp-2 h-16 text-base font-semibold tracking-tight">
@@ -101,19 +106,11 @@ export function NewTopicCard({ props }: Props) {
             {extractTextFromContent(props.content)}
           </p>
         </div>
-        <img
-          src={props.thumbnail}
-          alt="thumbnail"
-          className="aspect-square h-[140px] w-[140px] rounded-lg object-cover"
-        />
       </div>
       <Separator />
       <div className="flex w-full items-center justify-between">
         <p>{nickname}</p>
-        <div className="flex flex-col items-end">
-          <p>{dayjs(props.created_at).fromNow()}</p>
-          <p>{dayjs(props.created_at).format("YYYY. MM. DD")}</p>
-        </div>
+        <p>{dayjs(props.created_at).fromNow()}</p>
       </div>
     </Card>
   );

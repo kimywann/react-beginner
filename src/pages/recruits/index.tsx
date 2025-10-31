@@ -131,7 +131,7 @@ export default function Recruits() {
                     new Date(a.created_at).getTime(),
                 )
                 .map((topic: Topic) => {
-                  return <NewTopicCard key={topic.id} props={topic} />;
+                  return <TopicCard key={topic.id} props={topic} />;
                 })}
             </div>
           ) : (
