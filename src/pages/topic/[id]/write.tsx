@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui";
 import { Asterisk, BookOpenCheck, ImageOff, Save, Trash2 } from "lucide-react";
-import { Editor, FileUpload } from "@/components/common";
+import { Editor, FileUpload } from "@/components/write";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useAuthStore } from "@/stores";

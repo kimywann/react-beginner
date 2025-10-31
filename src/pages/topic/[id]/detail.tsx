@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { useAuthStore } from "@/stores";
 import supabase from "@/lib/supabase";
 
-import { Editor } from "@/components/common";
+import { Editor } from "@/components/write";
 import {
   AlertDialog,
   AlertDialogAction,

@@ -1,5 +1,8 @@
-import { ProfileForm } from "@/components/common";
-import { RecruitsSidebar } from "@/components/common/RecruitsSidebar";
+import {
+  ProfileForm,
+  ProfileSheet,
+  RecruitsSidebar,
+} from "@/components/recruits";
 import { Badge, Card, Separator } from "@/components/ui";
 import supabase from "@/lib/supabase";
 import { useEffect, useState } from "react";
@@ -8,6 +11,8 @@ import type { Profile } from "@/types/profile.type";
 
 export default function Recruits() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const fetchProfiles = async () => {
     try {
@@ -33,6 +38,11 @@ export default function Recruits() {
     fetchProfiles();
   }, []);
 
+  const handleCardClick = (profile: Profile) => {
+    setSelectedProfile(profile);
+    setIsSheetOpen(true);
+  };
+
   return (
     <main className="flex h-full min-h-[720px] w-full flex-col items-center gap-6 p-6">
       <div className="flex w-full flex-col">
@@ -43,13 +53,13 @@ export default function Recruits() {
         <div className="flex w-full gap-6">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2 rounded-md border p-4 shadow-xs">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-24">
                 <ProfileForm />
               </div>
               <p className="text-muted-foreground">
                 프로필을 등록하면,
                 <br />
-                협업 기회를 놓치지 않습니다.
+                팀빌딩 제안을 받을 수 있습니다.
               </p>
             </div>
             <RecruitsSidebar />
@@ -57,11 +67,14 @@ export default function Recruits() {
           <div className="flex min-h-120 w-full flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
             {profiles.map((profile: Profile) => {
               return (
-                <Card className="h-fit w-full cursor-pointer gap-4 p-4">
+                <Card
+                  key={profile.id}
+                  className="h-fit w-full cursor-pointer gap-4 p-4"
+                  onClick={() => handleCardClick(profile)}
+                >
                   <div className="flex items-start gap-4">
                     <div className="flex flex-1 flex-col items-start gap-4">
                       <div className="flex flex-col items-start gap-1">
-                        {/* 썸네일과 제목 */}
                         <h3 className="text-base font-semibold">
                           <p>{profile.nickname}</p>
                         </h3>
@@ -114,6 +127,12 @@ export default function Recruits() {
           </div>
         </div>
       </section>
+
+      <ProfileSheet
+        profile={selectedProfile}
+        open={isSheetOpen}
+        onOpenChange={setIsSheetOpen}
+      />
     </main>
   );
 }

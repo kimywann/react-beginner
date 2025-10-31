@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Button, Input } from "../ui";
+import { Button, Input } from "@/components/ui";
 import { Image } from "lucide-react";
 
 interface Props {

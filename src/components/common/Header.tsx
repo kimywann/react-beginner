@@ -3,7 +3,7 @@ import { Button, Separator } from "../ui";
 import { NavLink, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { CircleSmall, NotebookPen } from "lucide-react";
-import { DraftDialog } from "./DraftDialog";
+import { DraftDialog } from "../write/DraftDialog";
 import supabase from "@/lib/supabase";
 
 function Header() {

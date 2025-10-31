@@ -1,8 +1,10 @@
 import { Asterisk } from "lucide-react";
-import { SelectJob } from "./select";
-import { SelectExperience } from "./select";
-import { SelectRegion } from "./select";
-import { Label } from "../ui";
+import {
+  SelectJob,
+  SelectExperience,
+  SelectRegion,
+} from "@/components/recruits/select";
+import { Label } from "@/components/ui";
 
 function RecruitsSidebar() {
   return (

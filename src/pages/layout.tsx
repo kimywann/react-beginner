@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import { Header } from "../components/common";
 import { Footer } from "../components/common";
-import useAuthListener from "@/components/hooks/use-auth";
+import useAuthListener from "@/hooks/use-auth";
 
 export default function RootLayout() {
   useAuthListener();

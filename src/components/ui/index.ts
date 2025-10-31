@@ -62,3 +62,13 @@ export {
   AlertDialogCancel,
 } from "./alert-dialog";
 export { Textarea } from "./textarea";
+export {
+  Sheet,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from "./sheet";

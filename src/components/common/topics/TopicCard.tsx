@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 
-import { Card, Separator } from "../ui";
+import { Card, Separator } from "@/components/ui";
 import { toast } from "sonner";
 import { CaseSensitive } from "lucide-react";
 import type { Topic } from "@/types/topic.type";

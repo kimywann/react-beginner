@@ -6,10 +6,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@/components/ui";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Separator } from "@radix-ui/react-separator";
-import { Badge, Button } from "../ui";
+import { Badge, Button } from "@/components/ui";
 import supabase from "@/lib/supabase";
 import { useAuthStore } from "@/stores";
 import { useEffect, useState } from "react";

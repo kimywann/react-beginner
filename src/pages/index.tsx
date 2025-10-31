@@ -1,13 +1,13 @@
+import supabase from "@/lib/supabase";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
-import supabase from "@/lib/supabase";
-import { toast } from "sonner";
-import { TOPIC_STATUS, type Topic } from "@/types/topic.type";
-import { useEffect, useState } from "react";
-import { TopicCard } from "@/components/topics";
-import { CATEGORY_META } from "@/components/constants/category";
+import { TopicCard, SkeletonTopic } from "@/components/common/topics";
 import { CategoryTabs } from "@/components/common";
-import { SkeletonTopic } from "@/components/skeleton";
+
+import { CATEGORY_META } from "@/components/constants/category";
+import { TOPIC_STATUS, type Topic } from "@/types/topic.type";
+import { toast } from "sonner";
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
