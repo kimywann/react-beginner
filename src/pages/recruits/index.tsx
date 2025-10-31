@@ -1,6 +1,6 @@
 import { ProfileForm } from "@/components/common";
 import { RecruitsSidebar } from "@/components/common/RecruitsSidebar";
-import { Badge, Button, Card, Separator } from "@/components/ui";
+import { Badge, Card, Separator } from "@/components/ui";
 
 type Profile = {
   id: number;
