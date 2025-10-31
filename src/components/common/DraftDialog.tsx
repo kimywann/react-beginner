@@ -71,28 +71,31 @@ export function DraftDialog({ children }: Props) {
             <p className="-mr-[6px] text-green-600">{drafts.length}</p>
             <p>건</p>
           </div>
+
           <Separator />
+
           {drafts.length > 0 ? (
             <div className="flex h-60 min-h-60 flex-col items-center justify-start gap-3 overflow-y-scroll">
               {drafts.map((draft: Topic, index: number) => {
                 return (
                   <div
-                    className="bg-card/50 flex w-full cursor-pointer items-center justify-between gap-3 rounded-md px-4 py-2"
+                    key={draft.id}
+                    className="bg-card/50 flex h-14 w-full cursor-pointer items-center justify-between gap-3 rounded-md border px-4 py-2"
                     onClick={() => navigate(`/topic/${draft.id}/write`)}
                   >
                     <div className="flex items-start gap-2">
-                      <Badge className="text-foreground mt-[3px] aspect-square h-5 w-5 rounded-sm bg-[#E26F24] hover:bg-[#E26F24]">
+                      <Badge className="text-foreground aspect-square h-6 w-6 rounded-sm bg-green-200">
                         {index + 1}
                       </Badge>
                       <div className="flex flex-col">
-                        <p className="line-clamp-1">{draft.title}</p>
-                        <p className="text-muted-foreground text-xs">
-                          작성일:{" "}
-                          {dayjs(draft.created_at).format("YYYY. MM. DD")}
-                        </p>
+                        {draft.title ? (
+                          <p className="line-clamp-1">{draft.title}</p>
+                        ) : (
+                          <p className="text-muted-foreground">제목 없음</p>
+                        )}
                       </div>
                     </div>
-                    <Badge variant={"outline"}>작성중</Badge>
+                    {dayjs(draft.created_at).fromNow()}
                   </div>
                 );
               })}
