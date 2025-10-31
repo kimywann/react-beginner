@@ -1,15 +1,14 @@
-export enum TOPIC_STATUS {
+export enum POST_STATUS {
   TEMP = "temp",
   PUBLISH = "publish",
 }
 
-export interface Topic {
+export interface POST {
   id: number;
   created_at: Date | string;
   author: any; // 추후 변경
   title: string;
   content: string;
   category: string;
-  thumbnail: string;
-  status: TOPIC_STATUS;
+  status: POST_STATUS;
 }

@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui";
 
-function SkeletonTopic() {
+function PostSkeleton() {
   return <Skeleton className="h-[210px] w-full" />;
 }
 
-export { SkeletonTopic };
+export { PostSkeleton };

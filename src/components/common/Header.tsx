@@ -26,13 +26,12 @@ function Header() {
   const handleRoute = async () => {
     if (user?.id || user?.email || user?.role) {
       const { data, error } = await supabase
-        .from("topic")
+        .from("post")
         .insert([
           {
             title: null,
             content: null,
             category: null,
-            thumbnail: null,
             author: user.id,
           },
         ])
@@ -47,7 +46,7 @@ function Header() {
 
       if (data) {
         toast.success("임시저장 완료되었습니다.");
-        navigate(`/topic/${data[0].id}/write`);
+        navigate(`/posts/${data[0].id}/edit`);
       }
     } else {
       navigate("/sign-in");
@@ -87,7 +86,7 @@ function Header() {
               className="rounded-full !bg-blue-500 !px-5 !py-5"
               onClick={handleRoute}
             >
-              새 글 작성
+              모집 글 작성
             </Button>
             <DraftDialog>
               <div className="relative">

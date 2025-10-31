@@ -8,14 +8,13 @@ import "dayjs/locale/ko";
 
 import { Card, Separator } from "@/components/ui";
 import { toast } from "sonner";
-import { CaseSensitive } from "lucide-react";
-import type { Topic } from "@/types/topic.type";
+import type { POST } from "@/types/post.type";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
 interface Props {
-  props: Topic;
+  props: POST;
 }
 
 async function findUserById(id: string) {
@@ -72,7 +71,7 @@ function extractTextFromContent(content: string | any[], maxChars = 200) {
   }
 }
 
-export function TopicCard({ props }: Props) {
+export function PostCard({ props }: Props) {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState<string>("");
 
@@ -87,21 +86,13 @@ export function TopicCard({ props }: Props) {
   return (
     <Card
       className="h-fit w-full cursor-pointer gap-4 p-4"
-      onClick={() => navigate(`/topic/${props.id}/detail`)}
+      onClick={() => navigate(`/post/detail/${props.id}`)}
     >
       <div className="flex items-start gap-4">
-        <img
-          src={props.thumbnail}
-          alt="thumbnail"
-          className="aspect-square h-[140px] w-[140px] rounded-lg object-cover"
-        />
         <div className="flex flex-1 flex-col items-start gap-4">
-          {/* 썸네일과 제목 */}
           <h3 className="line-clamp-2 h-16 text-base font-semibold tracking-tight">
-            <CaseSensitive size={16} className="text-muted-foreground" />
             <p>{props.title}</p>
           </h3>
-          {/* 본문 */}
           <p className="text-muted-foreground line-clamp-3">
             {extractTextFromContent(props.content)}
           </p>

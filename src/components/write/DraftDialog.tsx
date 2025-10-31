@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import dayjs from "dayjs";
-import { TOPIC_STATUS, type Topic } from "@/types/topic.type";
+import { POST_STATUS, type POST } from "@/types/post.type";
 
 interface Props {
   children: React.ReactNode;
@@ -33,18 +33,18 @@ export function DraftDialog({ children }: Props) {
     try {
       // .is() 쿼리문은 null만 체크할 경우 사용
       // .eq() 쿼리문은 연속으로 사용하여 임시 저장된 토픽을 조회합니다.
-      const { data: topics, error } = await supabase
-        .from("topic")
+      const { data: posts, error } = await supabase
+        .from("post")
         .select("*")
         .eq("author", user?.id)
-        .eq("status", TOPIC_STATUS.TEMP);
+        .eq("status", POST_STATUS.TEMP);
 
       if (error) {
         toast.error(error.message);
         return;
       }
 
-      if (topics) setDrafts(topics);
+      if (posts) setDrafts(posts);
     } catch (error) {
       console.log(error);
       throw error;
@@ -76,12 +76,12 @@ export function DraftDialog({ children }: Props) {
 
           {drafts.length > 0 ? (
             <div className="flex h-60 min-h-60 flex-col items-center justify-start gap-3 overflow-y-scroll">
-              {drafts.map((draft: Topic, index: number) => {
+              {drafts.map((draft: POST, index: number) => {
                 return (
                   <div
                     key={draft.id}
                     className="bg-card/50 flex h-14 w-full cursor-pointer items-center justify-between gap-3 rounded-md border px-4 py-2"
-                    onClick={() => navigate(`/topic/${draft.id}/write`)}
+                    onClick={() => navigate(`/post/${draft.id}/write`)}
                   >
                     <div className="flex items-start gap-2">
                       <Badge className="text-foreground aspect-square h-6 w-6 rounded-sm bg-green-200">

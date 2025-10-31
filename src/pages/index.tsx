@@ -2,18 +2,18 @@ import supabase from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
-import { TopicCard, SkeletonTopic } from "@/components/common/topics";
+import { PostCard, PostSkeleton } from "@/components/common/post";
 import { CategoryTabs } from "@/components/common";
 
 import { CATEGORY_META } from "@/components/constants/category";
-import { TOPIC_STATUS, type Topic } from "@/types/topic.type";
+import { POST_STATUS, type POST } from "@/types/post.type";
 import { toast } from "sonner";
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category") || "";
 
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [posts, setPosts] = useState<POST[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleCategoryChange = (value: string) => {
@@ -24,25 +24,25 @@ function App() {
     } else setSearchParams({ category: value });
   };
 
-  const fetchTopics = async () => {
+  const fetchPosts = async () => {
     try {
       setIsLoading(true);
       const query = supabase
-        .from("topic")
+        .from("post")
         .select("*")
-        .eq("status", TOPIC_STATUS.PUBLISH);
+        .eq("status", POST_STATUS.PUBLISH);
 
       if (category && category !== "") {
         query.eq("category", category);
       }
-      const { data: topics, error } = await query;
+      const { data: posts, error } = await query;
 
       if (error) {
         toast.error(error.message);
         return;
       }
 
-      if (topics) setTopics(topics);
+      if (posts) setPosts(posts);
     } catch (error) {
       console.log(error);
       throw error;
@@ -52,7 +52,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetchTopics();
+    fetchPosts();
   }, [category]);
 
   return (
@@ -84,19 +84,19 @@ function App() {
           {isLoading ? (
             <div className="flex min-h-120 flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
               {Array.from({ length: 6 }).map((_, index) => (
-                <SkeletonTopic key={index} />
+                <PostSkeleton key={index} />
               ))}
             </div>
-          ) : topics.length > 0 ? (
+          ) : posts.length > 0 ? (
             <div className="flex min-h-120 flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
-              {topics
+              {posts
                 .sort(
                   (a, b) =>
                     new Date(b.created_at).getTime() -
                     new Date(a.created_at).getTime(),
                 )
-                .map((topic: Topic) => {
-                  return <TopicCard key={topic.id} props={topic} />;
+                .map((post: POST) => {
+                  return <PostCard key={post.id} props={post} />;
                 })}
             </div>
           ) : (
