@@ -1,13 +1,16 @@
+import supabase from "@/lib/supabase";
+import { useEffect, useState } from "react";
+
 import {
   ProfileForm,
   ProfileSheet,
   RecruitsSidebar,
 } from "@/components/recruits";
 import { Badge, Card, Separator } from "@/components/ui";
-import supabase from "@/lib/supabase";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import type { Profile } from "@/types/profile.type";
+
+import { toast } from "sonner";
+import dayjs from "dayjs";
 
 export default function Recruits() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -46,7 +49,10 @@ export default function Recruits() {
   return (
     <main className="flex h-full min-h-[720px] w-full flex-col items-center gap-6 p-6">
       <div className="flex w-full flex-col">
-        <h1 className="text-2xl font-bold"></h1>
+        <h1 className="text-2xl font-bold">팀원 찾기</h1>
+        <p className="text-muted-foreground text-base">
+          팀원을 찾기 위한 프로필을 등록하고, 팀빌딩 제안을 받으세요.
+        </p>
       </div>
 
       <section className="flex w-full flex-col gap-12">
@@ -74,15 +80,17 @@ export default function Recruits() {
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex flex-1 flex-col items-start gap-4">
-                      <div className="flex flex-col items-start gap-1">
-                        <h3 className="text-base font-semibold">
-                          <p>{profile.nickname}</p>
-                        </h3>
-                        <p>{profile.job}</p>
+                      <div className="flex w-full justify-between">
+                        <div className="flex flex-col items-start gap-1">
+                          <h3 className="text-base font-semibold">
+                            <p>{profile.nickname}</p>
+                          </h3>
+                          <p>{profile.job}</p>
+                        </div>
+                        <p>{dayjs(profile.created_at).fromNow()}</p>
                       </div>
                       <Separator />
-                      {/* 본문 */}
-                      <p className="text-muted-foreground line-clamp-3">
+                      <p className="text-muted-foreground line-clamp-3 min-h-[3.8rem]">
                         {profile.introduction}
                       </p>
                     </div>
