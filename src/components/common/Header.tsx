@@ -71,9 +71,12 @@ function Header() {
             >
               커뮤니티
             </NavLink>
-            <div className="cursor-pointer font-semibold hover:text-blue-500">
-              팀원 모집
-            </div>
+            <NavLink
+              to="/recruits"
+              className="cursor-pointer font-semibold hover:text-blue-500"
+            >
+              팀원 찾기
+            </NavLink>
           </div>
         </div>
 

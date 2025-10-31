@@ -12,6 +12,7 @@ import WriteTopic from "./pages/topic/[id]/write.tsx";
 import TopicDetail from "./pages/topic/[id]/detail.tsx";
 
 import "./index.css";
+import Recruits from "./pages/recruits/index.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="sign-in" element={<SignIn />} />
             <Route path="topic/:id/write" element={<WriteTopic />} />
             <Route path="topic/:id/detail" element={<TopicDetail />} />
+            <Route path="recruits" element={<Recruits />} />
           </Route>
         </Routes>
       </BrowserRouter>
