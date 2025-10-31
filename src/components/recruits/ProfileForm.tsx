@@ -169,18 +169,21 @@ export function ProfileForm() {
               />
             </div>
           </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">닫기</Button>
-            </DialogClose>
-            <Button
-              type="submit"
-              className="bg-blue-500 text-white"
-              onClick={handleProfileSubmit}
-            >
-              등록하기
-            </Button>
-          </DialogFooter>
+
+          <div className="flex flex-col justify-end">
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">닫기</Button>
+              </DialogClose>
+              <Button
+                type="submit"
+                className="bg-blue-500 text-white"
+                onClick={handleProfileSubmit}
+              >
+                등록하기
+              </Button>
+            </DialogFooter>
+          </div>
         </DialogContent>
       </form>
     </Dialog>
