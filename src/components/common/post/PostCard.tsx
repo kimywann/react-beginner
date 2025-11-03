@@ -6,9 +6,10 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 
-import { Card, Label, Separator } from "@/components/ui";
+import { Badge, Card, Label, Separator } from "@/components/ui";
 import { toast } from "sonner";
 import type { POST } from "@/types/post.type";
+import { FolderGit2 } from "lucide-react";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
@@ -90,9 +91,26 @@ export function PostCard({ props }: Props) {
     >
       <div className="flex items-start gap-4">
         <div className="flex flex-1 flex-col items-start gap-4">
-          <h3 className="line-clamp-2 h-16 text-xl font-semibold">
-            <p>{props.title}</p>
-          </h3>
+          <section className="flex items-center justify-between gap-2">
+            <div>
+              <Badge className="bg-slate-500">
+                <FolderGit2 />
+                <p> {props.category}</p>
+              </Badge>
+            </div>
+            <div>
+              <p className="text-muted-foreground font-medium">
+                모집 마감일 |{" "}
+                {dayjs(props.recruitment_deadline).format("YYYY.MM.DD")}
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h3 className="line-clamp-2 text-xl font-semibold">
+              <p>{props.title}</p>
+            </h3>
+          </section>
 
           <div className="flex gap-2">
             <div className="flex items-center gap-2">
@@ -102,25 +120,13 @@ export function PostCard({ props }: Props) {
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
-              <Label className="text-lg">모집 인원:</Label>
-              <p className="text-muted-foreground text-lg">{props.members}</p>
-            </div>
-          </div>
-
-          <div className="flex gap-2">
-            <div className="flex items-center gap-2">
-              <Label className="text-lg">연락 방법:</Label>
-              <a
-                href={props.contact_url}
-                className="text-muted-foreground text-lg"
-              >
-                {props.contact}
-              </a>
-            </div>
-            <div className="flex items-center gap-2">
-              <Label className="text-lg">모집 구분:</Label>
-              <p className="text-muted-foreground text-lg">{props.duration}</p>
+            <div className="flex gap-2">
+              <div className="flex items-center gap-2">
+                <Label className="text-lg">활동 기간:</Label>
+                <p className="text-muted-foreground text-lg">
+                  {props.duration}
+                </p>
+              </div>
             </div>
           </div>
         </div>
