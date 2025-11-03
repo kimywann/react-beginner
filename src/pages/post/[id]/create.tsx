@@ -23,12 +23,12 @@ export default function PostCreate() {
 
   const [postInfo, setPostInfo] = useState({
     category: "",
-    progressMethod: "",
+    progress_method: "",
     members: "",
     duration: "",
-    recruitmentDeadline: new Date(),
+    recruitment_deadline: new Date(),
     contact: "",
-    contactUrl: "",
+    contact_url: "",
   });
 
   const updatePostInfo = (field: keyof typeof postInfo, value: any) => {
@@ -57,14 +57,14 @@ export default function PostCreate() {
 
         setPostInfo({
           category: post[0].category || "",
-          progressMethod: post[0].progressMethod || "",
+          progress_method: post[0].progress_method || "",
           members: post[0].members || "",
           contact: post[0].contact || "",
           duration: post[0].duration || "",
-          recruitmentDeadline: post[0].recruitmentDeadline
-            ? new Date(post[0].recruitmentDeadline)
+          recruitment_deadline: post[0].recruitment_deadline
+            ? new Date(post[0].recruitment_deadline)
             : new Date(),
-          contactUrl: post[0].contactUrl || "",
+          contact_url: post[0].contact_url || "",
         });
       }
     } catch (error) {

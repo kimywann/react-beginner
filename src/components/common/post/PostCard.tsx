@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 
-import { Card, Separator } from "@/components/ui";
+import { Card, Label, Separator } from "@/components/ui";
 import { toast } from "sonner";
 import type { POST } from "@/types/post.type";
 
@@ -90,12 +90,39 @@ export function PostCard({ props }: Props) {
     >
       <div className="flex items-start gap-4">
         <div className="flex flex-1 flex-col items-start gap-4">
-          <h3 className="line-clamp-2 h-16 text-base font-semibold tracking-tight">
+          <h3 className="line-clamp-2 h-16 text-xl font-semibold">
             <p>{props.title}</p>
           </h3>
-          <p className="text-muted-foreground line-clamp-3">
-            {extractTextFromContent(props.content)}
-          </p>
+
+          <div className="flex gap-2">
+            <div className="flex items-center gap-2">
+              <Label className="text-lg">진행 방식:</Label>
+              <p className="text-muted-foreground text-lg">
+                {props.progress_method}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Label className="text-lg">모집 인원:</Label>
+              <p className="text-muted-foreground text-lg">{props.members}</p>
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <div className="flex items-center gap-2">
+              <Label className="text-lg">연락 방법:</Label>
+              <a
+                href={props.contact_url}
+                className="text-muted-foreground text-lg"
+              >
+                {props.contact}
+              </a>
+            </div>
+            <div className="flex items-center gap-2">
+              <Label className="text-lg">모집 구분:</Label>
+              <p className="text-muted-foreground text-lg">{props.duration}</p>
+            </div>
+          </div>
         </div>
       </div>
       <Separator />
