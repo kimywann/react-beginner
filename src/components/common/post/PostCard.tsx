@@ -84,6 +84,11 @@ export function PostCard({ props }: Props) {
     fetchAuthEmail();
   }, []);
 
+  const categoryColors: Record<string, string> = {
+    프로젝트: "bg-blue-400",
+    스터디: "bg-emerald-500",
+  };
+
   return (
     <Card
       className="h-fit w-full cursor-pointer gap-4 p-4"
@@ -93,7 +98,7 @@ export function PostCard({ props }: Props) {
         <div className="flex flex-1 flex-col items-start gap-4">
           <section className="flex items-center justify-between gap-2">
             <div>
-              <Badge className="bg-slate-500">
+              <Badge className={`${categoryColors[props.category]}`}>
                 <FolderGit2 />
                 <p> {props.category}</p>
               </Badge>
@@ -107,23 +112,23 @@ export function PostCard({ props }: Props) {
           </section>
 
           <section>
-            <h3 className="line-clamp-2 text-xl font-semibold">
+            <h3 className="line-clamp-2 min-h-[3.5rem] text-lg font-semibold">
               <p>{props.title}</p>
             </h3>
           </section>
 
           <div className="flex gap-2">
             <div className="flex items-center gap-2">
-              <Label className="text-lg">진행 방식:</Label>
-              <p className="text-muted-foreground text-lg">
+              <Label className="text-md">진행 방식:</Label>
+              <p className="text-muted-foreground text-md">
                 {props.progress_method}
               </p>
             </div>
 
             <div className="flex gap-2">
               <div className="flex items-center gap-2">
-                <Label className="text-lg">활동 기간:</Label>
-                <p className="text-muted-foreground text-lg">
+                <Label className="text-md">활동 기간:</Label>
+                <p className="text-muted-foreground text-md">
                   {props.duration}
                 </p>
               </div>

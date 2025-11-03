@@ -82,13 +82,13 @@ function App() {
             </p>
           </div>
           {isLoading ? (
-            <div className="flex min-h-120 flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
+            <div className="flex h-120 flex-col gap-6 md:grid md:grid-cols-3 xl:grid-cols-3">
               {Array.from({ length: 6 }).map((_, index) => (
                 <PostSkeleton key={index} />
               ))}
             </div>
           ) : posts.length > 0 ? (
-            <div className="flex min-h-120 flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
+            <div className="flex h-120 flex-col gap-6 md:grid md:grid-cols-3 xl:grid-cols-3">
               {posts
                 .sort(
                   (a, b) =>
@@ -100,7 +100,7 @@ function App() {
                 })}
             </div>
           ) : (
-            <div className="flex min-h-120 w-full items-center justify-center">
+            <div className="flex h-120 w-full items-center justify-center">
               <p className="text-muted-foreground/50">
                 조회 가능한 글이 없습니다.
               </p>

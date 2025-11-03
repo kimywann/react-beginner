@@ -9,14 +9,14 @@ export const SIDEBAR_CATEGORY = [
   },
   {
     id: 2,
-    lable: "팀 프로젝트",
-    category: "team-project",
+    lable: "프로젝트",
+    category: "프로젝트",
     icon: <Users className="!h-6 !w-6" />,
   },
   {
     id: 3,
     lable: "스터디",
-    category: "study",
+    category: "스터디",
     icon: <BookOpenText className="!h-6 !w-6" />,
   },
 ];
@@ -24,7 +24,7 @@ export const SIDEBAR_CATEGORY = [
 export const POST_CATEGORY = [
   {
     id: 1,
-    lable: "팀 프로젝트",
+    lable: "프로젝트",
     category: "프로젝트",
   },
   {
@@ -43,14 +43,14 @@ export const CATEGORY_META = [
   },
   {
     id: 2,
-    category: "team-project",
+    category: "프로젝트",
     title: "팀 프로젝트 모집",
     description:
       "함께 성장할 동료를 찾고 계신가요? 열정적인 동료들과 함께 프로젝트를 시작해보세요.",
   },
   {
     id: 3,
-    category: "study",
+    category: "스터디",
     title: "스터디 모집",
     description:
       "함께 배우고 성장할 스터디를 찾아보세요. 지식을 나누며 함께 발전해나가요.",
