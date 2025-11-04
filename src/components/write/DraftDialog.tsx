@@ -26,6 +26,7 @@ export function DraftDialog({ children }: Props) {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const [drafts, setDrafts] = useState<any[]>([]);
+  const [open, setOpen] = useState(false);
 
   const fetchDrafts = async () => {
     if (!user) return;
@@ -56,7 +57,7 @@ export function DraftDialog({ children }: Props) {
   }, []);
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -81,7 +82,10 @@ export function DraftDialog({ children }: Props) {
                   <div
                     key={draft.id}
                     className="bg-card/50 flex h-14 w-full cursor-pointer items-center justify-between gap-3 rounded-md border px-4 py-2"
-                    onClick={() => navigate(`/posts/${draft.id}/edit`)}
+                    onClick={() => {
+                      navigate(`/posts/${draft.id}/edit`);
+                      setOpen(false);
+                    }}
                   >
                     <div className="flex items-start gap-2">
                       <Badge className="text-foreground aspect-square h-6 w-6 rounded-sm bg-green-200">

@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 
-import { Badge, Card, Label, Separator } from "@/components/ui";
+import { Badge, Card, Separator } from "@/components/ui";
 import { toast } from "sonner";
 import type { POST } from "@/types/post.type";
 import { FolderGit2 } from "lucide-react";
