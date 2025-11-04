@@ -1,10 +1,11 @@
-import { useAuthStore } from "@/stores";
-import { Button, Separator } from "../ui";
-import { NavLink, useNavigate } from "react-router";
-import { toast } from "sonner";
-import { CircleSmall, NotebookPen } from "lucide-react";
-import { DraftDialog } from "../write/DraftDialog";
 import supabase from "@/lib/supabase";
+import { useAuthStore } from "@/stores";
+import { NavLink, useNavigate } from "react-router";
+
+import { Button, Separator } from "@/components/ui";
+import { DraftDialog } from "@/components/write";
+import { Archive } from "lucide-react";
+import { toast } from "sonner";
 
 function Header() {
   const navigate = useNavigate();
@@ -83,21 +84,21 @@ function Header() {
           <div className="flex gap-2">
             <Button
               variant={"destructive"}
-              className="rounded-full !bg-blue-500 !px-5 !py-5"
+              className="rounded-xl !bg-blue-500 !px-5 !py-5"
               onClick={handleRoute}
             >
               모집 글 작성
             </Button>
             <DraftDialog>
               <div className="relative">
-                <Button variant={"outline"} className="h-10 w-10 rounded-full">
-                  <NotebookPen />
+                <Button variant={"outline"} className="r h-10 w-10 rounded-xl">
+                  <Archive />
                 </Button>
-                <CircleSmall
+                {/* <CircleSmall
                   size={14}
                   className="absolute top-0 right-0 text-blue-500"
                   fill="#1976D2"
-                />
+                /> */}
               </div>
             </DraftDialog>
           </div>
