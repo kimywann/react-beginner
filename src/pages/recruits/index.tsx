@@ -1,15 +1,28 @@
 import supabase from "@/lib/supabase";
-import { useEffect, useState } from "react";
+import { useAuthStore } from "@/stores";
+import { useEffect, useState, useMemo } from "react";
 
 import { ProfileSheet, RecruitsSidebar } from "@/components/recruits";
 import { InsertDialog } from "@/components/recruits/profile/InsertDialog";
 import { UpdateDialog } from "@/components/recruits/profile/UpdateDialog";
-import { Badge, Button, Card, Separator } from "@/components/ui";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Badge,
+  Button,
+  Card,
+  Separator,
+} from "@/components/ui";
 import type { Profile } from "@/types/profile.type";
 
 import { toast } from "sonner";
 import dayjs from "dayjs";
-import { useAuthStore } from "@/stores";
 
 export default function Recruits() {
   const user = useAuthStore((state) => state.user);
@@ -17,6 +30,50 @@ export default function Recruits() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const [filters, setFilters] = useState<{
+    position?: string;
+    job?: string;
+    experience?: string;
+    region?: string;
+  }>({});
+
+  const filteredProfiles = useMemo(() => {
+    return profiles.filter((profile) => {
+      // position 필터
+      if (filters.position && profile.position !== filters.position) {
+        return false;
+      }
+
+      // job 필터
+      if (filters.job && profile.job !== filters.job) {
+        return false;
+      }
+
+      // experience 필터
+      if (filters.experience && profile.experience !== filters.experience) {
+        return false;
+      }
+
+      // region 필터
+      if (filters.region && profile.region !== filters.region) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [profiles, filters]);
+
+  const handleFilterChange = (key: string, value: string | undefined) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleResetFilters = () => {
+    setFilters({});
+  };
 
   const fetchProfiles = async () => {
     try {
@@ -46,10 +103,6 @@ export default function Recruits() {
 
   const handleDeleteProfile = async () => {
     if (!userProfile) return;
-
-    if (!confirm("프로필을 삭제하시겠습니까?")) {
-      return;
-    }
 
     try {
       const { error } = await supabase
@@ -107,32 +160,61 @@ export default function Recruits() {
                   myProfile={userProfile}
                   onSuccess={fetchProfiles}
                 />
-                <Button
-                  variant="outline"
-                  className="bg-red-400 text-white hover:bg-red-600 hover:text-white"
-                  onClick={handleDeleteProfile}
-                >
-                  프로필 삭제
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="w-24 !bg-red-400 text-white"
+                    >
+                      프로필 삭제
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        프로필을 삭제하시겠습니까?
+                      </AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>닫기</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="text-foreground bg-red-300 hover:bg-red-700/40"
+                        onClick={handleDeleteProfile}
+                      >
+                        삭제
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             )}
-            <RecruitsSidebar />
+            <RecruitsSidebar
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onResetFilters={handleResetFilters}
+            />
           </div>
 
           <div className="flex min-h-120 w-full flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
-            {profiles.length === 0 ? (
+            {filteredProfiles.length === 0 ? (
               <div className="col-span-full flex min-h-[400px] w-full flex-col items-center justify-center gap-4 rounded-lg p-8">
                 <div className="flex flex-col items-center gap-2 text-center">
                   <h3 className="text-muted-foreground text-xl font-semibold">
-                    등록된 프로필이 없습니다
+                    {Object.values(filters).some((v) => v)
+                      ? "조건에 맞는 프로필이 없습니다"
+                      : "등록된 프로필이 없습니다"}
                   </h3>
                   <p className="text-muted-foreground text-sm">
-                    첫 번째로 프로필을 등록하고 팀빌딩 제안을 받아보세요.
+                    {Object.values(filters).some((v) => v)
+                      ? "다른 조건으로 검색해보세요."
+                      : "첫 번째로 프로필을 등록하고 팀빌딩 제안을 받아보세요."}
                   </p>
                 </div>
               </div>
             ) : (
-              profiles.map((profile: Profile) => {
+              // profiles 대신 filteredProfiles 사용
+              filteredProfiles.map((profile: Profile) => {
                 return (
                   <Card
                     key={profile.id}
@@ -161,7 +243,7 @@ export default function Recruits() {
                       <div className="flex items-center gap-2">
                         <Badge
                           variant="outline"
-                          className="border-none bg-green-300/20 text-green-500/70"
+                          className="border-none bg-green-300/20 text-sm text-green-500"
                         >
                           희망 포지션
                         </Badge>
@@ -172,7 +254,7 @@ export default function Recruits() {
                       <div className="flex items-center gap-2">
                         <Badge
                           variant="outline"
-                          className="border-none bg-blue-300/20 text-blue-500/70"
+                          className="border-none bg-blue-300/20 text-sm text-blue-500"
                         >
                           경력
                         </Badge>
@@ -183,7 +265,7 @@ export default function Recruits() {
                       <div className="flex items-center gap-2">
                         <Badge
                           variant="outline"
-                          className="border-none bg-red-300/20 text-red-500/70"
+                          className="border-none bg-red-300/20 text-sm text-red-500"
                         >
                           지역
                         </Badge>
