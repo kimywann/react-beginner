@@ -92,8 +92,8 @@ export function ProfileForm({
             <Label>현재 직무</Label>
           </div>
           <SelectJob
-            value={watch("job")}
-            onValueChange={(v) => setValue("job", v)}
+            value={watch("job") || ""}
+            onValueChange={(v) => setValue("job", v || "")}
           />
         </div>
         <div className="grid w-full gap-3">
@@ -102,8 +102,8 @@ export function ProfileForm({
             <Label>희망 포지션</Label>
           </div>
           <SelectPositionRole
-            value={watch("position")}
-            onValueChange={(v) => setValue("position", v)}
+            value={watch("position") || ""}
+            onValueChange={(v) => setValue("position", v || "")}
           />
         </div>
       </div>
@@ -115,8 +115,8 @@ export function ProfileForm({
             <Label>관련 경력</Label>
           </div>
           <SelectExperience
-            value={watch("experience")}
-            onValueChange={(v) => setValue("experience", v)}
+            value={watch("experience") || ""}
+            onValueChange={(v) => setValue("experience", v || "")}
           />
         </div>
         <div className="grid w-full gap-3">
@@ -125,8 +125,8 @@ export function ProfileForm({
             <Label>활동 지역</Label>
           </div>
           <SelectRegion
-            value={watch("region")}
-            onValueChange={(v) => setValue("region", v)}
+            value={watch("region") || ""}
+            onValueChange={(v) => setValue("region", v || "")}
           />
         </div>
       </div>
@@ -159,7 +159,6 @@ export function ProfileForm({
         />
       </div>
 
-      {/* 버튼을 form 내부 마지막에 추가 */}
       <div className="flex justify-end gap-2 pt-4">
         <Button type="button" variant="outline" onClick={() => onSuccess?.()}>
           닫기

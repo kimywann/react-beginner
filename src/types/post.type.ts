@@ -18,6 +18,6 @@ export interface POST {
   contact_url: string; // 연락 방법 URL
   duration: string; // 진행 기간
   recruitment_deadline: Date | string; // 모집 마감일
-  position: string[]; // 포지션
-  tech_stack: string[]; // 기술 스택
+  position: string[] | string; // 포지션 - 유연한 타입
+  tech_stack: string[] | string; // 기술 스택 - 유연한 타입
 }

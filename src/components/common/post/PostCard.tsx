@@ -138,7 +138,10 @@ export function PostCard({ props }: Props) {
 
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <Badge className="bg-gray-200 text-gray-700">포지션</Badge>
-              {JSON.parse(props.position as string).map((position: string) => (
+              {(Array.isArray(props.position)
+                ? props.position
+                : JSON.parse(props.position as string)
+              ).map((position: string) => (
                 <Badge
                   key={position}
                   variant="outline"
@@ -151,7 +154,10 @@ export function PostCard({ props }: Props) {
 
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <Badge className="bg-gray-200 text-gray-700">기술 스택</Badge>
-              {JSON.parse(props.tech_stack as string).map((tech: string) => (
+              {(Array.isArray(props.tech_stack)
+                ? props.tech_stack
+                : JSON.parse(props.tech_stack as string)
+              ).map((tech: string) => (
                 <img
                   src={`/images/icons/tech/${tech.toLowerCase()}.svg`}
                   alt={tech}
