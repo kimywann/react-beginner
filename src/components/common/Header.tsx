@@ -69,7 +69,7 @@ function Header() {
               to="/"
               className="cursor-pointer font-semibold hover:text-blue-500"
             >
-              커뮤니티
+              팀원 모집
             </NavLink>
             <NavLink
               to="/recruits"
