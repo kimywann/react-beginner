@@ -1,34 +1,60 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import supabase from "@/lib/supabase";
 
 import { Editor } from "@/components/write";
-import { Separator } from "@/components/ui";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  Button,
+  Separator,
+} from "@/components/ui";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui";
+import dayjs from "dayjs";
+import { Trash2 } from "lucide-react";
+import { useAuthStore } from "@/stores";
 
 export default function PostDetail() {
   const { id } = useParams();
+  const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
 
-  // const [author, setAuthor] = useState<string>("");
+  const [author, setAuthor] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [title, setTitle] = useState<string>("");
+  const [createdAt, setCreatedAt] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const [members, setMembers] = useState<number>(0);
+  const [duration, setDuration] = useState<string>("");
+  const [progress_method, setProgressMethod] = useState<string>("");
+  const [contact, setContact] = useState<string>("");
+  const [contact_url, setContactUrl] = useState<string>("");
+  const [position, setPosition] = useState<string[]>([]);
+  const [tech_stack, setTechStack] = useState<string[]>([]);
 
-  // const handleDelete = async () => {
-  //   try {
-  //     const { error } = await supabase.from("post").delete().eq("id", id);
+  const handleDelete = async () => {
+    try {
+      const { error } = await supabase.from("post").delete().eq("id", id);
 
-  //     if (error) {
-  //       toast.error(error.message);
-  //       return;
-  //     }
-  //     toast.success("글을 삭제하였습니다.");
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw error;
-  //   }
-  // };
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      toast.success("글을 삭제하였습니다.");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -44,10 +70,22 @@ export default function PostDetail() {
         }
 
         if (post) {
-          // setAuthor(post[0].author);
+          setAuthor(post[0].author);
           setCategory(post[0].category);
           setTitle(post[0].title);
+          setCreatedAt(post[0].created_at);
           setContent(post[0].content);
+          setMembers(post[0].members);
+          setDuration(post[0].duration);
+          setProgressMethod(post[0].progress_method);
+          setContact(post[0].contact);
+          setContactUrl(post[0].contact_url);
+          setPosition(
+            post[0].position ? JSON.parse(post[0].position as string) : [],
+          );
+          setTechStack(
+            post[0].tech_stack ? JSON.parse(post[0].tech_stack as string) : [],
+          );
         }
       } catch (error) {
         console.log(error);
@@ -59,46 +97,121 @@ export default function PostDetail() {
 
   return (
     <div className="">
-      {/* 글을 작성한 사람의 user_id와 로그인한 사람의 user_id가 같은 경우에만 보이도록 한다. */}
-      {/* {author === user?.id && (
-        <AlertDialog>
-          <AlertDialogTrigger>
-            <Button variant="outline" size="icon" className="!bg-red-400">
-              <Trash2 />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                해당 모집 게시글을 삭제하시겠습니까?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                삭제하시면 영구적으로 삭제되어 복구할 수 없습니다.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>닫기</AlertDialogCancel>
-              <AlertDialogAction
-                className="text-foreground bg-red-300 hover:bg-red-700/40"
-                onClick={handleDelete}
-              >
-                삭제
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      )} */}
+      {/* 글을 작성한 사람의 user_id와 로그인한 사람의 user_id가 같은 경우에만
+      보이도록 한다. */}
+      <div className="flex justify-end p-4">
+        {author === user?.id && (
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Button variant="outline" size="icon" className="!bg-red-400">
+                <Trash2 />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  해당 모집 게시글을 삭제하시겠습니까?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  삭제하시면 영구적으로 삭제되어 복구할 수 없습니다.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>닫기</AlertDialogCancel>
+                <AlertDialogAction
+                  className="text-foreground bg-red-300 hover:bg-red-700/40"
+                  onClick={handleDelete}
+                >
+                  삭제
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
+      </div>
 
-      <header className="mt-40 flex w-full flex-col items-center">
-        <div>
-          <span className="mb-4"># {category}</span>
+      <header className="mt-20 flex w-full flex-col items-center">
+        <div className="flex h-full w-full flex-col items-center">
+          <span className="mb-4 text-lg"># {category}</span>
           <h1 className="scroll-m-20 text-center text-xl font-extrabold tracking-tight sm:text-2xl md:text-4xl">
             {title}
           </h1>
           <Separator className="bg-foreground my-6 !w-6" />
-          <span>2025. 10. 03.</span>
+          <span className="text-lg">
+            {dayjs(createdAt).format("YYYY. MM. DD")}
+          </span>
         </div>
       </header>
+
+      <section className="mx-auto mt-10 flex max-w-2xl flex-col">
+        <div className="grid grid-cols-2 gap-y-3 text-lg">
+          {/* 모집 인원 */}
+          <div className="flex items-center gap-4">
+            <span className="font-semibold text-gray-500">모집 인원</span>
+            <span className="text-lg font-bold">{members}</span>
+          </div>
+
+          {/* 진행 방식 */}
+          <div className="flex items-center gap-4">
+            <span className="font-semibold text-gray-500">진행 방식</span>
+            <span className="text-lg font-bold">{progress_method}</span>
+          </div>
+
+          {/* 예상 기간 */}
+          <div className="flex items-center gap-4">
+            <span className="font-semibold text-gray-500">예상 기간</span>
+            <span className="text-lg font-bold">{duration}</span>
+          </div>
+
+          {/* 연락 수단 */}
+          <div className="flex items-center gap-4">
+            <span className="font-semibold text-gray-500">연락 수단</span>
+            <Badge
+              variant="outline"
+              className="bg-slate-50 text-sm font-bold text-slate-500"
+            >
+              <a
+                href={contact_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                {contact}
+              </a>
+            </Badge>
+          </div>
+
+          {/* 모집 분야 */}
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="font-semibold text-gray-500">모집 분야</span>
+            <div className="flex flex-wrap gap-2">
+              {position.map((pos) => (
+                <Badge
+                  key={pos}
+                  variant="outline"
+                  className="bg-slate-50 text-sm font-bold text-slate-500"
+                >
+                  {pos}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* 기술 스택 */}
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="font-semibold text-gray-500">기술 스택</span>
+            <div className="flex flex-wrap gap-2">
+              {tech_stack.map((tech) => (
+                <img
+                  src={`/images/icons/tech/${tech.toLowerCase()}.svg`}
+                  alt={tech}
+                  className="size-7"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div className="flex w-full justify-center pt-12 pb-6">
         <main>
