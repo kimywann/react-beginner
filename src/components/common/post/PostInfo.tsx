@@ -4,13 +4,13 @@ import {
   POST_DURATION,
   POST_MEMBERS,
   POST_PROGRESS_METHOD,
+  POST_ROLES,
+  POST_TECH_STACK,
 } from "@/components/constants/post";
-import { Button, Calendar, Input, Label } from "@/components/ui";
-import { CustomSelect } from "@/components/write/CustomSelect";
-import { Calendar1 } from "lucide-react";
-import { useState } from "react";
+import { Input } from "@/components/ui";
+import { CustomSelect, MultiSelect, DatePicker } from "@/components/write";
 
-interface PostInfoProps {
+interface Props {
   info: {
     category: string;
     progress_method: string;
@@ -19,18 +19,16 @@ interface PostInfoProps {
     recruitment_deadline: Date | string;
     contact: string;
     contact_url: string;
+    position: string[];
+    tech_stack: string[];
   };
-  onUpdate: (field: keyof PostInfoProps["info"], value: any) => void;
+  onUpdate: (
+    field: keyof Props["info"],
+    value: string | string[] | Date,
+  ) => void;
 }
 
-export function PostInfo({ info, onUpdate }: PostInfoProps) {
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(new Date());
-
-  const handleCalendarClose = () => {
-    setIsCalendarOpen(false);
-  };
-
+export function PostInfo({ info, onUpdate }: Props) {
   return (
     <section className="mt-8 flex h-full flex-col gap-6">
       <section className="flex gap-10">
@@ -66,53 +64,43 @@ export function PostInfo({ info, onUpdate }: PostInfoProps) {
       </section>
 
       <section className="flex gap-10">
-        {/* 모집 마감일 */}
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-1">
-            <Label className="text-primary text-base">모집 마감일</Label>
-          </div>
-          <Button
-            variant="outline"
-            className="flex w-[300px] items-center justify-between border-1 !bg-white shadow-xs"
-            onClick={() => {
-              setIsCalendarOpen(!isCalendarOpen);
-            }}
-          >
-            <span className="text-muted-foreground">
-              {date?.toLocaleDateString()}
-            </span>
-            <Calendar1 className="text-muted-foreground ml-2" />
-          </Button>
-          {isCalendarOpen && (
-            <div className="absolute z-20 mt-20">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                onDayClick={handleCalendarClose}
-                className="w-[260px] rounded-md border shadow-sm"
-                captionLayout="dropdown"
-              />
-            </div>
-          )}
-        </div>
+        <DatePicker
+          label="모집 마감일"
+          value={info.recruitment_deadline}
+          onChange={(value) => onUpdate("recruitment_deadline", value)}
+        />
 
-        {/* 연락 방법 */}
-        <CustomSelect
-          label="연락 방법"
-          value={info.contact}
-          items={POST_CONTACT}
-          onChange={(value) => onUpdate("contact", value)}
+        <MultiSelect
+          label="포지션"
+          value={info.position}
+          items={POST_ROLES}
+          onChange={(value) => onUpdate("position", value)}
         />
       </section>
+
       <section className="flex gap-10">
-        <div className="w-[300px]"></div>
-        <Input
-          placeholder="경로를 입력해 주세요."
-          value={info.contact_url}
-          onChange={(e) => onUpdate("contact_url", e.target.value)}
-          className="w-[300px]"
+        <MultiSelect
+          label="기술 스택"
+          value={info.tech_stack}
+          items={POST_TECH_STACK}
+          onChange={(value) => onUpdate("tech_stack", value)}
         />
+
+        <div className="flex flex-col gap-4">
+          <CustomSelect
+            label="연락 방법"
+            value={info.contact}
+            items={POST_CONTACT}
+            onChange={(value) => onUpdate("contact", value)}
+          />
+
+          <Input
+            placeholder="경로를 입력해 주세요."
+            value={info.contact_url}
+            onChange={(e) => onUpdate("contact_url", e.target.value)}
+            className="h-[40px] w-[300px]"
+          />
+        </div>
       </section>
     </section>
   );

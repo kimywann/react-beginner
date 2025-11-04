@@ -58,7 +58,7 @@ export function UpdateDialog({ myProfile, onSuccess }: Props) {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="bg-green-400 text-white hover:bg-green-600 hover:text-white"
+          className="bg-green-500 text-white hover:bg-green-600 hover:text-white"
         >
           프로필 편집
         </Button>

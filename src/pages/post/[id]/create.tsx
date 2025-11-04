@@ -1,6 +1,6 @@
 import supabase from "@/lib/supabase";
 
-import { Button, Input, Label } from "@/components/ui";
+import { Button, Input, Label, Separator } from "@/components/ui";
 
 import { Asterisk, BookOpenCheck, Save, Trash2 } from "lucide-react";
 import { Editor } from "@/components/write";
@@ -29,9 +29,14 @@ export default function PostCreate() {
     recruitment_deadline: new Date(),
     contact: "",
     contact_url: "",
+    position: [] as string[],
+    tech_stack: [] as string[],
   });
 
-  const updatePostInfo = (field: keyof typeof postInfo, value: any) => {
+  const updatePostInfo = (
+    field: keyof typeof postInfo,
+    value: string | string[] | Date,
+  ) => {
     setPostInfo((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -65,6 +70,8 @@ export default function PostCreate() {
             ? new Date(post[0].recruitment_deadline)
             : new Date(),
           contact_url: post[0].contact_url || "",
+          position: post[0].position || "",
+          tech_stack: post[0].tech_stack || "",
         });
       }
     } catch (error) {
@@ -152,12 +159,19 @@ export default function PostCreate() {
 
   return (
     <div className="flex flex-col items-center justify-center px-4 py-8">
-      <div className="flex w-full max-w-[700px] flex-col gap-6 border-1 p-4">
+      <div className="flex w-full max-w-[700px] flex-col gap-6 p-4">
+        <div className="flex items-center gap-1 text-lg">
+          <Asterisk size={14} className="text-blue-500" />
+          <h4>모든 정보는 필수로 입력해 주세요</h4>
+        </div>
         {/* PostInfo 섹션 */}
         <section className="w-full">
           <PostInfo info={postInfo} onUpdate={updatePostInfo} />
         </section>
 
+        <div className="mt-5 mb-5">
+          <Separator />
+        </div>
         {/* 제목 섹션 */}
         <section className="flex w-full flex-col gap-2">
           <div className="flex items-center gap-1">

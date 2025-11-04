@@ -30,7 +30,7 @@ export function CustomSelect({
         <Label className="text-primary text-base">{label}</Label>
       </div>
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="w-[300px]">
+        <SelectTrigger className="!h-[40px] w-[300px]">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

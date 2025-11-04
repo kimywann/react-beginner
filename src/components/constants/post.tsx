@@ -76,6 +76,10 @@ export const POST_CONTACT = [
     id: 2,
     lable: "이메일",
   },
+  {
+    id: 3,
+    lable: "구글폼",
+  },
 ];
 
 export const POST_DURATION = [
@@ -153,10 +157,6 @@ export const POST_ROLES = [
   {
     id: 10,
     lable: "iOS",
-  },
-  {
-    id: 11,
-    lable: "데브옵스",
   },
   {
     id: 12,
