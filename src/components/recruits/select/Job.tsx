@@ -11,18 +11,22 @@ import { JOB_OPTIONS } from "@/components/constants/profile";
 
 interface Props {
   value?: string;
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: string | undefined) => void;
 }
 
 function SelectJob({ value, onValueChange }: Props) {
   return (
-    <Select value={value} onValueChange={onValueChange}>
+    <Select
+      value={value || ""}
+      onValueChange={(val) => onValueChange?.(val === "all" ? undefined : val)}
+    >
       <SelectTrigger className="w-[230px]">
-        <SelectValue placeholder="선택" />
+        <SelectValue placeholder="전체" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>카테고리(주제)</SelectLabel>
+          <SelectLabel>현재 직무</SelectLabel>
+          <SelectItem value="all">전체</SelectItem>
           {JOB_OPTIONS.map((item) => (
             <SelectItem key={item.id} value={item.lable}>
               {item.lable}
