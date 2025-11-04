@@ -1,4 +1,3 @@
-import { Asterisk } from "lucide-react";
 import {
   SelectJob,
   SelectExperience,
@@ -12,7 +11,6 @@ function RecruitsSidebar() {
       <div className="flex w-full flex-col gap-6">
         <section className="grid gap-2">
           <div className="flex items-center gap-1">
-            <Asterisk size={12} className="text-blue-500" />
             <Label htmlFor="username-1">현재 직무</Label>
           </div>
           <SelectJob />
@@ -20,7 +18,6 @@ function RecruitsSidebar() {
 
         <section className="grid gap-2">
           <div className="flex items-center gap-1">
-            <Asterisk size={12} className="text-blue-500" />
             <Label htmlFor="username-1">관련 경력</Label>
           </div>
           <SelectExperience />
@@ -28,7 +25,6 @@ function RecruitsSidebar() {
 
         <section className="grid gap-2">
           <div className="flex items-center gap-1">
-            <Asterisk size={12} className="text-blue-500" />
             <Label htmlFor="username-1">지역</Label>
           </div>
           <SelectRegion />
