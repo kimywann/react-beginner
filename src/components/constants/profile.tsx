@@ -78,70 +78,66 @@ export const EXPERIENCE_OPTIONS = [
 export const REGION_OPTIONS = [
   {
     id: 1,
-    lable: "전국",
-  },
-  {
-    id: 2,
     lable: "서울",
   },
   {
-    id: 3,
-    lable: "경기도",
+    id: 2,
+    lable: "경기",
   },
   {
-    id: 4,
+    id: 3,
     lable: "부산",
   },
   {
-    id: 5,
+    id: 4,
     lable: "인천",
   },
   {
-    id: 6,
+    id: 5,
     lable: "대구",
   },
   {
-    id: 7,
+    id: 6,
     lable: "광주",
   },
   {
-    id: 9,
+    id: 7,
     lable: "대전",
   },
   {
-    id: 10,
+    id: 8,
     lable: "울산",
   },
   {
-    id: 11,
-    lable: "강원도",
+    id: 9,
+    lable: "강원",
   },
   {
-    id: 12,
+    id: 10,
     lable: "충청북도",
   },
   {
-    id: 13,
+    id: 11,
     lable: "충청남도",
   },
   {
-    id: 14,
+    id: 12,
     lable: "전라북도",
   },
   {
-    id: 15,
+    id: 13,
     lable: "전라남도",
   },
   {
-    id: 16,
+    id: 14,
     lable: "경상북도",
   },
   {
-    id: 17,
+    id: 15,
     lable: "경상남도",
   },
   {
-    id: 18,
-    lable: "제주도",
+    id: 16,
+    lable: "제주",
   },
 ] as const;

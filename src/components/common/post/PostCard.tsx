@@ -119,23 +119,47 @@ export function PostCard({ props }: Props) {
             </h3>
           </section>
 
-          <div className="flex gap-2">
-            <div className="flex items-center gap-2">
-              <Badge className="bg-gray-200 text-gray-700">진행 방식</Badge>
-              <p className="text-muted-foreground text-md">
-                {props.progress_method}
-              </p>
-            </div>
+          <section className="flex w-full flex-col gap-3">
+            <section className="flex w-full justify-start gap-22">
+              <div className="flex items-center gap-2">
+                <Badge className="bg-gray-200 text-gray-700">진행 방식</Badge>
+                <p className="text-muted-foreground text-md">
+                  {props.progress_method}
+                </p>
+              </div>
 
-            <div className="flex gap-2">
               <div className="flex items-center gap-2">
                 <Badge className="bg-gray-200 text-gray-700">활동 기간</Badge>
                 <p className="text-muted-foreground text-md">
                   {props.duration}
                 </p>
               </div>
+            </section>
+
+            <div className="mt-1 flex flex-wrap items-center gap-2">
+              <Badge className="bg-gray-200 text-gray-700">포지션</Badge>
+              {JSON.parse(props.position as string).map((position: string) => (
+                <Badge
+                  key={position}
+                  variant="outline"
+                  className="bg-slate-50 text-sm font-bold text-slate-500"
+                >
+                  {position}
+                </Badge>
+              ))}
             </div>
-          </div>
+
+            <div className="mt-1 flex flex-wrap items-center gap-2">
+              <Badge className="bg-gray-200 text-gray-700">기술 스택</Badge>
+              {JSON.parse(props.tech_stack as string).map((tech: string) => (
+                <img
+                  src={`/images/icons/tech/${tech.toLowerCase()}.svg`}
+                  alt={tech}
+                  className="size-7"
+                />
+              ))}
+            </div>
+          </section>
         </div>
       </div>
       <Separator />
