@@ -56,7 +56,7 @@ function App() {
   }, [category]);
 
   return (
-    <main className="flex h-full min-h-[720px] w-full flex-col items-center justify-center gap-6 p-6">
+    <main className="flex w-full flex-col items-center justify-center gap-6 p-6">
       {/* 카테고리 메뉴 */}
       <div>
         <CategoryTabs category={category} setCategory={handleCategoryChange} />
@@ -82,22 +82,22 @@ function App() {
             </p>
           </div>
           {isLoading ? (
-            <div className="flex h-120 flex-col gap-6 md:grid md:grid-cols-3 xl:grid-cols-3">
+            <div className="flex flex-col gap-6 md:grid md:grid-cols-3 xl:grid-cols-3">
               {Array.from({ length: 6 }).map((_, index) => (
                 <PostSkeleton key={index} />
               ))}
             </div>
           ) : posts.length > 0 ? (
-            <div className="flex h-120 flex-col gap-6 md:grid md:grid-cols-3 xl:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-3 xl:grid-cols-3">
               {posts
                 .sort(
                   (a, b) =>
                     new Date(b.created_at).getTime() -
                     new Date(a.created_at).getTime(),
                 )
-                .map((post: POST) => {
-                  return <PostCard key={post.id} props={post} />;
-                })}
+                .map((post: POST) => (
+                  <PostCard key={post.id} props={post} />
+                ))}
             </div>
           ) : (
             <div className="flex h-120 w-full items-center justify-center">
