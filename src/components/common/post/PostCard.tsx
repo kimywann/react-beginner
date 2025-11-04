@@ -98,7 +98,9 @@ export function PostCard({ props }: Props) {
         <div className="flex flex-1 flex-col items-start gap-4">
           <section className="flex items-center justify-between gap-2">
             <div>
-              <Badge className={`${categoryColors[props.category]}`}>
+              <Badge
+                className={`${categoryColors[props.category]} !rounded-sm`}
+              >
                 <FolderGit2 />
                 <p> {props.category}</p>
               </Badge>
@@ -119,7 +121,7 @@ export function PostCard({ props }: Props) {
 
           <div className="flex gap-2">
             <div className="flex items-center gap-2">
-              <Label className="text-md">진행 방식:</Label>
+              <Badge className="bg-gray-200 text-gray-700">진행 방식</Badge>
               <p className="text-muted-foreground text-md">
                 {props.progress_method}
               </p>
@@ -127,7 +129,7 @@ export function PostCard({ props }: Props) {
 
             <div className="flex gap-2">
               <div className="flex items-center gap-2">
-                <Label className="text-md">활동 기간:</Label>
+                <Badge className="bg-gray-200 text-gray-700">활동 기간</Badge>
                 <p className="text-muted-foreground text-md">
                   {props.duration}
                 </p>
