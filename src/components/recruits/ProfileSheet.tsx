@@ -1,12 +1,11 @@
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
 import type { Profile } from "@/types/profile.type";
-import { Badge, Separator } from "../ui";
+import { Badge, Label, Separator } from "../ui";
 
 interface ProfileSheetProps {
   profile: Profile | null;
@@ -26,48 +25,54 @@ export function ProfileSheet({
       <SheetContent className="overflow-y-auto sm:max-w-[540px]">
         <SheetHeader>
           <SheetTitle className="text-xl">프로필</SheetTitle>
-          <SheetDescription>
-            목표를 향해 나아가는 여정에서, 새로운 사람들과의 만남을 통해 더 큰
-            성장을 이룰 수 있습니다.
-          </SheetDescription>
         </SheetHeader>
 
         <div className="flex flex-col gap-6 px-4">
-          <div className="flex flex-col gap-2">
-            <p className="text-lg font-semibold">{profile.nickname}</p>
-            <p className="text-muted-foreground">{profile.job}</p>
-          </div>
+          <div className="flex justify-between">
+            <section className="flex flex-col gap-5">
+              <div>
+                <p className="text-lg font-semibold">{profile.nickname}</p>
+                <p className="text-muted-foreground">{profile.job}</p>
+              </div>
+              <div>
+                <Label className="text-md">연락 수단</Label>
+                <p className="text-muted-foreground">
+                  {profile.contact_method}
+                </p>
+              </div>
+            </section>
 
-          <Separator />
-
-          <div className="grid gap-4">
-            <div className="flex items-center gap-2">
-              <Badge
-                variant="outline"
-                className="border-none bg-green-400/20 text-sm text-green-500"
-              >
-                희망 포지션
-              </Badge>
-              <p className="text-muted-foreground">{profile.position}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Badge
-                variant="outline"
-                className="border-none bg-blue-400/20 text-sm text-blue-500"
-              >
-                경력
-              </Badge>
-              <p className="text-muted-foreground">{profile.experience}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Badge
-                variant="outline"
-                className="border-none bg-red-400/20 text-sm text-red-500"
-              >
-                지역
-              </Badge>
-              <p className="text-muted-foreground">{profile.region}</p>
-            </div>
+            <section>
+              <div className="grid gap-4">
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-none bg-green-400/20 text-sm text-green-500"
+                  >
+                    희망 포지션
+                  </Badge>
+                  <p className="text-muted-foreground">{profile.position}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-none bg-blue-400/20 text-sm text-blue-500"
+                  >
+                    경력
+                  </Badge>
+                  <p className="text-muted-foreground">{profile.experience}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Badge
+                    variant="outline"
+                    className="border-none bg-red-400/20 text-sm text-red-500"
+                  >
+                    지역
+                  </Badge>
+                  <p className="text-muted-foreground">{profile.region}</p>
+                </div>
+              </div>
+            </section>
           </div>
 
           <Separator />
