@@ -14,6 +14,7 @@ import { ProfileForm, type ProfileFormData } from "../ProfileForm";
 import { useAuthStore } from "@/stores";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 interface Props {
   disabled?: boolean;
@@ -21,8 +22,10 @@ interface Props {
 }
 
 export function InsertDialog({ disabled, onSuccess }: Props) {
-  const [open, setOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
 
   const handleInsert = async (data: ProfileFormData) => {
     try {
@@ -58,7 +61,16 @@ export function InsertDialog({ disabled, onSuccess }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" disabled={disabled}>
+        <Button
+          variant="outline"
+          disabled={disabled}
+          onClick={() => {
+            if (!user?.id) {
+              navigate("/sign-in");
+              return;
+            }
+          }}
+        >
           프로필 등록
         </Button>
       </DialogTrigger>

@@ -112,7 +112,9 @@ function Header() {
               </span>
             </div>
           ) : (
-            <NavLink to="/sign-in">로그인</NavLink>
+            <div className="flex items-center gap-2">
+              <NavLink to="/sign-in">로그인</NavLink>
+            </div>
           )}
         </div>
       </div>
