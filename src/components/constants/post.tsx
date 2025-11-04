@@ -207,38 +207,26 @@ export const POST_TECH_STACK = [
   },
   {
     id: 9,
-    lable: "C#",
-  },
-  {
-    id: 10,
-    lable: "C++",
-  },
-  {
-    id: 15,
     lable: "Figma",
   },
   {
-    id: 16,
+    id: 10,
     lable: "Git",
   },
   {
-    id: 17,
+    id: 11,
     lable: "Flutter",
   },
   {
-    id: 18,
+    id: 12,
     lable: "Docker",
   },
   {
-    id: 19,
+    id: 13,
     lable: "Kubernetes",
   },
   {
-    id: 20,
+    id: 14,
     lable: "AWS",
-  },
-  {
-    id: 21,
-    lable: "React Native",
   },
 ];
