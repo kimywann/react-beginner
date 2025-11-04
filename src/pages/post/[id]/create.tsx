@@ -70,8 +70,16 @@ export default function PostCreate() {
             ? new Date(post[0].recruitment_deadline)
             : new Date(),
           contact_url: post[0].contact_url || "",
-          position: post[0].position || "",
-          tech_stack: post[0].tech_stack || "",
+          position: post[0].position
+            ? typeof post[0].position === "string"
+              ? JSON.parse(post[0].position)
+              : post[0].position
+            : [],
+          tech_stack: post[0].tech_stack
+            ? typeof post[0].tech_stack === "string"
+              ? JSON.parse(post[0].tech_stack)
+              : post[0].tech_stack
+            : [],
         });
       }
     } catch (error) {

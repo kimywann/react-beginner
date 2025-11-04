@@ -1,6 +1,9 @@
+import supabase from "@/lib/supabase";
+
+import { useAuthStore } from "@/stores";
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import supabase from "@/lib/supabase";
 
 import { Editor } from "@/components/write";
 import {
@@ -19,8 +22,6 @@ import {
 import { toast } from "sonner";
 import { Badge } from "@/components/ui";
 import dayjs from "dayjs";
-import { Trash2 } from "lucide-react";
-import { useAuthStore } from "@/stores";
 
 export default function PostDetail() {
   const { id } = useParams();
@@ -101,32 +102,46 @@ export default function PostDetail() {
       보이도록 한다. */}
       <div className="flex justify-end p-4">
         {author === user?.id && (
-          <AlertDialog>
-            <AlertDialogTrigger>
-              <Button variant="outline" size="icon" className="!bg-red-400">
-                <Trash2 />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  해당 모집 게시글을 삭제하시겠습니까?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  삭제하시면 영구적으로 삭제되어 복구할 수 없습니다.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>닫기</AlertDialogCancel>
-                <AlertDialogAction
-                  className="text-foreground bg-red-300 hover:bg-red-700/40"
-                  onClick={handleDelete}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-12"
+              onClick={() => navigate(`/posts/${id}/edit`)}
+            >
+              수정
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-12 !bg-red-300"
                 >
                   삭제
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    해당 모집 게시글을 삭제하시겠습니까?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    삭제하시면 영구적으로 삭제되어 복구할 수 없습니다.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>닫기</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="text-foreground bg-red-300 hover:bg-red-700/40"
+                    onClick={handleDelete}
+                  >
+                    삭제
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         )}
       </div>
 
