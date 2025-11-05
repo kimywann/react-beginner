@@ -77,7 +77,8 @@ export default function FindTeammates() {
 
       const { data: profiles, error } = await supabase
         .from("profile")
-        .select("*");
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) {
         toast.error(error.message);
