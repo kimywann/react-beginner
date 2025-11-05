@@ -1,48 +1,60 @@
 import supabase from "@/lib/supabase";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
+import { useNavigate } from "react-router";
 
 import { PostCard, PostSkeleton } from "@/components/common/post";
-import { CategoryTabs } from "@/components/common";
+import { Button } from "@/components/ui";
+import { ProfileCard } from "@/components/common/ProfileCard";
 
-import { CATEGORY_META } from "@/components/constants/category";
 import { POST_STATUS, type POST } from "@/types/post.type";
+import type { Profile } from "@/types/profile.type";
+
+import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { ProfileSheet } from "@/components/recruits";
 
 function App() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const category = searchParams.get("category") || "";
-
-  const [posts, setPosts] = useState<POST[]>([]);
+  const navigate = useNavigate();
+  const [recentPosts, setRecentPosts] = useState<POST[]>([]);
+  const [recentProfiles, setRecentProfiles] = useState<Profile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleCategoryChange = (value: string) => {
-    if (value === category) return;
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-    if (value === "") {
-      setSearchParams({});
-    } else setSearchParams({ category: value });
+  const handleProfileClick = (profile: Profile) => {
+    setSelectedProfile(profile);
+    setIsSheetOpen(true);
   };
 
-  const fetchPosts = async () => {
+  const fetchRecentData = async () => {
     try {
       setIsLoading(true);
-      const query = supabase
+      const { data: posts, error: postsError } = await supabase
         .from("post")
         .select("*")
-        .eq("status", POST_STATUS.PUBLISH);
+        .eq("status", POST_STATUS.PUBLISH)
+        .order("created_at", { ascending: false })
+        .limit(4);
 
-      if (category && category !== "") {
-        query.eq("category", category);
-      }
-      const { data: posts, error } = await query;
+      const { data: profiles, error: profilesError } = await supabase
+        .from("profile")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(4);
 
-      if (error) {
-        toast.error(error.message);
+      if (postsError) {
+        toast.error(postsError.message);
         return;
       }
 
-      if (posts) setPosts(posts);
+      if (profilesError) {
+        toast.error(profilesError.message);
+        return;
+      }
+
+      if (posts) setRecentPosts(posts);
+      if (profiles) setRecentProfiles(profiles);
     } catch (error) {
       console.log(error);
       throw error;
@@ -52,62 +64,121 @@ function App() {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, [category]);
+    fetchRecentData();
+  }, []);
 
   return (
-    <main className="flex w-full flex-col items-center justify-center gap-6 p-6">
-      {/* 카테고리 메뉴 */}
-      <div>
-        <CategoryTabs category={category} setCategory={handleCategoryChange} />
-      </div>
+    <main className="flex w-full flex-col items-center justify-center">
+      {/* 홈 화면 */}
+      <section className="flex w-full flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-6 py-16">
+        <div className="max-w-4xl text-center">
+          <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-6xl">
+            함께 만들어가는
+            <br />
+            <span className="text-blue-600">개발 여정</span>
+          </h1>
+          <p className="mx-auto mb-2 max-w-2xl text-xl text-gray-600">
+            프로젝트 팀원을 모집하고, 함께 할 동료를 찾아보세요.
+            <br />
+            당신의 아이디어를 현실로 만들어줄 팀을 찾을 수 있습니다.
+          </p>
+        </div>
+      </section>
 
-      {/* 콘텐츠 */}
-      <section className="flex w-full flex-col gap-12">
-        <div className="flex w-full flex-col gap-6">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                {
-                  CATEGORY_META.find((meta) => meta.category === category)
-                    ?.title
-                }
-              </h4>
+      {/* 최근 모집글 */}
+      <section className="w-full px-6 py-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <h2 className="mb-2 text-3xl font-bold text-gray-900">
+                최신 팀원 모집
+              </h2>
+              <p className="text-gray-600">
+                지금 모집 중인 프로젝트를 확인해 보세요
+              </p>
             </div>
-            <p className="text-muted-foreground md:text-base">
-              {
-                CATEGORY_META.find((meta) => meta.category === category)
-                  ?.description
-              }
-            </p>
+            <Button
+              variant="outline"
+              onClick={() => navigate("/recruit")}
+              className="flex items-center gap-2"
+            >
+              전체 보기
+              <ArrowRight className="h-4 w-4" />
+            </Button>
           </div>
+
           {isLoading ? (
-            <div className="flex flex-col gap-6 md:grid md:grid-cols-3 xl:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, index) => (
+            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, index) => (
                 <PostSkeleton key={index} />
               ))}
             </div>
-          ) : posts.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-3 xl:grid-cols-3">
-              {posts
-                .sort(
-                  (a, b) =>
-                    new Date(b.created_at).getTime() -
-                    new Date(a.created_at).getTime(),
-                )
-                .map((post: POST) => (
-                  <PostCard key={post.id} props={post} />
-                ))}
+          ) : recentPosts.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+              {recentPosts.map((post: POST) => (
+                <PostCard key={post.id} props={post} />
+              ))}
             </div>
           ) : (
-            <div className="flex h-120 w-full items-center justify-center">
-              <p className="text-muted-foreground/50">
-                조회 가능한 글이 없습니다.
-              </p>
+            <div className="py-12 text-center">
+              <p className="text-gray-500">아직 등록된 모집 글이 없습니다.</p>
             </div>
           )}
         </div>
       </section>
+
+      {/* 최근 프로필 */}
+      <section className="mb-14 w-full bg-white">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <h2 className="mb-2 text-3xl font-bold text-gray-900">
+                새로운 동료들
+              </h2>
+              <p className="text-gray-600">
+                최근 등록된 프로필을 확인해 보세요
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => navigate("/find-teammates")}
+              className="flex items-center gap-2"
+            >
+              전체 보기
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+
+          {isLoading ? (
+            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <PostSkeleton key={index} />
+              ))}
+            </div>
+          ) : recentProfiles.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+              {recentProfiles.map((profile: Profile) => (
+                <ProfileCard
+                  key={profile.id}
+                  profile={profile}
+                  onClick={handleProfileClick}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="py-12 text-center">
+              <p className="text-gray-500">아직 등록된 프로필이 없습니다.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* 프로필 상세 화면 */}
+      <ProfileSheet
+        profile={selectedProfile}
+        open={isSheetOpen}
+        onOpenChange={setIsSheetOpen}
+      />
     </main>
   );
 }

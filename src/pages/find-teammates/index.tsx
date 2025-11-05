@@ -14,17 +14,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  Badge,
   Button,
-  Card,
-  Separator,
 } from "@/components/ui";
 import type { Profile } from "@/types/profile.type";
 
 import { toast } from "sonner";
-import dayjs from "dayjs";
+import { ProfileCard } from "@/components/common";
 
-export default function Recruits() {
+export default function FindTeammates() {
   const user = useAuthStore((state) => state.user);
 
   const [profiles, setProfiles] = useState<Profile[]>([]);
@@ -40,22 +37,18 @@ export default function Recruits() {
 
   const filteredProfiles = useMemo(() => {
     return profiles.filter((profile) => {
-      // position 필터
       if (filters.position && profile.position !== filters.position) {
         return false;
       }
 
-      // job 필터
       if (filters.job && profile.job !== filters.job) {
         return false;
       }
 
-      // experience 필터
       if (filters.experience && profile.experience !== filters.experience) {
         return false;
       }
 
-      // region 필터
       if (filters.region && profile.region !== filters.region) {
         return false;
       }
@@ -216,65 +209,11 @@ export default function Recruits() {
               // profiles 대신 filteredProfiles 사용
               filteredProfiles.map((profile: Profile) => {
                 return (
-                  <Card
+                  <ProfileCard
                     key={profile.id}
-                    className="h-fit w-full cursor-pointer gap-4 p-4"
-                    onClick={() => handleCardClick(profile)}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex flex-1 flex-col items-start gap-4">
-                        <div className="flex w-full justify-between">
-                          <div className="flex flex-col items-start gap-1">
-                            <h3 className="text-base font-semibold">
-                              <p>{profile.nickname}</p>
-                            </h3>
-                            <p>{profile.job}</p>
-                          </div>
-                          <p>{dayjs(profile.created_at).fromNow()}</p>
-                        </div>
-                        <Separator />
-                        <p className="text-muted-foreground line-clamp-3 min-h-[3.8rem]">
-                          {profile.introduction}
-                        </p>
-                      </div>
-                    </div>
-                    <Separator />
-                    <div className="flex w-full flex-col gap-2">
-                      <div className="flex items-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className="border-none bg-green-300/20 text-sm text-green-500"
-                        >
-                          희망 포지션
-                        </Badge>
-                        <p className="text-muted-foreground">
-                          {profile.position}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className="border-none bg-blue-300/20 text-sm text-blue-500"
-                        >
-                          경력
-                        </Badge>
-                        <p className="text-muted-foreground">
-                          {profile.experience}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className="border-none bg-red-300/20 text-sm text-red-500"
-                        >
-                          지역
-                        </Badge>
-                        <p className="text-muted-foreground">
-                          {profile.region}
-                        </p>
-                      </div>
-                    </div>
-                  </Card>
+                    profile={profile}
+                    onClick={handleCardClick}
+                  />
                 );
               })
             )}
