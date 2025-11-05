@@ -107,7 +107,7 @@ export default function PostDetail() {
               variant="outline"
               size="icon"
               className="h-8 w-12"
-              onClick={() => navigate(`/posts/${id}/edit`)}
+              onClick={() => navigate(`/recruit/posts/${id}/edit`)}
             >
               수정
             </Button>

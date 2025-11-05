@@ -10,10 +10,10 @@ import SignUp from "./pages/sign-up";
 import SignIn from "./pages/sign-in";
 import PostCreate from "./pages/post/[id]/create.tsx";
 import PostDetail from "./pages/post/[id]/detail.tsx";
+import Recruit from "./pages/recruit/index.tsx";
+import FindTeammates from "./pages/find-teammates/index.tsx";
 
 import "./index.css";
-import Recruits from "./pages/recruits/index.tsx";
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
@@ -23,9 +23,10 @@ createRoot(document.getElementById("root")!).render(
             <Route index element={<App />} />
             <Route path="sign-up" element={<SignUp />} />
             <Route path="sign-in" element={<SignIn />} />
-            <Route path="posts/:id/edit" element={<PostCreate />} />
-            <Route path="posts/:id" element={<PostDetail />} />
-            <Route path="recruits" element={<Recruits />} />
+            <Route path="recruit" element={<Recruit />} />
+            <Route path="recruit/posts/:id" element={<PostDetail />} />
+            <Route path="recruit/posts/:id/edit" element={<PostCreate />} />
+            <Route path="find-teammates" element={<FindTeammates />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -82,7 +82,7 @@ export function PostCard({ props }: Props) {
       setNickname(nickname || "알 수 없는 사용자");
     }
     fetchAuthEmail();
-  }, []);
+  }, [props.author]);
 
   const categoryColors: Record<string, string> = {
     프로젝트: "bg-blue-400",
@@ -92,7 +92,7 @@ export function PostCard({ props }: Props) {
   return (
     <Card
       className="h-fit w-full cursor-pointer gap-4 p-4"
-      onClick={() => navigate(`/posts/${props.id}`)}
+      onClick={() => navigate(`/recruit/posts/${props.id}`)}
     >
       <div className="flex items-start gap-4">
         <div className="flex flex-1 flex-col items-start gap-4">
@@ -126,40 +126,67 @@ export function PostCard({ props }: Props) {
                 {props.progress_method}
               </p>
             </div>
-
             <div className="mt-1 flex items-center gap-2">
               <Badge className="bg-gray-200 text-gray-700">활동 기간</Badge>
               <p className="text-muted-foreground text-md">{props.duration}</p>
             </div>
 
             <div className="mt-1 flex flex-wrap items-center gap-2">
-              <Badge className="bg-gray-200 text-gray-700">포지션</Badge>
-              {(Array.isArray(props.position)
-                ? props.position
-                : JSON.parse(props.position as string)
-              ).map((position: string) => (
-                <Badge
-                  key={position}
-                  variant="outline"
-                  className="bg-slate-50 text-sm font-bold text-slate-500"
-                >
-                  {position}
-                </Badge>
-              ))}
+              {(() => {
+                const positions = Array.isArray(props.position)
+                  ? props.position
+                  : JSON.parse(props.position as string);
+                const maxShow = 3;
+
+                return (
+                  <>
+                    {positions.slice(0, maxShow).map((position: string) => (
+                      <Badge
+                        key={position}
+                        variant="outline"
+                        className="bg-slate-50 text-sm font-bold text-slate-500"
+                      >
+                        {position}
+                      </Badge>
+                    ))}
+                    {positions.length > maxShow && (
+                      <Badge
+                        variant="outline"
+                        className="bg-slate-100 text-sm text-slate-400"
+                      >
+                        + {positions.length - maxShow}개
+                      </Badge>
+                    )}
+                  </>
+                );
+              })()}
             </div>
 
             <div className="mt-1 flex flex-wrap items-center gap-2">
-              <Badge className="bg-gray-200 text-gray-700">기술 스택</Badge>
-              {(Array.isArray(props.tech_stack)
-                ? props.tech_stack
-                : JSON.parse(props.tech_stack as string)
-              ).map((tech: string) => (
-                <img
-                  src={`/images/icons/tech/${tech.toLowerCase()}.svg`}
-                  alt={tech}
-                  className="size-7"
-                />
-              ))}
+              {(() => {
+                const techStack = Array.isArray(props.tech_stack)
+                  ? props.tech_stack
+                  : JSON.parse(props.tech_stack as string);
+                const maxShow = 6;
+
+                return (
+                  <>
+                    {techStack.slice(0, maxShow).map((tech: string) => (
+                      <img
+                        key={tech}
+                        src={`/images/icons/tech/${tech.toLowerCase()}.svg`}
+                        alt={tech}
+                        className="size-7"
+                      />
+                    ))}
+                    {techStack.length > maxShow && (
+                      <div className="flex size-8 items-center justify-center rounded-md bg-slate-100 text-xs font-medium text-slate-500">
+                        +{techStack.length - maxShow}
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           </section>
         </div>

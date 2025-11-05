@@ -62,7 +62,7 @@ function Header() {
 
       if (data) {
         toast.success("임시저장 완료되었습니다.");
-        navigate(`/posts/${data[0].id}/edit`);
+        navigate(`/recruit/posts/${data[0].id}/edit`);
       }
     } else {
       navigate("/sign-in");
@@ -82,13 +82,13 @@ function Header() {
 
           <div className="hidden items-center gap-10 md:flex">
             <NavLink
-              to="/"
+              to="/recruit"
               className="cursor-pointer font-semibold hover:text-blue-500"
             >
               팀원 모집
             </NavLink>
             <NavLink
-              to="/recruits"
+              to="/find-teammates"
               className="cursor-pointer font-semibold hover:text-blue-500"
             >
               동료 찾기

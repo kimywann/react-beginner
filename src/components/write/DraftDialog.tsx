@@ -83,7 +83,7 @@ export function DraftDialog({ children }: Props) {
                     key={draft.id}
                     className="bg-card/50 flex h-14 w-full cursor-pointer items-center justify-between gap-3 rounded-md border px-4 py-2"
                     onClick={() => {
-                      navigate(`/posts/${draft.id}/edit`);
+                      navigate(`/recruit/posts/${draft.id}/edit`);
                       setOpen(false);
                     }}
                   >
