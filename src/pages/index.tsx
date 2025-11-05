@@ -2,7 +2,7 @@ import supabase from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { PostCard, PostSkeleton } from "@/components/common/post";
+import { PostCard, PostCardSkeleton } from "@/components/common/post";
 import { Button } from "@/components/ui";
 import { ProfileCard } from "@/components/common/ProfileCard";
 
@@ -12,6 +12,7 @@ import type { Profile } from "@/types/profile.type";
 import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { ProfileSheet } from "@/components/recruits";
+import { ProfileCardSkeleton } from "@/components/common/ProfileCardSkeleton";
 
 function App() {
   const navigate = useNavigate();
@@ -70,12 +71,12 @@ function App() {
   return (
     <main className="flex w-full flex-col items-center justify-center">
       {/* 홈 화면 */}
-      <section className="flex w-full flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-6 py-16">
+      <section className="flex w-full flex-col items-center justify-center bg-gradient-to-br to-indigo-50 px-6 py-16">
         <div className="max-w-4xl text-center">
           <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-6xl">
             함께 만들어가는
             <br />
-            <span className="text-blue-600">개발 여정</span>
+            <span className="text-blue-500">개발 여정</span>
           </h1>
           <p className="mx-auto mb-2 max-w-2xl text-xl text-gray-600">
             프로젝트 팀원을 모집하고, 함께 할 동료를 찾아보세요.
@@ -110,7 +111,7 @@ function App() {
           {isLoading ? (
             <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
               {Array.from({ length: 4 }).map((_, index) => (
-                <PostSkeleton key={index} />
+                <PostCardSkeleton key={index} />
               ))}
             </div>
           ) : recentPosts.length > 0 ? (
@@ -133,7 +134,7 @@ function App() {
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h2 className="mb-2 text-3xl font-bold text-gray-900">
-                새로운 동료들
+                새로운 동료
               </h2>
               <p className="text-gray-600">
                 최근 등록된 프로필을 확인해 보세요
@@ -152,7 +153,7 @@ function App() {
           {isLoading ? (
             <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
               {Array.from({ length: 4 }).map((_, index) => (
-                <PostSkeleton key={index} />
+                <ProfileCardSkeleton key={index} />
               ))}
             </div>
           ) : recentProfiles.length > 0 ? (

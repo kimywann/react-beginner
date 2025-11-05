@@ -2,7 +2,7 @@ import supabase from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
-import { PostCard, PostSkeleton } from "@/components/common/post";
+import { PostCard, PostCardSkeleton } from "@/components/common/post";
 import { CategoryTabs } from "@/components/common";
 
 import { CATEGORY_META } from "@/components/constants/category";
@@ -83,7 +83,7 @@ export default function Recruit() {
           {isLoading ? (
             <div className="flex flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-4">
               {Array.from({ length: 6 }).map((_, index) => (
-                <PostSkeleton key={index} />
+                <PostCardSkeleton key={index} />
               ))}
             </div>
           ) : posts.length > 0 ? (

@@ -20,6 +20,7 @@ import type { Profile } from "@/types/profile.type";
 
 import { toast } from "sonner";
 import { ProfileCard } from "@/components/common";
+import { ProfileCardSkeleton } from "@/components/common/ProfileCardSkeleton";
 
 export default function FindTeammates() {
   const user = useAuthStore((state) => state.user);
@@ -27,6 +28,8 @@ export default function FindTeammates() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [filters, setFilters] = useState<{
     position?: string;
@@ -70,6 +73,8 @@ export default function FindTeammates() {
 
   const fetchProfiles = async () => {
     try {
+      setIsLoading(true);
+
       const { data: profiles, error } = await supabase
         .from("profile")
         .select("*");
@@ -85,6 +90,8 @@ export default function FindTeammates() {
     } catch (error) {
       console.log(error);
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -189,35 +196,42 @@ export default function FindTeammates() {
             />
           </div>
 
-          <div className="flex min-h-120 w-full flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
-            {filteredProfiles.length === 0 ? (
-              <div className="col-span-full flex min-h-[400px] w-full flex-col items-center justify-center gap-4 rounded-lg p-8">
-                <div className="flex flex-col items-center gap-2 text-center">
-                  <h3 className="text-muted-foreground text-xl font-semibold">
-                    {Object.values(filters).some((v) => v)
-                      ? "조건에 맞는 프로필이 없습니다"
-                      : "등록된 프로필이 없습니다"}
-                  </h3>
-                  <p className="text-muted-foreground text-sm">
-                    {Object.values(filters).some((v) => v)
-                      ? "다른 조건으로 검색해보세요."
-                      : "첫 번째로 프로필을 등록하고 팀빌딩 제안을 받아보세요."}
-                  </p>
+          {isLoading ? (
+            <div className="flex min-h-120 w-full flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <ProfileCardSkeleton key={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex min-h-120 w-full flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
+              {filteredProfiles.length === 0 ? (
+                <div className="col-span-full flex min-h-[400px] w-full flex-col items-center justify-center gap-4 rounded-lg p-8">
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <h3 className="text-muted-foreground text-xl font-semibold">
+                      {Object.values(filters).some((v) => v)
+                        ? "조건에 맞는 프로필이 없습니다"
+                        : "등록된 프로필이 없습니다"}
+                    </h3>
+                    <p className="text-muted-foreground text-sm">
+                      {Object.values(filters).some((v) => v)
+                        ? "다른 조건으로 검색해보세요."
+                        : "첫 번째로 프로필을 등록하고 팀빌딩 제안을 받아보세요."}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              // profiles 대신 filteredProfiles 사용
-              filteredProfiles.map((profile: Profile) => {
-                return (
-                  <ProfileCard
-                    key={profile.id}
-                    profile={profile}
-                    onClick={handleCardClick}
-                  />
-                );
-              })
-            )}
-          </div>
+              ) : (
+                filteredProfiles.map((profile: Profile) => {
+                  return (
+                    <ProfileCard
+                      key={profile.id}
+                      profile={profile}
+                      onClick={handleCardClick}
+                    />
+                  );
+                })
+              )}
+            </div>
+          )}
         </div>
       </section>
 

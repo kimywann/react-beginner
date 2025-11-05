@@ -1,2 +1,2 @@
 export { PostCard } from "./PostCard";
-export { PostSkeleton } from "./Skeleton";
+export { PostCardSkeleton } from "./PostCardSkeleton";
