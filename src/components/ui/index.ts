@@ -73,3 +73,4 @@ export {
   SheetDescription,
 } from "./sheet";
 export { Calendar, CalendarDayButton } from "./calendar";
+export { Spinner } from "./spinner";
