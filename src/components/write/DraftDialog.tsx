@@ -53,8 +53,8 @@ export function DraftDialog({ children }: Props) {
   };
 
   useEffect(() => {
-    if (user) fetchDrafts();
-  }, []);
+    if (open && user) fetchDrafts();
+  }, [open, user]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
