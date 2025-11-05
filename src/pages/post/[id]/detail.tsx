@@ -2,7 +2,7 @@ import supabase from "@/lib/supabase";
 
 import { useAuthStore } from "@/stores";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 
 import { Editor } from "@/components/write";
