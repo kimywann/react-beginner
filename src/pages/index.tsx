@@ -92,7 +92,7 @@ function App() {
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h2 className="mb-2 text-3xl font-bold text-gray-900">
-                최신 팀원 모집
+                최근 팀원 모집
               </h2>
               <p className="text-gray-600">
                 지금 모집 중인 프로젝트를 확인해 보세요
