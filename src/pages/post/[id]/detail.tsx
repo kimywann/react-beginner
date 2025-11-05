@@ -145,92 +145,114 @@ export default function PostDetail() {
         )}
       </div>
 
-      <header className="mt-20 flex w-full flex-col items-center">
+      <header className="mt-12 flex w-full flex-col items-center">
         <div className="flex h-full w-full flex-col items-center">
           <span className="mb-4 text-lg"># {category}</span>
           <h1 className="scroll-m-20 text-center text-xl font-extrabold tracking-tight sm:text-2xl md:text-4xl">
             {title}
           </h1>
+
           <Separator className="bg-foreground my-6 !w-6" />
-          <span className="text-lg">
+
+          <span className="text-md md:text-lg">
             {dayjs(createdAt).format("YYYY. MM. DD")}
           </span>
         </div>
       </header>
 
-      <section className="mx-auto mt-10 flex max-w-2xl flex-col">
-        <div className="grid grid-cols-2 gap-y-3 text-lg">
-          {/* 모집 인원 */}
-          <div className="flex items-center gap-4">
-            <span className="font-semibold text-gray-500">모집 인원</span>
-            <span className="text-lg font-bold">{members}</span>
-          </div>
+      <section className="mx-auto mt-10 flex w-[90%] max-w-2xl flex-col">
+        <div className="rounded-xl border-1 p-6">
+          <div className="grid grid-cols-2 gap-y-5 text-lg">
+            {/* 모집 인원 */}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-semibold text-gray-500 md:text-lg">
+                모집 인원
+              </span>
+              <span className="text-sm font-bold md:text-lg">{members}</span>
+            </div>
 
-          {/* 진행 방식 */}
-          <div className="flex items-center gap-4">
-            <span className="font-semibold text-gray-500">진행 방식</span>
-            <span className="text-lg font-bold">{progress_method}</span>
-          </div>
+            {/* 진행 방식 */}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-semibold text-gray-500 md:text-lg">
+                진행 방식
+              </span>
+              <span className="text-sm font-bold md:text-lg">
+                {progress_method}
+              </span>
+            </div>
 
-          {/* 예상 기간 */}
-          <div className="flex items-center gap-4">
-            <span className="font-semibold text-gray-500">예상 기간</span>
-            <span className="text-lg font-bold">{duration}</span>
-          </div>
+            {/* 예상 기간 */}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-semibold text-gray-500 md:text-lg">
+                예상 기간
+              </span>
+              <span className="text-sm font-bold md:text-lg">{duration}</span>
+            </div>
 
-          {/* 연락 수단 */}
-          <div className="flex items-center gap-4">
-            <span className="font-semibold text-gray-500">연락 수단</span>
-            <Badge
-              variant="outline"
-              className="bg-slate-50 text-sm font-bold text-slate-500"
-            >
-              <a
-                href={contact_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
+            {/* 연락 수단 */}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-semibold text-gray-500 md:text-lg">
+                연락 수단
+              </span>
+              <Badge
+                variant="outline"
+                className="bg-slate-50 text-xs font-bold text-slate-500 md:text-base"
               >
-                {contact}
-              </a>
-            </Badge>
-          </div>
-
-          {/* 모집 분야 */}
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="font-semibold text-gray-500">모집 분야</span>
-            <div className="flex flex-wrap gap-2">
-              {position.map((pos) => (
-                <Badge
-                  key={pos}
-                  variant="outline"
-                  className="bg-slate-50 text-sm font-bold text-slate-500"
+                <a
+                  href={contact_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
                 >
-                  {pos}
-                </Badge>
-              ))}
+                  {contact}
+                </a>
+              </Badge>
             </div>
           </div>
 
-          {/* 기술 스택 */}
-          <div className="flex flex-wrap items-center gap-4">
-            <span className="font-semibold text-gray-500">기술 스택</span>
-            <div className="flex flex-wrap gap-2">
-              {tech_stack.map((tech) => (
-                <img
-                  src={`/images/icons/tech/${tech.toLowerCase()}.svg`}
-                  alt={tech}
-                  className="size-7"
-                />
-              ))}
+          {/* 모집 분야 */}
+          <div className="mt-5 flex flex-col gap-6">
+            <div className="flex flex-wrap items-center gap-4">
+              <span className="text-sm font-semibold text-gray-500 md:text-lg">
+                모집 분야
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {position.map((pos) => (
+                  <Badge
+                    key={pos}
+                    variant="outline"
+                    className="bg-slate-50 text-xs font-bold text-slate-500 md:text-base"
+                  >
+                    {pos}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* 기술 스택 */}
+            <div className="flex flex-wrap items-center gap-5">
+              <span className="text-sm font-semibold text-gray-500 md:text-lg">
+                기술 스택
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {tech_stack.map((tech) => (
+                  <img
+                    src={`/images/icons/tech/${tech.toLowerCase()}.svg`}
+                    alt={tech}
+                    className="size-5 md:size-7"
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="flex w-full justify-center pt-12 pb-6">
+      <Separator className="mx-auto mt-10 !w-[50%] border-2" />
+
+      <div className="mt-12 mb-12 flex w-full justify-center">
         <main>
-          <div className="w-full max-w-4xl">
+          <div className="w-full max-w-3xl">
             {content && <Editor props={JSON.parse(content)} readonly />}{" "}
           </div>
         </main>

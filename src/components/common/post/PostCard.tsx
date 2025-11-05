@@ -120,21 +120,17 @@ export function PostCard({ props }: Props) {
           </section>
 
           <section className="flex w-full flex-col gap-3">
-            <section className="flex w-full justify-start gap-22">
-              <div className="flex items-center gap-2">
-                <Badge className="bg-gray-200 text-gray-700">진행 방식</Badge>
-                <p className="text-muted-foreground text-md">
-                  {props.progress_method}
-                </p>
-              </div>
+            <div className="flex items-center gap-2">
+              <Badge className="bg-gray-200 text-gray-700">진행 방식</Badge>
+              <p className="text-muted-foreground text-md">
+                {props.progress_method}
+              </p>
+            </div>
 
-              <div className="flex items-center gap-2">
-                <Badge className="bg-gray-200 text-gray-700">활동 기간</Badge>
-                <p className="text-muted-foreground text-md">
-                  {props.duration}
-                </p>
-              </div>
-            </section>
+            <div className="mt-1 flex items-center gap-2">
+              <Badge className="bg-gray-200 text-gray-700">활동 기간</Badge>
+              <p className="text-muted-foreground text-md">{props.duration}</p>
+            </div>
 
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <Badge className="bg-gray-200 text-gray-700">포지션</Badge>
