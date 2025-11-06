@@ -31,12 +31,18 @@ export function ProfileSheet({
           <div className="flex justify-between">
             <section className="flex flex-col gap-5">
               <div>
-                <p className="text-lg font-semibold">{profile.nickname}</p>
-                <p className="text-muted-foreground">{profile.job}</p>
+                <p className="text-lg font-semibold md:text-2xl">
+                  {profile.nickname}
+                </p>
+                <p className="text-muted-foreground text-sm md:text-base">
+                  {profile.job}
+                </p>
               </div>
               <div>
-                <Label className="text-md">연락 수단</Label>
-                <p className="text-muted-foreground">
+                <Label className="text-sm font-semibold md:text-base">
+                  연락 수단
+                </Label>
+                <p className="text-muted-foreground text-sm md:text-base">
                   {profile.contact_method}
                 </p>
               </div>
@@ -47,7 +53,7 @@ export function ProfileSheet({
                 <div className="flex items-center gap-2">
                   <Badge
                     variant="outline"
-                    className="border-none bg-green-400/20 text-sm text-green-500"
+                    className="border-none bg-green-400/20 text-xs text-green-500 md:text-sm"
                   >
                     희망 포지션
                   </Badge>
@@ -56,7 +62,7 @@ export function ProfileSheet({
                 <div className="flex items-center gap-2">
                   <Badge
                     variant="outline"
-                    className="border-none bg-blue-400/20 text-sm text-blue-500"
+                    className="border-none bg-blue-400/20 text-xs text-blue-500 md:text-sm"
                   >
                     경력
                   </Badge>
@@ -65,7 +71,7 @@ export function ProfileSheet({
                 <div className="flex items-center gap-2">
                   <Badge
                     variant="outline"
-                    className="border-none bg-red-400/20 text-sm text-red-500"
+                    className="border-none bg-red-400/20 text-xs text-red-500 md:text-sm"
                   >
                     지역
                   </Badge>
@@ -89,7 +95,7 @@ export function ProfileSheet({
                 {profile.external_url}
               </a>
             ) : (
-              <p className="text-muted-foreground text-base">
+              <p className="text-muted-foreground text-sm md:text-base">
                 기입하지 않았습니다.
               </p>
             )}
@@ -99,7 +105,7 @@ export function ProfileSheet({
 
           <div className="grid gap-3">
             <h4 className="text-lg font-semibold">자기소개</h4>
-            <p className="text-muted-foreground mb-8 text-base break-all whitespace-pre-wrap">
+            <p className="text-muted-foreground mb-8 text-sm break-all whitespace-pre-wrap md:text-base">
               {profile.introduction}
             </p>
           </div>
