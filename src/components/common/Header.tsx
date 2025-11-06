@@ -102,7 +102,7 @@ function Header() {
           <Button
             variant={"destructive"}
             className="rounded-xl !bg-blue-500 !px-5 !py-5"
-            onClick={handleRoute}
+            onClick={() => navigate("/recruit/posts/create")}
           >
             모집 글 작성
           </Button>
@@ -149,7 +149,7 @@ function Header() {
 
               <nav className="flex flex-col gap-2 p-4">
                 <NavLink
-                  to="/"
+                  to="/recruit"
                   className="cursor-pointer rounded-md p-2 text-lg font-semibold duration-300 hover:bg-gray-100"
                   onClick={() => {
                     setIsHamburgerOpen(false);
@@ -158,7 +158,7 @@ function Header() {
                   팀원 모집
                 </NavLink>
                 <NavLink
-                  to="/recruits"
+                  to="/find-teammates"
                   className="cursor-pointer rounded-md p-2 text-lg font-semibold duration-300 hover:bg-gray-100"
                   onClick={() => {
                     setIsHamburgerOpen(false);
@@ -173,14 +173,11 @@ function Header() {
                 >
                   모집 글 작성
                 </Button>
-                <DraftDialog>
+
+                <DraftDialog onNavigate={() => setIsHamburgerOpen(false)}>
                   <Button
                     variant="ghost"
                     className="h-11 cursor-pointer justify-start rounded-md p-2 text-lg font-semibold duration-300 hover:bg-gray-100"
-                    onClick={() => {
-                      navigate("/drafts");
-                      setIsHamburgerOpen(false);
-                    }}
                   >
                     임시 저장 목록
                   </Button>

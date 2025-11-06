@@ -20,9 +20,10 @@ import { POST_STATUS, type POST } from "@/types/post.type";
 
 interface Props {
   children: React.ReactNode;
+  onNavigate?: () => void;
 }
 
-export function DraftDialog({ children }: Props) {
+export function DraftDialog({ children, onNavigate }: Props) {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const [drafts, setDrafts] = useState<any[]>([]);
@@ -85,6 +86,7 @@ export function DraftDialog({ children }: Props) {
                     onClick={() => {
                       navigate(`/recruit/posts/${draft.id}/edit`);
                       setOpen(false);
+                      onNavigate?.();
                     }}
                   >
                     <div className="flex items-start gap-2">
