@@ -84,12 +84,12 @@ export function ProfileSheet({
                 href={profile.external_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground text-lg break-all hover:underline"
+                className="text-muted-foreground text-base break-all hover:underline"
               >
                 {profile.external_url}
               </a>
             ) : (
-              <p className="text-muted-foreground text-lg">
+              <p className="text-muted-foreground text-base">
                 기입하지 않았습니다.
               </p>
             )}
@@ -99,7 +99,7 @@ export function ProfileSheet({
 
           <div className="grid gap-3">
             <h4 className="text-lg font-semibold">자기소개</h4>
-            <p className="text-muted-foreground mb-8 text-lg break-all">
+            <p className="text-muted-foreground mb-8 text-base break-all whitespace-pre-wrap">
               {profile.introduction}
             </p>
           </div>
