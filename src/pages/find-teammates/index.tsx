@@ -14,6 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  Badge,
   Button,
 } from "@/components/ui";
 import type { Profile } from "@/types/profile.type";
@@ -21,6 +22,7 @@ import type { Profile } from "@/types/profile.type";
 import { toast } from "sonner";
 import { ProfileCard } from "@/components/common";
 import { ProfileCardSkeleton } from "@/components/common/ProfileCardSkeleton";
+import { Trash2 } from "lucide-react";
 
 export default function FindTeammates() {
   const user = useAuthStore((state) => state.user);
@@ -131,71 +133,115 @@ export default function FindTeammates() {
 
   return (
     <main className="flex h-full min-h-[720px] w-full flex-col items-center gap-6 p-6">
-      <div className="flex w-full flex-col">
-        <h1 className="text-2xl font-bold">동료 찾기</h1>
-        <p className="text-muted-foreground text-base">
-          프로필을 등록하고, 팀빌딩 제안을 받으세요.
-        </p>
-      </div>
-
-      <section className="flex w-full flex-col gap-12">
-        <div className="flex w-full gap-6">
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-2 rounded-md border p-4 shadow-xs">
+      <section className="flex w-full max-w-4xl gap-12">
+        <div className="flex flex-col gap-10">
+          <div
+            className={`mt-10 flex flex-col items-center justify-center gap-2 rounded-md border px-8 py-4 shadow-xs ${userProfile ? "border-2 border-blue-300" : ""}`}
+          >
+            {!userProfile ? (
               <div className="flex items-center gap-24">
+                <p className="text-muted-foreground text-xs md:text-xl">
+                  프로필을 등록하여 팀빌딩 제안을 받아보세요.
+                </p>
                 <InsertDialog
                   disabled={!!userProfile}
                   onSuccess={fetchProfiles}
                 />
               </div>
-              <p className="text-muted-foreground">
-                프로필을 등록하면,
-                <br />
-                팀빌딩 제안을 받을 수 있습니다.
-              </p>
-            </div>
+            ) : (
+              <div className="flex flex-col gap-4 md:flex-row md:items-start">
+                <section className="flex-1">
+                  <div className="my-6">
+                    <div className="flex gap-10">
+                      <div>
+                        <h3 className="text-2xl font-bold">
+                          {userProfile.nickname}
+                        </h3>
+                        <p className="text-lg text-gray-600">
+                          {userProfile.job}
+                        </p>
+                      </div>
+                      <div className="mt-1 flex gap-4">
+                        <div className="rounded-lg text-center">
+                          <Badge
+                            variant="outline"
+                            className="border-none bg-green-300/20 text-base text-green-500"
+                          >
+                            {userProfile.position}
+                          </Badge>
+                        </div>
+                        <div className="rounded-lg text-center">
+                          <Badge
+                            variant="outline"
+                            className="border-none bg-blue-300/20 text-base text-blue-500"
+                          >
+                            {userProfile.experience}
+                          </Badge>
+                        </div>
+                        <div className="rounded-lg text-center">
+                          <Badge
+                            variant="outline"
+                            className="border-none bg-red-300/20 text-base text-red-500"
+                          >
+                            {userProfile.region}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="line-clamp-2">
+                      <p className="mt-6 leading-relaxed text-gray-700">
+                        {userProfile.introduction}
+                      </p>
+                    </div>
+                  </div>
+                </section>
 
-            {userProfile && (
-              <div className="flex items-center gap-2">
-                <UpdateDialog
-                  myProfile={userProfile}
-                  onSuccess={fetchProfiles}
-                />
-                <AlertDialog>
-                  <AlertDialogTrigger>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="w-24 !bg-red-400 text-white"
-                    >
-                      프로필 삭제
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        프로필을 삭제하시겠습니까?
-                      </AlertDialogTitle>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>닫기</AlertDialogCancel>
-                      <AlertDialogAction
-                        className="text-foreground bg-red-300 hover:bg-red-700/40"
-                        onClick={handleDeleteProfile}
-                      >
-                        삭제
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <section className="flex gap-2 md:mt-5 md:ml-6">
+                  <div className="flex-1">
+                    <UpdateDialog
+                      myProfile={userProfile}
+                      onSuccess={fetchProfiles}
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="!w-full !bg-red-400 text-white"
+                        >
+                          <Trash2 />
+                          삭제
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            프로필을 삭제하시겠습니까?
+                          </AlertDialogTitle>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>닫기</AlertDialogCancel>
+                          <AlertDialogAction
+                            className="text-foreground bg-red-300 hover:bg-red-700/40"
+                            onClick={handleDeleteProfile}
+                          >
+                            삭제
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                </section>
               </div>
             )}
-            <RecruitsSidebar
-              filters={filters}
-              onFilterChange={handleFilterChange}
-              onResetFilters={handleResetFilters}
-            />
           </div>
+          <RecruitsSidebar
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onResetFilters={handleResetFilters}
+          />
 
           {isLoading ? (
             <div className="flex min-h-120 w-full flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">

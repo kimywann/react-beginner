@@ -4,7 +4,7 @@ import {
   SelectRegion,
   SelectPositionRole,
 } from "@/components/recruits/select";
-import { Label, Separator } from "@/components/ui";
+import { Label } from "@/components/ui";
 import { RotateCcw } from "lucide-react";
 
 interface Props {
@@ -22,16 +22,8 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
   const hasActiveFilters = Object.values(filters).some((value) => value);
 
   return (
-    <aside className="flex w-60 min-w-60 flex-col gap-6">
-      <div className="flex w-full flex-col gap-6">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">필터</h3>
-          {hasActiveFilters && (
-            <RotateCcw size="sm" onClick={onResetFilters} className="h-4 w-4" />
-          )}
-        </div>
-        <Separator />
-
+    <aside className="flex w-60 min-w-60">
+      <div className="flex w-full gap-6">
         <section className="grid gap-2">
           <div className="flex items-center gap-1">
             <Label htmlFor="job-select">포지션</Label>
@@ -39,6 +31,7 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
           <SelectPositionRole
             value={filters.position}
             onValueChange={(value) => onFilterChange("position", value)}
+            className="w-[160px]"
           />
         </section>
 
@@ -49,6 +42,7 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
           <SelectJob
             value={filters.job}
             onValueChange={(value) => onFilterChange("job", value)}
+            className="w-[160px]"
           />
         </section>
 
@@ -59,6 +53,7 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
           <SelectExperience
             value={filters.experience}
             onValueChange={(value) => onFilterChange("experience", value)}
+            className="w-[160px]"
           />
         </section>
 
@@ -69,8 +64,14 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
           <SelectRegion
             value={filters.region}
             onValueChange={(value) => onFilterChange("region", value)}
+            className="w-[160px]"
           />
         </section>
+        <div className="flex items-center justify-center text-center">
+          {hasActiveFilters && (
+            <RotateCcw size="sm" onClick={onResetFilters} className="h-4 w-4" />
+          )}
+        </div>
       </div>
     </aside>
   );

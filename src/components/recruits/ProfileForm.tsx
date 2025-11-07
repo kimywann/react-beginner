@@ -65,10 +65,17 @@ export function ProfileForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="grid gap-4">
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="grid w-full max-w-full gap-4"
+    >
       <div className="grid gap-3">
         <Label>닉네임</Label>
-        <Input defaultValue={user?.email?.split("@")[0]} disabled />
+        <Input
+          defaultValue={user?.email?.split("@")[0]}
+          disabled
+          className="w-full"
+        />
       </div>
 
       <div className="grid gap-3">
@@ -80,12 +87,13 @@ export function ProfileForm({
           placeholder="오픈채팅 링크 또는 이메일 주소"
           {...register("contactMethod")}
           defaultValue={defaultValues?.contactMethod}
+          className="w-full"
         />
       </div>
 
       <Separator />
 
-      <div className="flex justify-between gap-3">
+      <div className="flex flex-col justify-between gap-3 sm:flex-row">
         <div className="grid w-full gap-3">
           <div className="flex items-center gap-1">
             <Asterisk size={12} className="text-blue-500" />
@@ -108,7 +116,7 @@ export function ProfileForm({
         </div>
       </div>
 
-      <div className="flex justify-between gap-3">
+      <div className="flex flex-col justify-between gap-3 sm:flex-row">
         <div className="grid w-full gap-3">
           <div className="flex items-center gap-1">
             <Asterisk size={12} className="text-blue-500" />
@@ -142,6 +150,7 @@ export function ProfileForm({
           placeholder="간단히 역량 어필해 주세요."
           {...register("introduction")}
           defaultValue={defaultValues?.introduction}
+          className="w-full"
         />
       </div>
 
@@ -156,6 +165,7 @@ export function ProfileForm({
           placeholder="https://example.com"
           {...register("externalUrl")}
           defaultValue={defaultValues?.externalUrl}
+          className="w-full"
         />
       </div>
 

@@ -13,13 +13,15 @@ import { ProfileForm, type ProfileFormData } from "../ProfileForm";
 import { useAuthStore } from "@/stores";
 import { useState } from "react";
 import { toast } from "sonner";
+import { PencilLine } from "lucide-react";
 
 interface Props {
   myProfile: Profile;
   onSuccess?: () => void;
+  className?: string;
 }
 
-export function UpdateDialog({ myProfile, onSuccess }: Props) {
+export function UpdateDialog({ myProfile, onSuccess, className }: Props) {
   const [open, setOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
 
@@ -58,9 +60,10 @@ export function UpdateDialog({ myProfile, onSuccess }: Props) {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="bg-green-500 text-white hover:bg-green-600 hover:text-white"
+          className={`${className} bg-gray-200 text-gray-700 hover:bg-gray-600 hover:text-white`}
         >
-          프로필 편집
+          <PencilLine />
+          수정
         </Button>
       </DialogTrigger>
       <DialogContent className="h-[650px] overflow-y-auto sm:max-w-[540px]">

@@ -8,19 +8,21 @@ import {
   SelectValue,
 } from "@/components/ui";
 import { POSITION_ROLE_OPTIONS } from "@/components/constants/profile";
+import { cn } from "@/lib/utils";
 
 interface Props {
   value?: string;
   onValueChange?: (value: string | undefined) => void;
+  className?: string;
 }
 
-function SelectPositionRole({ value, onValueChange }: Props) {
+function SelectPositionRole({ value, onValueChange, className }: Props) {
   return (
     <Select
       value={value || ""}
       onValueChange={(val) => onValueChange?.(val === "all" ? undefined : val)}
     >
-      <SelectTrigger className="w-[230px]">
+      <SelectTrigger className={cn("w-[230px]", className)}>
         <SelectValue placeholder="전체" />
       </SelectTrigger>
       <SelectContent>
