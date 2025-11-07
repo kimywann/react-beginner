@@ -133,8 +133,8 @@ export default function FindTeammates() {
 
   return (
     <main className="flex h-full min-h-[720px] w-full flex-col items-center gap-6 p-6">
-      <section className="flex w-full max-w-4xl gap-12">
-        <div className="flex flex-col gap-10">
+      <section className="flex w-full max-w-5xl flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
+        <div className="flex w-full flex-1 flex-col gap-10">
           <div
             className={`mt-10 flex flex-col items-center justify-center gap-2 rounded-md border px-8 py-4 shadow-xs ${userProfile ? "border-2 border-blue-300" : ""}`}
           >
@@ -152,7 +152,7 @@ export default function FindTeammates() {
               <div className="flex flex-col gap-4 md:flex-row md:items-start">
                 <section className="flex-1">
                   <div className="my-6">
-                    <div className="flex gap-10">
+                    <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-10">
                       <div>
                         <h3 className="text-2xl font-bold">
                           {userProfile.nickname}
@@ -161,7 +161,7 @@ export default function FindTeammates() {
                           {userProfile.job}
                         </p>
                       </div>
-                      <div className="mt-1 flex gap-4">
+                      <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-1 sm:gap-4">
                         <div className="rounded-lg text-center">
                           <Badge
                             variant="outline"
@@ -244,13 +244,13 @@ export default function FindTeammates() {
           />
 
           {isLoading ? (
-            <div className="flex min-h-120 w-full flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid min-h-120 w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {Array.from({ length: 6 }).map((_, index) => (
                 <ProfileCardSkeleton key={index} />
               ))}
             </div>
           ) : (
-            <div className="flex min-h-120 w-full flex-col gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid min-h-120 w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {filteredProfiles.length === 0 ? (
                 <div className="col-span-full flex min-h-[400px] w-full flex-col items-center justify-center gap-4 rounded-lg p-8">
                   <div className="flex flex-col items-center gap-2 text-center">
