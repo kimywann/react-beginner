@@ -102,7 +102,7 @@ function Header() {
           <Button
             variant={"destructive"}
             className="rounded-xl !bg-blue-500 !px-5 !py-5"
-            onClick={() => navigate("/recruit/posts/create")}
+            onClick={handleRoute}
           >
             모집 글 작성
           </Button>
