@@ -28,7 +28,7 @@ export function ProfileSheet({
         </SheetHeader>
 
         <div className="flex flex-col gap-6 px-4">
-          <div className="flex justify-between">
+          <div className="flex flex-col gap-4 md:flex-row md:justify-between">
             <section className="flex flex-col gap-5">
               <div>
                 <p className="text-lg font-semibold md:text-2xl">
@@ -48,7 +48,7 @@ export function ProfileSheet({
               </div>
             </section>
 
-            <section>
+            <section className="mt-4 md:mt-0 md:mr-18">
               <div className="grid gap-4">
                 <div className="flex items-center gap-2">
                   <Badge

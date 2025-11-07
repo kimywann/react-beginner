@@ -139,8 +139,8 @@ export default function FindTeammates() {
             className={`mt-10 flex flex-col items-center justify-center gap-2 rounded-md border px-8 py-4 shadow-xs ${userProfile ? "border-2 border-blue-300" : ""}`}
           >
             {!userProfile ? (
-              <div className="flex items-center gap-24">
-                <p className="text-muted-foreground text-xs md:text-xl">
+              <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-8 md:gap-24">
+                <p className="text-muted-foreground text-center text-sm sm:text-base md:text-xl">
                   프로필을 등록하여 팀빌딩 제안을 받아보세요.
                 </p>
                 <InsertDialog

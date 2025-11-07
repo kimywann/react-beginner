@@ -22,7 +22,7 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
   const hasActiveFilters = Object.values(filters).some((value) => value);
 
   return (
-    <aside className="flex w-60 min-w-60">
+    <aside className="flex w-60 min-w-120 overflow-x-auto md:w-full md:min-w-0">
       <div className="flex w-full gap-6">
         <section className="grid gap-2">
           <div className="flex items-center gap-1">
@@ -31,7 +31,7 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
           <SelectPositionRole
             value={filters.position}
             onValueChange={(value) => onFilterChange("position", value)}
-            className="w-[160px]"
+            className="w-[130px] md:w-[140px]"
           />
         </section>
 
@@ -42,7 +42,7 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
           <SelectJob
             value={filters.job}
             onValueChange={(value) => onFilterChange("job", value)}
-            className="w-[160px]"
+            className="w-[130px] md:w-[140px]"
           />
         </section>
 
@@ -53,7 +53,7 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
           <SelectExperience
             value={filters.experience}
             onValueChange={(value) => onFilterChange("experience", value)}
-            className="w-[160px]"
+            className="w-[130px] md:w-[140px]"
           />
         </section>
 
@@ -64,9 +64,10 @@ function RecruitsSidebar({ filters, onFilterChange, onResetFilters }: Props) {
           <SelectRegion
             value={filters.region}
             onValueChange={(value) => onFilterChange("region", value)}
-            className="w-[160px]"
+            className="w-[130px] md:w-[140px]"
           />
         </section>
+
         <div className="flex items-center justify-center text-center">
           {hasActiveFilters && (
             <RotateCcw size="sm" onClick={onResetFilters} className="h-4 w-4" />
