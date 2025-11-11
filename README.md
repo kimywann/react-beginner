@@ -39,9 +39,21 @@ WeCode는 **팀원 모집 글 작성**뿐만 아니라 **프로필 등록**을 �
 
 ## 프로젝트 시연
 
+### 모집 글 작성
+
 <img src="./src/assets/preview1.gif" alt="프로젝트 시연" width="400" />
+
+### 동료 찾기 페이지
+
 <img src="./src/assets/preview2.gif" alt="프로젝트 시연" width="500" />
+
+### 프로필 등록
+
 <img src="./src/assets/preview3.gif" alt="프로젝트 시연" width="500" />
+
+### 반응형
+
+<img src="./src/assets/preview4.gif" alt="프로젝트 시연" width="500" />
 
 ## 프로젝트 구조
 
