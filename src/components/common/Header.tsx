@@ -4,6 +4,13 @@ import { NavLink, useNavigate } from "react-router";
 
 import {
   Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
   Separator,
   Sheet,
   SheetContent,
@@ -13,7 +20,7 @@ import {
   SheetTrigger,
 } from "@/components/ui";
 import { DraftDialog } from "@/components/write";
-import { Archive, Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -98,32 +105,50 @@ function Header() {
 
         {/* 오른쪽 영역: 로그인/로그아웃 + 버튼들 */}
         <div className="hidden items-center gap-2 md:flex">
-          {/* 버튼들 */}
-          <Button
-            variant={"destructive"}
-            className="rounded-xl !bg-blue-500 !px-5 !py-5"
-            onClick={handleRoute}
-          >
-            모집 글 작성
-          </Button>
-          <DraftDialog>
-            <Button variant={"outline"} className="h-10 w-10 rounded-xl">
-              <Archive />
+          {user && (
+            <Button
+              variant={"destructive"}
+              className="rounded-xl !bg-blue-500 !px-5 !py-5"
+              onClick={handleRoute}
+            >
+              모집 글 작성
             </Button>
-          </DraftDialog>
-
-          <Separator orientation="vertical" className="!h-4" />
+          )}
 
           {user ? (
             <>
-              <span>{user.email}</span>
-              <Separator orientation="vertical" className="!h-4" />
-              <span onClick={handleLogout} className="cursor-pointer">
-                로그아웃
-              </span>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-2 focus:outline-none focus-visible:ring-0"
+                  >
+                    {user.email}
+                    <ChevronDown className="size-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-30" align="start">
+                  <DropdownMenuLabel>내 계정</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DraftDialog>
+                      <DropdownMenuItem>임시 저장 목록</DropdownMenuItem>
+                    </DraftDialog>
+                    <DropdownMenuItem>
+                      <span onClick={handleLogout} className="cursor-pointer">
+                        로그아웃
+                      </span>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </>
           ) : (
-            <NavLink to="/sign-in">로그인</NavLink>
+            <NavLink to="/sign-in">
+              <Button variant="outline" className="">
+                로그인
+              </Button>
+            </NavLink>
           )}
         </div>
 
