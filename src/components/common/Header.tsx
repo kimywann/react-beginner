@@ -131,8 +131,10 @@ function Header() {
                   <DropdownMenuLabel>내 계정</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DraftDialog>
-                      <DropdownMenuItem>임시 저장 목록</DropdownMenuItem>
+                    <DraftDialog onNavigate={() => setIsHamburgerOpen(false)}>
+                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                        임시 저장 목록
+                      </DropdownMenuItem>
                     </DraftDialog>
                     <DropdownMenuItem>
                       <span onClick={handleLogout} className="cursor-pointer">
