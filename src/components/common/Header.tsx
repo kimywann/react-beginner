@@ -132,7 +132,9 @@ function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DraftDialog onNavigate={() => setIsHamburgerOpen(false)}>
-                      <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                      <DropdownMenuItem
+                        onSelect={(e: Event) => e.preventDefault()}
+                      >
                         임시 저장 목록
                       </DropdownMenuItem>
                     </DraftDialog>
