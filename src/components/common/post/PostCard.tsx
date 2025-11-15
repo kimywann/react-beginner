@@ -41,37 +41,6 @@ async function findUserById(id: string) {
   }
 }
 
-// function extractTextFromContent(content: string | any[], maxChars = 200) {
-//   try {
-//     const parsed = typeof content === "string" ? JSON.parse(content) : content;
-//
-//     if (!Array.isArray(parsed)) {
-//       console.warn("content 데이터 타입이 배열이 아닙니다.");
-//       return "";
-//     }
-//
-//     let result = "";
-//
-//     for (const block of parsed) {
-//       if (Array.isArray(block.content)) {
-//         for (const child of block.content) {
-//           if (child?.text) {
-//             result += child.text + " ";
-//
-//             if (result.length >= maxChars) {
-//               return result.slice(0, maxChars) + "...";
-//             }
-//           }
-//         }
-//       }
-//     }
-//     return result.trim();
-//   } catch (error) {
-//     console.log("콘텐츠 파싱 실패: ", error);
-//     return "";
-//   }
-// }
-
 export function PostCard({ props }: Props) {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState<string>("");
