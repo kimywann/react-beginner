@@ -141,3 +141,34 @@ export const REGION_OPTIONS = [
     lable: "제주",
   },
 ] as const;
+
+export const DOMAIN_OPTIONS = [
+  {
+    id: 1,
+    lable: "모두",
+  },
+  {
+    id: 2,
+    lable: "커머스",
+  },
+  {
+    id: 3,
+    lable: "에듀테크",
+  },
+  {
+    id: 4,
+    lable: "소셜",
+  },
+  {
+    id: 5,
+    lable: "핀테크",
+  },
+  {
+    id: 6,
+    lable: "헬스케어",
+  },
+  {
+    id: 7,
+    lable: "SaaS",
+  },
+] as const;

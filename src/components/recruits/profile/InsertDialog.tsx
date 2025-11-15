@@ -1,3 +1,8 @@
+import supabase from "@/lib/supabase";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { useAuthStore } from "@/stores";
+
 import {
   Button,
   Dialog,
@@ -9,12 +14,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui";
-import supabase from "@/lib/supabase";
-import { ProfileForm, type ProfileFormData } from "../ProfileForm";
-import { useAuthStore } from "@/stores";
-import { useState } from "react";
+import { ProfileForm } from "@/components/recruits/ProfileForm";
+
+import type { ProfileFormData } from "@/lib/profile.schema";
 import { toast } from "sonner";
-import { useNavigate } from "react-router";
 
 interface Props {
   disabled?: boolean;
