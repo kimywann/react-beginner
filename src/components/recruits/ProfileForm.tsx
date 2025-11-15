@@ -3,6 +3,7 @@ import {
   SelectJob,
   SelectPositionRole,
   SelectRegion,
+  SelectDomain,
 } from "./select";
 
 import { useAuthStore } from "@/stores";
@@ -12,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Asterisk } from "lucide-react";
 import { Input, Label, Separator, Textarea, Button } from "@/components/ui";
+import { ProfileSchema, type ProfileFormData } from "@/lib/profile.schema";
 
 interface Props {
   defaultValues?: Partial<ProfileFormData>;
@@ -36,6 +38,7 @@ export function ProfileForm({
       position: "",
       experience: "",
       region: "",
+      domain: "",
       introduction: "",
       externalUrl: "",
     },
@@ -121,6 +124,19 @@ export function ProfileForm({
             onValueChange={(v) => setValue("region", v || "")}
           />
         </div>
+      </div>
+
+      <div className="flex flex-col justify-between gap-3 sm:flex-row">
+        <div className="grid w-full gap-3">
+          <div className="flex items-center gap-1">
+            <Asterisk size={12} className="text-blue-500" />
+            <Label>희망 도메인</Label>
+          </div>
+        </div>
+        <SelectDomain
+          value={watch("domain") || ""}
+          onValueChange={(v) => setValue("domain", v || "")}
+        />
       </div>
 
       <Separator />
