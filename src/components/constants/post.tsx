@@ -230,3 +230,5 @@ export const POST_TECH_STACK = [
     lable: "AWS",
   },
 ];
+
+export const RECENT_POSTS_LIMIT = 4;

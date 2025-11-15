@@ -1,23 +1,27 @@
+import type { Block } from "@blocknote/core";
+
 export enum POST_STATUS {
   TEMP = "temp",
   PUBLISH = "publish",
 }
 
-export interface POST {
+export interface PostListItem {
   id: number;
-  author: any; // 추후 변경
+  author: string;
   title: string;
-  content: string;
   created_at: Date | string;
   status: POST_STATUS;
-
   category: string;
-  progress_method: string; // 진행 방식
-  members: number | string; // 모집 인원
-  contact: string; // 연락 방법
-  contact_url: string; // 연락 방법 URL
-  duration: string; // 진행 기간
-  recruitment_deadline: Date | string; // 모집 마감일
-  position: string[] | string; // 포지션 - 유연한 타입
-  tech_stack: string[] | string; // 기술 스택 - 유연한 타입
+  progress_method: string;
+  duration: string;
+  recruitment_deadline: Date | string;
+  position: string[];
+  tech_stack: string[];
+}
+
+export interface Post extends PostListItem {
+  content: Block[];
+  members: number | string;
+  contact: string;
+  contact_url: string;
 }
