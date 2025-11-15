@@ -1,6 +1,6 @@
 export interface Profile {
   id: number;
-  author: any; // 추후 변경
+  author: string;
   nickname: string;
   contact_method: string;
   job: string;

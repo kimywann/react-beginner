@@ -172,3 +172,5 @@ export const DOMAIN_OPTIONS = [
     lable: "SaaS",
   },
 ] as const;
+
+export const RECENT_PROFILES_LIMIT = 4;
