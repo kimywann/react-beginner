@@ -10,6 +10,7 @@ import { Badge, Card, Separator } from "@/components/ui";
 import { toast } from "sonner";
 import type { POST } from "@/types/post.type";
 import { FolderGit2 } from "lucide-react";
+import { InfoBadge } from "@/components/common/InfoBadge";
 
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
@@ -89,16 +90,12 @@ export function PostCard({ props }: Props) {
           </section>
 
           <section className="flex w-full flex-col gap-3">
-            <div className="flex items-center gap-2">
-              <Badge className="bg-gray-200 text-gray-700">진행 방식</Badge>
-              <p className="text-muted-foreground text-md">
-                {props.progress_method}
-              </p>
-            </div>
-            <div className="mt-1 flex items-center gap-2">
-              <Badge className="bg-gray-200 text-gray-700">활동 기간</Badge>
-              <p className="text-muted-foreground text-md">{props.duration}</p>
-            </div>
+            <InfoBadge
+              label="진행 방식"
+              value={props.progress_method}
+              color="gray"
+            />
+            <InfoBadge label="활동 기간" value={props.duration} color="gray" />
 
             <div className="mt-1 flex flex-wrap items-center gap-2">
               {(() => {
@@ -110,13 +107,7 @@ export function PostCard({ props }: Props) {
                 return (
                   <>
                     {positions.slice(0, maxShow).map((position: string) => (
-                      <Badge
-                        key={position}
-                        variant="outline"
-                        className="bg-slate-50 text-sm font-bold text-slate-500"
-                      >
-                        {position}
-                      </Badge>
+                      <InfoBadge label={position} color="white" />
                     ))}
                     {positions.length > maxShow && (
                       <Badge

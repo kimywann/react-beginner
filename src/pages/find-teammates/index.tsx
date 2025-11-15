@@ -14,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  Badge,
   Button,
 } from "@/components/ui";
 import type { Profile } from "@/types/profile.type";
@@ -23,6 +22,7 @@ import { toast } from "sonner";
 import { ProfileCard } from "@/components/common";
 import { ProfileCardSkeleton } from "@/components/common/ProfileCardSkeleton";
 import { Trash2 } from "lucide-react";
+import { InfoBadge } from "@/components/common/InfoBadge";
 
 export default function FindTeammates() {
   const user = useAuthStore((state) => state.user);
@@ -163,28 +163,25 @@ export default function FindTeammates() {
                       </div>
                       <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-1 sm:gap-4">
                         <div className="rounded-lg text-center">
-                          <Badge
-                            variant="outline"
-                            className="border-none bg-green-300/20 text-base text-green-500"
-                          >
-                            {userProfile.position}
-                          </Badge>
+                          <InfoBadge
+                            label={userProfile.position}
+                            color="green"
+                            className="!text-base"
+                          />
                         </div>
                         <div className="rounded-lg text-center">
-                          <Badge
-                            variant="outline"
-                            className="border-none bg-blue-300/20 text-base text-blue-500"
-                          >
-                            {userProfile.experience}
-                          </Badge>
+                          <InfoBadge
+                            label={userProfile.experience}
+                            color="blue"
+                            className="!text-base"
+                          />
                         </div>
                         <div className="rounded-lg text-center">
-                          <Badge
-                            variant="outline"
-                            className="border-none bg-red-300/20 text-base text-red-500"
-                          >
-                            {userProfile.region}
-                          </Badge>
+                          <InfoBadge
+                            label={userProfile.region}
+                            color="red"
+                            className="!text-base"
+                          />
                         </div>
                       </div>
                     </div>
