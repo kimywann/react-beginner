@@ -1,3 +1,7 @@
+import supabase from "@/lib/supabase";
+import { useAuthStore } from "@/stores";
+import { useState } from "react";
+
 import {
   Button,
   Dialog,
@@ -7,11 +11,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui";
-import supabase from "@/lib/supabase";
+import { ProfileForm } from "@/components/recruits/ProfileForm";
+
+import type { ProfileFormData } from "@/lib/profile.schema";
 import type { Profile } from "@/types/profile.type";
-import { ProfileForm, type ProfileFormData } from "../ProfileForm";
-import { useAuthStore } from "@/stores";
-import { useState } from "react";
+
 import { toast } from "sonner";
 import { PencilLine } from "lucide-react";
 
