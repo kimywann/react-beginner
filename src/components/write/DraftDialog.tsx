@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import dayjs from "dayjs";
-import { POST_STATUS, type POST } from "@/types/post.type";
+import { POST_STATUS, type Post } from "@/types/post.type";
 
 interface Props {
   children: React.ReactNode;
@@ -78,7 +78,7 @@ export function DraftDialog({ children, onNavigate }: Props) {
 
           {drafts.length > 0 ? (
             <div className="flex h-60 min-h-60 flex-col items-center justify-start gap-3 overflow-y-scroll">
-              {drafts.map((draft: POST, index: number) => {
+              {drafts.map((draft: Post, index: number) => {
                 return (
                   <div
                     key={draft.id}

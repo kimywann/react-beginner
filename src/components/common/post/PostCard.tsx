@@ -8,7 +8,7 @@ import "dayjs/locale/ko";
 
 import { Badge, Card, Separator } from "@/components/ui";
 import { toast } from "sonner";
-import type { POST } from "@/types/post.type";
+import type { PostListItem } from "@/types/post.type";
 import { FolderGit2 } from "lucide-react";
 import { InfoBadge } from "@/components/common/InfoBadge";
 
@@ -16,7 +16,7 @@ dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
 interface Props {
-  props: POST;
+  props: PostListItem;
 }
 
 async function findUserById(id: string) {
