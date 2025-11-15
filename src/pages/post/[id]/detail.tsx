@@ -1,7 +1,7 @@
 import supabase from "@/lib/supabase";
 
 import { useAuthStore } from "@/stores";
-
+import { usePostDetail } from "@/hooks/usePostDetail";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 
@@ -23,14 +23,13 @@ import {
 import { toast } from "sonner";
 import { Badge } from "@/components/ui";
 import dayjs from "dayjs";
-import { usePost } from "@/hooks/use-post";
 
 export default function PostDetail() {
   const { id } = useParams();
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
-  const { post, isLoading, isError } = usePost(id);
+  const { post, isLoading, isError } = usePostDetail(id);
 
   useEffect(() => {
     if (isError) {

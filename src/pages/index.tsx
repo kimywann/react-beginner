@@ -1,24 +1,32 @@
-import supabase from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useRecentPosts } from "@/hooks/useRecentPosts";
+import { useRecentProfiles } from "@/hooks/useRecentProfiles";
 
 import { PostCard, PostCardSkeleton } from "@/components/common/post";
 import { Button } from "@/components/ui";
 import { ProfileCard } from "@/components/common/ProfileCard";
+import { ProfileSheet } from "@/components/recruits";
+import { ProfileCardSkeleton } from "@/components/common/ProfileCardSkeleton";
 
-import { POST_STATUS, type POST } from "@/types/post.type";
+import { type PostListItem } from "@/types/post.type";
 import type { Profile } from "@/types/profile.type";
 
 import { ArrowRight } from "lucide-react";
 import { toast } from "sonner";
-import { ProfileSheet } from "@/components/recruits";
-import { ProfileCardSkeleton } from "@/components/common/ProfileCardSkeleton";
 
 function App() {
   const navigate = useNavigate();
-  const [recentPosts, setRecentPosts] = useState<POST[]>([]);
-  const [recentProfiles, setRecentProfiles] = useState<Profile[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    recentPosts,
+    isLoading: isLoadingPosts,
+    isError: isErrorPosts,
+  } = useRecentPosts();
+  const {
+    recentProfiles,
+    isLoading: isLoadingProfiles,
+    isError: isErrorProfiles,
+  } = useRecentProfiles();
 
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -28,45 +36,14 @@ function App() {
     setIsSheetOpen(true);
   };
 
-  const fetchRecentData = async () => {
-    try {
-      setIsLoading(true);
-      const { data: posts, error: postsError } = await supabase
-        .from("post")
-        .select("*")
-        .eq("status", POST_STATUS.PUBLISH)
-        .order("created_at", { ascending: false })
-        .limit(4);
-
-      const { data: profiles, error: profilesError } = await supabase
-        .from("profile")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(4);
-
-      if (postsError) {
-        toast.error(postsError.message);
-        return;
-      }
-
-      if (profilesError) {
-        toast.error(profilesError.message);
-        return;
-      }
-
-      if (posts) setRecentPosts(posts);
-      if (profiles) setRecentProfiles(profiles);
-    } catch (error) {
-      console.log(error);
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchRecentData();
-  }, []);
+    if (isErrorPosts) {
+      toast.error("최근 모집글을 불러오지 못했습니다.");
+    }
+    if (isErrorProfiles) {
+      toast.error("최근 프로필을 불러오지 못했습니다.");
+    }
+  }, [isErrorPosts, isErrorProfiles]);
 
   return (
     <main className="flex w-full flex-col items-center justify-center">
@@ -106,15 +83,15 @@ function App() {
             </div>
           </div>
 
-          {isLoading ? (
+          {isLoadingPosts ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               {Array.from({ length: 4 }).map((_, index) => (
                 <PostCardSkeleton key={index} />
               ))}
             </div>
-          ) : recentPosts.length > 0 ? (
+          ) : recentPosts && recentPosts.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {recentPosts.map((post: POST) => (
+              {recentPosts.map((post: PostListItem) => (
                 <PostCard key={post.id} props={post} />
               ))}
             </div>
@@ -150,13 +127,13 @@ function App() {
             </div>
           </div>
 
-          {isLoading ? (
+          {isLoadingProfiles ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               {Array.from({ length: 4 }).map((_, index) => (
                 <ProfileCardSkeleton key={index} />
               ))}
             </div>
-          ) : recentProfiles.length > 0 ? (
+          ) : recentProfiles && recentProfiles.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               {recentProfiles.map((profile: Profile) => (
                 <ProfileCard

@@ -1,59 +1,36 @@
-import supabase from "@/lib/supabase";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
+import { usePosts } from "@/hooks/usePosts";
 
 import { PostCard, PostCardSkeleton } from "@/components/common/post";
 import { CategoryTabs } from "@/components/common";
 
 import { CATEGORY_META } from "@/components/constants/category";
-import { POST_STATUS, type POST } from "@/types/post.type";
+import type { PostListItem } from "@/types/post.type";
 import { toast } from "sonner";
 
 export default function Recruit() {
   const [searchParams, setSearchParams] = useSearchParams();
   const category = searchParams.get("category") || "";
 
-  const [posts, setPosts] = useState<POST[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { posts, isLoading, isError } = usePosts(category || undefined);
 
   const handleCategoryChange = (value: string) => {
     if (value === category) return;
 
     if (value === "") {
       setSearchParams({});
-    } else setSearchParams({ category: value });
-  };
-
-  const fetchPosts = async () => {
-    try {
-      setIsLoading(true);
-      const query = supabase
-        .from("post")
-        .select("*")
-        .eq("status", POST_STATUS.PUBLISH);
-
-      if (category && category !== "") {
-        query.eq("category", category);
-      }
-      const { data: posts, error } = await query;
-
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-
-      if (posts) setPosts(posts);
-    } catch (error) {
-      console.log(error);
-      throw error;
-    } finally {
-      setIsLoading(false);
+    } else {
+      setSearchParams({ category: value });
     }
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, [category]);
+    if (isError) {
+      toast.error("게시글을 불러오지 못했습니다.");
+    }
+  }, [isError]);
+
   return (
     <main className="flex w-full flex-col items-center justify-center gap-6 p-6">
       {/* 카테고리 메뉴 */}
@@ -86,7 +63,7 @@ export default function Recruit() {
                 <PostCardSkeleton key={index} />
               ))}
             </div>
-          ) : posts.length > 0 ? (
+          ) : posts && posts.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
               {posts
                 .sort(
@@ -94,7 +71,7 @@ export default function Recruit() {
                     new Date(b.created_at).getTime() -
                     new Date(a.created_at).getTime(),
                 )
-                .map((post: POST) => (
+                .map((post: PostListItem) => (
                   <PostCard key={post.id} props={post} />
                 ))}
             </div>
