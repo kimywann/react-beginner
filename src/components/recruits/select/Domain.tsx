@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui";
-import { JOB_OPTIONS } from "@/components/constants/profile";
+import { DOMAIN_OPTIONS } from "@/components/constants/profile";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -16,23 +16,23 @@ interface Props {
   className?: string;
 }
 
-function SelectJob({ value, onValueChange, className }: Props) {
+function SelectDomain({ value, onValueChange, className }: Props) {
   return (
     <Select
       value={value || ""}
       onValueChange={(val) => onValueChange?.(val === "all" ? undefined : val)}
     >
       <SelectTrigger
-        data-testid="select-job"
+        data-testid="select-domain"
         className={cn("w-[230px]", className)}
       >
         <SelectValue placeholder="전체" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>현재 직무</SelectLabel>
+          <SelectLabel>희망 도메인</SelectLabel>
           <SelectItem value="all">전체</SelectItem>
-          {JOB_OPTIONS.map((item) => (
+          {DOMAIN_OPTIONS.map((item) => (
             <SelectItem key={item.id} value={item.lable}>
               {item.lable}
             </SelectItem>
@@ -43,4 +43,4 @@ function SelectJob({ value, onValueChange, className }: Props) {
   );
 }
 
-export { SelectJob };
+export { SelectDomain };

@@ -22,7 +22,10 @@ function SelectRegion({ value, onValueChange, className }: Props) {
       value={value || ""}
       onValueChange={(val) => onValueChange?.(val === "all" ? undefined : val)}
     >
-      <SelectTrigger className={cn("w-[230px]", className)}>
+      <SelectTrigger
+        data-testid="select-region"
+        className={cn("w-[230px]", className)}
+      >
         <SelectValue placeholder="전체" />
       </SelectTrigger>
       <SelectContent>
