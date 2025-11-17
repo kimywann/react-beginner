@@ -50,6 +50,7 @@ describe("프로필 등록", () => {
         );
 
       cy.get("input[placeholder='https://example.com']")
+        .should("be.visible")
         .clear()
         .type("https://github.com/test");
 
