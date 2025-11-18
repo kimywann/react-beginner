@@ -69,7 +69,7 @@ export default function Recruit() {
                 .sort(
                   (a, b) =>
                     new Date(b.created_at).getTime() -
-                    new Date(a.created_at).getTime(),
+                    new Date(a.created_at).getTime()
                 )
                 .map((post: PostListItem) => (
                   <PostCard key={post.id} props={post} />
