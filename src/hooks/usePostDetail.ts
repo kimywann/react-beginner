@@ -7,7 +7,7 @@ export function usePostDetail(id?: string) {
     queryFn: () => fetchPostDetail(id as string),
     enabled: !!id,
     staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 10,
+    gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: 1,
