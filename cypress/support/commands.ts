@@ -1,5 +1,5 @@
 Cypress.Commands.add("login", () => {
-  cy.visit(Cypress.env("baseUrl"));
+  cy.visit("/");
   cy.get("button").contains("로그인").click();
   cy.get("input[name='email']").type("test@test.com");
   cy.get("input[name='password']").type("123123123");

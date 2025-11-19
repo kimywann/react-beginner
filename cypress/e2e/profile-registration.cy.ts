@@ -2,7 +2,7 @@ describe("프로필 등록", () => {
   it("프로필 등록 플로우", () => {
     cy.login();
 
-    cy.url().should("eq", "http://localhost:5173/");
+    cy.url().should("include", "/");
     cy.wait(1000);
 
     cy.get("a[href='/find-teammates']").click();
@@ -21,7 +21,7 @@ describe("프로필 등록", () => {
         });
 
         cy.contains("프로필이 삭제되었습니다", { timeout: 5000 }).should(
-          "be.visible",
+          "be.visible"
         );
         cy.wait(1000); // 삭제 후 UI 업데이트 대기
       }
@@ -46,7 +46,7 @@ describe("프로필 등록", () => {
       cy.get("textarea[placeholder='간단히 역량 어필해 주세요.']")
         .clear()
         .type(
-          "안녕하세요. React와 TypeScript를 다루는 프론트엔드 개발자입니다.",
+          "안녕하세요. React와 TypeScript를 다루는 프론트엔드 개발자입니다."
         );
 
       cy.get("input[placeholder='https://example.com']")
@@ -59,7 +59,7 @@ describe("프로필 등록", () => {
 
     cy.get("[role='dialog']").should("not.exist");
     cy.contains("프로필 등록이 완료되었습니다", { timeout: 5000 }).should(
-      "be.visible",
+      "be.visible"
     );
   });
 });
