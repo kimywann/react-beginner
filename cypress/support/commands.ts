@@ -1,5 +1,5 @@
 Cypress.Commands.add("login", () => {
-  cy.visit("http://localhost:5173/");
+  cy.visit(Cypress.env("baseUrl"));
   cy.get("button").contains("로그인").click();
   cy.get("input[name='email']").type("test@test.com");
   cy.get("input[name='password']").type("123123123");
