@@ -17,12 +17,12 @@ const parseJsonField = <T>(value: unknown, defaultValue: T): T => {
 };
 
 export const fetchPosts = async (
-  category?: string,
+  category?: string
 ): Promise<PostListItem[] | null> => {
   let query = supabase
     .from("post")
     .select(
-      "id, category, title, recruitment_deadline, progress_method, duration, position, tech_stack, author, created_at, status",
+      "id, category, title, recruitment_deadline, progress_method, duration, position, tech_stack, author, created_at, status"
     )
     .eq("status", POST_STATUS.PUBLISH);
 
@@ -62,7 +62,7 @@ export const fetchRecentPosts = async (): Promise<PostListItem[] | null> => {
   const { data, error } = await supabase
     .from("post")
     .select(
-      "id, category, title, recruitment_deadline, progress_method, duration, position, tech_stack, author, created_at, status",
+      "id, category, title, recruitment_deadline, progress_method, duration, position, tech_stack, author, created_at, status"
     )
     .eq("status", POST_STATUS.PUBLISH)
     .order("created_at", { ascending: false })
