@@ -206,7 +206,7 @@ export default function FindTeammates() {
                       <AlertDialogTrigger asChild>
                         <Button
                           variant="outline"
-                          className="!w-full !bg-red-400 text-white"
+                          className="!w-full !bg-red-600 text-white hover:!bg-red-700 hover:!text-white"
                         >
                           <Trash2 />
                           삭제
@@ -221,7 +221,7 @@ export default function FindTeammates() {
                         <AlertDialogFooter>
                           <AlertDialogCancel>닫기</AlertDialogCancel>
                           <AlertDialogAction
-                            className="text-foreground bg-red-300 hover:bg-red-700/40"
+                            className="bg-red-500 text-white hover:bg-red-600 hover:!text-white"
                             onClick={handleDeleteProfile}
                           >
                             삭제

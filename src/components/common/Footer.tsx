@@ -7,11 +7,11 @@ function Footer() {
         <div className="mt-8 flex w-full flex-col items-start justify-between gap-6 md:flex-row md:gap-0">
           <div className="flex flex-col items-start gap-4">
             <div className="flex flex-col items-start">
-              <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-blue-500">
+              <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-blue-600">
                 WeCode
               </h3>
               <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                개발자를 잇다.
+                팀원을 IT다.
               </h3>
             </div>
             <div className="flex items-center gap-2">
