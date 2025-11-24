@@ -24,6 +24,7 @@ function SelectPositionRole({ value, onValueChange, className }: Props) {
     >
       <SelectTrigger
         data-testid="select-position"
+        aria-label="희망 포지션 선택"
         className={cn("w-[230px]", className)}
       >
         <SelectValue placeholder="전체" />

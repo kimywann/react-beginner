@@ -24,6 +24,7 @@ function SelectRegion({ value, onValueChange, className }: Props) {
     >
       <SelectTrigger
         data-testid="select-region"
+        aria-label="활동 지역 선택"
         className={cn("w-[230px]", className)}
       >
         <SelectValue placeholder="전체" />

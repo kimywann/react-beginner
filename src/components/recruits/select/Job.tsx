@@ -24,6 +24,7 @@ function SelectJob({ value, onValueChange, className }: Props) {
     >
       <SelectTrigger
         data-testid="select-job"
+        aria-label="현재 직무 선택"
         className={cn("w-[230px]", className)}
       >
         <SelectValue placeholder="전체" />
