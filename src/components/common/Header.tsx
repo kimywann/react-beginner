@@ -108,7 +108,7 @@ function Header() {
           {user && (
             <Button
               variant={"destructive"}
-              className="rounded-xl !bg-blue-500 !px-5 !py-5"
+              className="rounded-xl !bg-blue-600 !px-5 !py-5"
               onClick={handleRoute}
             >
               모집 글 작성
@@ -159,7 +159,7 @@ function Header() {
         <div className="md:hidden">
           <Sheet open={isHamburgerOpen} onOpenChange={setIsHamburgerOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost">
+              <Button variant="ghost" aria-label="메뉴 열기">
                 <Menu className="size-6" />
               </Button>
             </SheetTrigger>

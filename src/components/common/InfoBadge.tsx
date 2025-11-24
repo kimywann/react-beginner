@@ -9,12 +9,12 @@ interface Props {
 }
 
 const badgeThemes = {
-  default: "border-none bg-gray-200 text-gray-700",
-  green: "border-none bg-green-300/20 text-sm text-green-500",
-  blue: "border-none bg-blue-300/20 text-sm text-blue-500",
-  red: "border-none bg-red-300/20 text-sm text-red-500",
-  gray: "bg-gray-200 text-gray-700",
-  white: "bg-slate-50 text-sm font-bold text-slate-500",
+  default: "border-none bg-gray-200 text-gray-800",
+  green: "border-none bg-green-100 text-green-700 font-semibold",
+  blue: "border-none bg-blue-100 text-blue-700 font-semibold",
+  red: "border-none bg-red-100 text-red-700 font-semibold",
+  gray: "bg-gray-200 text-gray-800",
+  white: "bg-slate-100 text-slate-700 font-bold",
 };
 
 /**

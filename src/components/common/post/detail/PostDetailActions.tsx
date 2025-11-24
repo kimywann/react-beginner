@@ -41,7 +41,7 @@ export default function PostDetailActions({ post, user }: Props) {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-8 w-12 !bg-red-300"
+                className="h-8 w-12 !bg-red-500 text-white hover:!bg-red-600 hover:!text-white"
               >
                 삭제
               </Button>
@@ -58,7 +58,7 @@ export default function PostDetailActions({ post, user }: Props) {
               <AlertDialogFooter>
                 <AlertDialogCancel>닫기</AlertDialogCancel>
                 <AlertDialogAction
-                  className="text-foreground bg-red-300 hover:bg-red-700/40"
+                  className="bg-red-500 text-white hover:bg-red-600 hover:!text-white"
                   onClick={handleDeleteClick}
                 >
                   삭제

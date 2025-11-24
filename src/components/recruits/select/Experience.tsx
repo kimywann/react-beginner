@@ -24,6 +24,7 @@ function SelectExperience({ value, onValueChange, className }: Props) {
     >
       <SelectTrigger
         data-testid="select-experience"
+        aria-label="관련 경력 선택"
         className={cn("w-[230px]", className)}
       >
         <SelectValue placeholder="전체" />
