@@ -6,10 +6,8 @@ import { useAuthStore } from "@/stores";
 import {
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
