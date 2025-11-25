@@ -90,12 +90,6 @@ export function InsertDialog({ disabled, onSuccess }: Props) {
           onSuccess={() => setOpen(false)}
           buttonLabel="등록 완료"
         />
-
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">닫기</Button>
-          </DialogClose>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
