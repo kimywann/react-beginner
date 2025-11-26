@@ -126,7 +126,7 @@ export function ProfileForm({
         </div>
       </div>
 
-      <div className="flex flex-col justify-between gap-3 sm:flex-row">
+      <div className="flex flex-col justify-between gap-3">
         <div className="grid w-full gap-3">
           <div className="flex items-center gap-1">
             <Asterisk size={12} className="text-blue-500" />
